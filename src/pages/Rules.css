@@ -1,0 +1,13 @@
+.rules-body { padding: 0 16px; display: flex; flex-direction: column; gap: 0; }
+.rules-section { padding: 16px 0; border-bottom: 1px solid var(--border); }
+.rules-section:last-child { border-bottom: none; }
+.rules-h3 { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); margin-bottom: 10px; }
+.rules-section p, .rules-section ul { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+.rules-section ul { padding-left: 18px; }
+.rules-section li { margin-bottom: 4px; }
+.rules-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 8px 0; }
+.rules-table th { text-align: left; padding: 8px 10px; background: var(--bg-card2); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
+.rules-table td { padding: 10px 10px; border-top: 1px solid var(--border); color: var(--text-secondary); }
+.gold-row td { color: #b45309; font-weight: 600; background: var(--gold-light); }
+.gold-cell { color: #b45309; font-weight: 700; }
+.rules-note { font-size: 0.75rem; color: var(--muted); margin-top: 8px; font-style: italic; }

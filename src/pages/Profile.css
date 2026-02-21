@@ -1,0 +1,25 @@
+.profile-body { padding: 0 16px; display: flex; flex-direction: column; gap: 14px; }
+.profile-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow); }
+.profile-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1.3rem; font-weight: 700; flex-shrink: 0; }
+.profile-name { font-weight: 700; font-size: 1rem; }
+.profile-email { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+.profile-tier { margin-left: auto; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; }
+.profile-tier.paid { background: var(--gold-light); color: #b45309; border: 1px solid var(--gold); }
+.profile-tier.free { background: var(--bg-card2); color: var(--muted); border: 1px solid var(--border); }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 10px; text-align: center; box-shadow: var(--shadow); }
+.stat-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.stat-value { font-family: var(--display); font-size: 1.3rem; font-weight: 700; color: var(--text); }
+.stat-value.gold { color: var(--gold); }
+.refcode-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; cursor: pointer; box-shadow: var(--shadow); transition: background 0.15s; }
+.refcode-card:hover { background: var(--bg-card2); }
+.refcode-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.refcode-value { font-family: var(--display); font-size: 1.4rem; font-weight: 700; letter-spacing: 0.12em; color: var(--text); }
+.refcode-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+.upgrade-card { background: var(--gold-light); border: 1.5px solid var(--gold); border-radius: var(--radius); padding: 20px; }
+.upgrade-title { font-family: var(--display); font-size: 1.1rem; font-weight: 700; color: #b45309; margin-bottom: 4px; }
+.upgrade-desc { font-size: 0.82rem; color: #92400e; margin-bottom: 14px; }
+.btn-upgrade { background: var(--gold); color: #fff; border: none; border-radius: var(--radius-sm); padding: 14px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; width: 100%; cursor: pointer; transition: opacity 0.15s; }
+.btn-upgrade:hover { opacity: 0.9; }
+.btn-signout { background: none; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); width: 100%; cursor: pointer; transition: border-color 0.15s; }
+.btn-signout:hover { border-color: var(--red); color: var(--red); }
