@@ -117,3 +117,28 @@
   transition: opacity 0.15s;
 }
 .btn-close-reveal:hover { opacity: 0.85; }
+
+/* Burst particles */
+.burst-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: burst-out ease-out forwards;
+}
+@keyframes burst-out {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+
+/* Confetti */
+.confetti-piece {
+  position: absolute;
+  pointer-events: none;
+  animation: confetti-fall linear forwards;
+  transform-origin: center;
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}

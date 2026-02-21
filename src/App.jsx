@@ -5,6 +5,7 @@ import Auth from './pages/Auth';
 import Play from './pages/Play';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
+import Payout from './pages/Payout';
 import Rules from './pages/Rules';
 import BottomNav from './components/BottomNav';
 import Toast from './components/Toast';
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/play" element={<PrivateRoute><AppLayout><Play /></AppLayout></PrivateRoute>} />
           <Route path="/leaderboard" element={<PrivateRoute><AppLayout><Leaderboard /></AppLayout></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><AppLayout><Profile /></AppLayout></PrivateRoute>} />
+          <Route path="/payout" element={<PrivateRoute><AppLayout><Payout /></AppLayout></PrivateRoute>} />
           <Route path="/rules" element={<PrivateRoute><AppLayout><Rules /></AppLayout></PrivateRoute>} />
           <Route path="*" element={<Navigate to={getToken() ? '/play' : '/auth'} replace />} />
         </Routes>
