@@ -37,7 +37,7 @@ async function request(method, path, body, isRetry = false) {
     const refreshed = await tryRefresh();
     if (refreshed) return request(method, path, body, true);
     clearAuth();
-    window.location.reload();
+    window.location.href = '/auth';
     return null;
   }
 

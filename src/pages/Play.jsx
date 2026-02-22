@@ -19,14 +19,15 @@ function useCountdown(draw) {
 
   useEffect(() => {
     if (!draw) return;
-    const target = new Date(draw.weekStart || draw.week_start);
-    target.setDate(target.getDate() + 7); // draw is at end of week
-    target.setHours(0, 0, 0, 0);
+    // Draw happens at the START of weekStart (Monday midnight ET)
+    // weekStart = "2026-02-23" means the draw closes Sunday night / Monday 12am
+    const weekStartStr = draw.weekStart || draw.week_start;
+    const target = new Date(weekStartStr + 'T00:00:00'); // local midnight on draw day
 
-    // week number
-    const start = new Date('2026-01-05'); // first Monday
-    const diff = target - start;
-    setWeek('#' + Math.max(1, Math.ceil(diff / (7 * 86400000))));
+    // week number — count from first draw week
+    const firstDraw = new Date('2026-02-23T00:00:00');
+    const weekNum = Math.max(1, Math.round((target - firstDraw) / (7 * 86400000)) + 1);
+    setWeek('#' + weekNum);
 
     const tick = () => {
       const now = new Date();
