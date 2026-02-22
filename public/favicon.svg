@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="50%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <!-- Horizontal bars -->
+  <rect x="18" y="30" width="64" height="12" rx="5" fill="url(#g1)"/>
+  <rect x="18" y="58" width="64" height="12" rx="5" fill="url(#g1)"/>
+  <!-- Vertical bars (angled slightly) -->
+  <rect x="30" y="14" width="12" height="72" rx="5" transform="rotate(-8 36 50)" fill="url(#g1)"/>
+  <rect x="55" y="14" width="12" height="72" rx="5" transform="rotate(-8 61 50)" fill="url(#g1)"/>
+</svg>
