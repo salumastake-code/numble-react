@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
@@ -9,6 +9,7 @@ export default function Profile() {
   const { clearToken, showToast } = useStore();
   const navigate = useNavigate();
   const [showDowngradeConfirm, setShowDowngradeConfirm] = useState(false);
+  const [showReferrals, setShowReferrals] = useState(false);
   const qc = useQueryClient();
 
   const { data } = useQuery({
@@ -34,6 +35,12 @@ export default function Profile() {
   const { data: balanceData } = useQuery({
     queryKey: ['payout-balance'],
     queryFn: () => api.get('/payouts/balance'),
+  });
+
+  const { data: referralData, isLoading: referralsLoading } = useQuery({
+    queryKey: ['referrals'],
+    queryFn: () => api.get('/profile/referrals'),
+    enabled: showReferrals,
   });
 
   const profile = data?.profile;
@@ -119,6 +126,71 @@ export default function Profile() {
             💸 Request Payout — ${cashBalance.toFixed(2)}
           </button>
         )}
+
+        {/* Referrals panel */}
+        <div className="referrals-panel">
+          <button className="referrals-toggle" onClick={() => setShowReferrals(s => !s)}>
+            <span>👥 My Referrals</span>
+            <span className="referrals-meta">
+              {referralData?.summary
+                ? `${referralData.summary.totalReferred} referred · $${referralData.summary.totalBonusEarned.toFixed(2)} earned`
+                : 'See who you've referred'}
+              <span className="referrals-chevron">{showReferrals ? '▲' : '▼'}</span>
+            </span>
+          </button>
+
+          {showReferrals && (
+            <div className="referrals-body">
+              {referralsLoading ? (
+                <div className="referrals-empty">Loading...</div>
+              ) : !referralData?.referrals?.length ? (
+                <div className="referrals-empty">
+                  No referrals yet. Share your code and earn 10% of whatever your friends win — forever.
+                </div>
+              ) : (
+                <>
+                  <div className="referrals-summary">
+                    <div className="ref-stat">
+                      <div className="ref-stat-val">{referralData.summary.totalReferred}</div>
+                      <div className="ref-stat-label">Referred</div>
+                    </div>
+                    <div className="ref-stat">
+                      <div className="ref-stat-val">{referralData.summary.totalPlayed}</div>
+                      <div className="ref-stat-label">Have Played</div>
+                    </div>
+                    <div className="ref-stat">
+                      <div className="ref-stat-val gold">${referralData.summary.totalBonusEarned.toFixed(2)}</div>
+                      <div className="ref-stat-label">Earned</div>
+                    </div>
+                    <div className="ref-stat">
+                      <div className="ref-stat-val green">${referralData.summary.pendingBonus.toFixed(2)}</div>
+                      <div className="ref-stat-label">Pending</div>
+                    </div>
+                  </div>
+
+                  <div className="referrals-list">
+                    {referralData.referrals.map((r, i) => (
+                      <div key={i} className="referral-row">
+                        <div className="referral-left">
+                          <div className="referral-nick">{r.nickname}</div>
+                          <div className="referral-date">Joined {new Date(r.joinedAt).toLocaleDateString()}</div>
+                        </div>
+                        <div className="referral-right">
+                          <span className={`referral-status ${r.hasPlayed ? 'played' : 'pending'}`}>
+                            {r.hasPlayed ? `${r.entriesCount} entr${r.entriesCount === 1 ? 'y' : 'ies'}` : 'Not played yet'}
+                          </span>
+                          {r.bonusesEarned > 0 && (
+                            <span className="referral-bonus">+${r.bonusesEarned.toFixed(2)}</span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Buy token pack */}
         <button

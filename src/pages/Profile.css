@@ -35,6 +35,30 @@
 .downgrade-btns { display: flex; gap: 10px; }
 .btn-cancel-no { flex: 1; background: var(--bg-card2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px; font-weight: 600; cursor: pointer; }
 .btn-cancel-yes { flex: 1; background: var(--red); color: #fff; border: none; border-radius: var(--radius-sm); padding: 12px; font-weight: 600; cursor: pointer; }
+/* Referrals panel */
+.referrals-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.referrals-toggle { width: 100%; background: none; border: none; padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 0.9rem; font-weight: 700; color: var(--text); gap: 8px; }
+.referrals-toggle:hover { background: var(--bg-card2); }
+.referrals-meta { font-size: 0.75rem; font-weight: 500; color: var(--muted); display: flex; align-items: center; gap: 6px; text-align: right; }
+.referrals-chevron { font-size: 0.65rem; }
+.referrals-body { border-top: 1px solid var(--border); padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.referrals-empty { font-size: 0.85rem; color: var(--muted); text-align: center; padding: 8px 0; line-height: 1.6; }
+.referrals-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.ref-stat { text-align: center; background: var(--bg); border-radius: var(--radius-sm); padding: 10px 6px; }
+.ref-stat-val { font-family: var(--display); font-size: 1.1rem; font-weight: 700; color: var(--text); }
+.ref-stat-val.gold { color: var(--gold); }
+.ref-stat-val.green { color: var(--green); }
+.ref-stat-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+.referrals-list { display: flex; flex-direction: column; gap: 8px; }
+.referral-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--bg); border-radius: var(--radius-sm); }
+.referral-nick { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.referral-date { font-size: 0.7rem; color: var(--muted); }
+.referral-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.referral-status { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 999px; }
+.referral-status.played { background: #f0fdf4; color: var(--green); }
+.referral-status.pending { background: var(--bg-card2); color: var(--muted); }
+.referral-bonus { font-size: 0.75rem; font-weight: 700; color: var(--gold); }
+
 .btn-buy-tokens-profile { background: var(--bg-card); color: var(--text); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 0.88rem; font-weight: 700; width: 100%; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
 .btn-buy-tokens-profile:hover { border-color: var(--gold); background: var(--gold-light); }
 .btn-buy-tokens-profile:disabled { opacity: 0.5; cursor: not-allowed; }
