@@ -57,7 +57,10 @@ export default function Auth() {
   return (
     <div className="auth-page">
       <div className="auth-hero">
-        <div className="auth-logo">NUMBLE</div>
+        <div className="auth-logo">
+          <img src="/favicon.svg" alt="" className="auth-logo-icon" />
+          NUMBLE
+        </div>
         <h1 className="auth-headline">Pick your number.<br/>Win cash.</h1>
         <p className="auth-sub">Weekly sweepstakes. 3-digit numbers. Real prizes.<br/>Free to play. No purchase necessary.</p>
       </div>
