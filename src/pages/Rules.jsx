@@ -24,7 +24,7 @@ export default function Rules() {
             <li>Every registered user receives <strong>1 free entry token per month</strong> at no cost.</li>
             <li>Each token lets you enter one 3-digit number (000–999) per week.</li>
             <li>You may submit the same number more than once — each uses one token and counts as a separate entry.</li>
-            <li>Each number has a limited number of slots per draw based on total entries.</li>
+            <li>Each number has a limited number of slots per draw based on total entries. If your preferred number is full, try a less common pick — or try again soon.</li>
             <li>The weekly drawing occurs every Monday at 12:00 AM ET.</li>
             <li>Prize tier is determined by your subscription status at the time of entry.</li>
             <li>Referrers earn a 10% cash bonus when someone they referred wins a cash prize.</li>
