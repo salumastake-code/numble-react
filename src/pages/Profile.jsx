@@ -28,14 +28,27 @@ export default function Profile() {
   const totalEarned = balanceData?.totalEarnedCash ?? 0;
 
   const downgradeMutation = useMutation({
-    mutationFn: () => api.patch('/profile', { subscription_status: 'free' }),
-    onSuccess: () => {
-      qc.invalidateQueries(['profile']);
-      showToast('Subscription cancelled', 'info');
-      setShowDowngradeConfirm(false);
+    mutationFn: () => api.post('/stripe/create-portal'),
+    onSuccess: (data) => {
+      if (data?.url) window.location.href = data.url;
     },
     onError: (e) => showToast(e.message || 'Contact support to cancel', 'error'),
   });
+
+  const upgradeMutation = useMutation({
+    mutationFn: () => api.post('/stripe/create-checkout'),
+    onSuccess: (data) => {
+      if (data?.url) window.location.href = data.url;
+    },
+    onError: (e) => showToast(e.message || 'Failed to open checkout', 'error'),
+  });
+
+  // Handle return from Stripe
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('upgraded') === '1') {
+    showToast('🎉 Welcome to Subscriber!', 'success');
+    window.history.replaceState({}, '', '/profile');
+  }
 
   function signOut() {
     clearToken();
@@ -100,8 +113,8 @@ export default function Profile() {
           <div className="upgrade-card">
             <div className="upgrade-title">⭐ Go Subscriber</div>
             <div className="upgrade-desc">4 tokens/month · Up to $1,000 per draw · 20× the prizes</div>
-            <button className="btn-upgrade" onClick={() => showToast('Stripe coming soon!', 'info')}>
-              Upgrade — $12.99/month
+            <button className="btn-upgrade" onClick={() => upgradeMutation.mutate()} disabled={upgradeMutation.isPending}>
+              {upgradeMutation.isPending ? 'Loading...' : 'Upgrade — $12.99/month'}
             </button>
           </div>
         ) : (
@@ -116,7 +129,7 @@ export default function Profile() {
                 <div className="downgrade-btns">
                   <button className="btn-cancel-no" onClick={() => setShowDowngradeConfirm(false)}>Keep It</button>
                   <button className="btn-cancel-yes" onClick={() => downgradeMutation.mutate()} disabled={downgradeMutation.isPending}>
-                    {downgradeMutation.isPending ? 'Cancelling...' : 'Yes, Cancel'}
+                    {downgradeMutation.isPending ? 'Opening...' : 'Manage Subscription'}
                   </button>
                 </div>
               </div>
