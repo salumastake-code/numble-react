@@ -27,10 +27,10 @@ function AppLayout({ children }) {
 }
 
 export default function App() {
-  // Handle ?clear=1
+  // Handle ?clear=1 or ?logout=1
   if (/[?&](logout|clear)=1/.test(window.location.search)) {
     localStorage.clear();
-    window.location.href = '/';
+    window.location.href = '/auth';
     return null;
   }
 
