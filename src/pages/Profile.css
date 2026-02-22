@@ -1,6 +1,6 @@
 .profile-body { padding: 0 16px; display: flex; flex-direction: column; gap: 14px; }
 .profile-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow); }
-.profile-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--red); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1.3rem; font-weight: 700; flex-shrink: 0; }
+.profile-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--grad); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 1.3rem; font-weight: 700; flex-shrink: 0; }
 .profile-name { font-weight: 700; font-size: 1rem; }
 .profile-email { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
 .profile-tier { margin-left: auto; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; }
@@ -25,7 +25,7 @@
 .upgrade-card { background: var(--gold-light); border: 1.5px solid var(--gold); border-radius: var(--radius); padding: 20px; }
 .upgrade-title { font-family: var(--display); font-size: 1.1rem; font-weight: 700; color: #b45309; margin-bottom: 4px; }
 .upgrade-desc { font-size: 0.82rem; color: #92400e; margin-bottom: 14px; }
-.btn-upgrade { background: var(--gold); color: #fff; border: none; border-radius: var(--radius-sm); padding: 14px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; width: 100%; cursor: pointer; transition: opacity 0.15s; }
+.btn-upgrade { background: var(--grad-gold); color: #fff; border: none; border-radius: var(--radius-sm); padding: 14px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; width: 100%; cursor: pointer; transition: opacity 0.15s; box-shadow: var(--grad-gold-shadow); }
 .btn-upgrade:hover { opacity: 0.9; }
 .btn-history { background: var(--bg-card); color: var(--text-secondary); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 13px; font-size: 0.85rem; font-weight: 600; width: 100%; cursor: pointer; text-align: left; transition: border-color 0.15s, color 0.15s; }
 .btn-history:hover { border-color: var(--text); color: var(--text); }
@@ -36,7 +36,7 @@
 .downgrade-confirm p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5; }
 .downgrade-btns { display: flex; gap: 10px; }
 .btn-cancel-no { flex: 1; background: var(--bg-card2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px; font-weight: 600; cursor: pointer; }
-.btn-cancel-yes { flex: 1; background: var(--red); color: #fff; border: none; border-radius: var(--radius-sm); padding: 12px; font-weight: 600; cursor: pointer; }
+.btn-cancel-yes { flex: 1; background: var(--grad); color: #fff; border: none; border-radius: var(--radius-sm); padding: 12px; font-weight: 600; cursor: pointer; }
 /* Referrals panel */
 .referrals-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
 .referrals-toggle { width: 100%; background: none; border: none; padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 0.9rem; font-weight: 700; color: var(--text); gap: 8px; }
@@ -64,10 +64,10 @@
 .btn-buy-tokens-profile { background: var(--bg-card); color: var(--text); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 0.88rem; font-weight: 700; width: 100%; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
 .btn-buy-tokens-profile:hover { border-color: var(--gold); background: var(--gold-light); }
 .btn-buy-tokens-profile:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-subscribe-upsell { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: #fff; border: none; border-radius: var(--radius-sm); padding: 16px; width: 100%; cursor: pointer; text-align: center; transition: opacity 0.15s; }
+.btn-subscribe-upsell { background: var(--grad-gold); color: #fff; border: none; border-radius: var(--radius-sm); padding: 16px; width: 100%; cursor: pointer; text-align: center; transition: opacity 0.15s; box-shadow: var(--grad-gold-shadow); }
 .btn-subscribe-upsell:hover { opacity: 0.88; }
-.btn-subscribe-upsell:disabled { opacity: 0.5; cursor: not-allowed; }
-.upsell-top { font-size: 0.92rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 4px; color: var(--gold); }
-.upsell-sub { font-size: 0.75rem; color: rgba(255,255,255,0.6); line-height: 1.4; }
+.btn-subscribe-upsell:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+.upsell-top { font-size: 0.92rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 4px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.18); }
+.upsell-sub { font-size: 0.75rem; color: rgba(255,255,255,0.82); line-height: 1.4; }
 .btn-signout { background: none; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); width: 100%; cursor: pointer; transition: border-color 0.15s; }
 .btn-signout:hover { border-color: var(--red); color: var(--red); }

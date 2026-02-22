@@ -23,7 +23,12 @@
   color: var(--text);
 }
 
-.play-logo span { color: var(--red); }
+.play-logo span {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
 .play-meta {
   display: flex;
@@ -59,7 +64,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--red);
+  background: var(--grad);
 }
 
 /* Countdown */
@@ -88,7 +93,10 @@
   font-family: var(--display);
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--red);
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   letter-spacing: 0.04em;
 }
 
@@ -174,7 +182,7 @@
 /* Submit */
 .btn-submit {
   margin: 0 16px 16px;
-  background: var(--red);
+  background: var(--grad);
   color: #fff;
   border: none;
   border-radius: var(--radius-sm);
@@ -184,7 +192,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: opacity 0.15s;
-  box-shadow: 0 4px 12px rgba(229,57,53,0.3);
+  box-shadow: var(--grad-shadow);
 }
 
 .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }

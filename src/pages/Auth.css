@@ -17,7 +17,10 @@
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.3em;
-  color: var(--red);
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 16px;
 }
 
@@ -29,7 +32,12 @@
   margin-bottom: 14px;
 }
 
-.auth-headline span { color: var(--red); }
+.auth-headline span {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
 .auth-sub {
   font-size: 0.9rem;
@@ -111,8 +119,8 @@
 }
 
 .plan-btn.selected {
-  border-color: var(--gold);
-  background: var(--gold-light);
+  border-color: var(--accent);
+  background: #fdf2f8;
 }
 
 .plan-icon { font-size: 1.4rem; margin-bottom: 6px; }
@@ -122,7 +130,7 @@
 .plan-desc.gold-muted { color: #b45309; }
 
 .btn-primary {
-  background: var(--red);
+  background: var(--grad);
   color: #fff;
   border: none;
   border-radius: var(--radius-sm);
@@ -134,9 +142,10 @@
   cursor: pointer;
   transition: opacity 0.15s;
   width: 100%;
+  box-shadow: var(--grad-shadow);
 }
 .btn-primary:hover { opacity: 0.9; }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 
 .auth-switch {
   text-align: center;

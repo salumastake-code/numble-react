@@ -1,11 +1,21 @@
 .page { padding-bottom: 80px; min-height: 100dvh; }
 .page-header { padding: 20px 20px 0; }
 .page-title { font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-.page-accent { width: 40px; height: 3px; background: var(--red); border-radius: 2px; margin-bottom: 20px; }
+.page-accent { width: 40px; height: 3px; background: var(--grad); border-radius: 2px; margin-bottom: 20px; }
 .loading, .empty { text-align: center; color: var(--muted); padding: 40px 20px; font-size: 0.9rem; }
 .lb-list { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
 .lb-row { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); }
-.lb-row.top { border-color: var(--gold); background: var(--gold-light); }
+.lb-row.top { border-color: #ec4899; background: #fdf2f8; }
 .lb-rank { font-size: 1.1rem; width: 28px; text-align: center; }
 .lb-name { flex: 1; font-weight: 600; font-size: 0.95rem; }
 .lb-prize { font-family: var(--display); font-weight: 700; color: var(--gold); font-size: 1rem; }
+.btn-back {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+}

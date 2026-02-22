@@ -17,6 +17,15 @@
   --shadow-lg: 0 4px 20px rgba(0,0,0,0.12);
   --radius: 12px;
   --radius-sm: 8px;
+
+  /* Brand gradient — matches favicon */
+  --grad: linear-gradient(135deg, #f97316 0%, #ec4899 50%, #8b5cf6 100%);
+  --grad-gold: linear-gradient(135deg, #f59e0b 0%, #f97316 50%, #fbbf24 100%);
+  --grad-shadow: 0 4px 16px rgba(236,72,153,0.28);
+  --grad-gold-shadow: 0 4px 16px rgba(245,158,11,0.35);
+
+  /* Accent colour aliases (replaces old --red in UI chrome) */
+  --accent: #ec4899;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,24 +49,44 @@ body {
 
 button { cursor: pointer; font-family: var(--body); border: none; outline: none; }
 input { font-family: var(--body); outline: none; }
-a { color: var(--red); text-decoration: none; }
+a { color: var(--accent); text-decoration: none; }
 
 /* Shared page chrome */
 .page { padding-bottom: 80px; min-height: 100dvh; }
 .page-header { padding: 20px 20px 0; }
 .page-title { font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-.page-accent { width: 40px; height: 3px; background: var(--red); border-radius: 2px; margin-bottom: 20px; }
+.page-accent {
+  width: 40px;
+  height: 3px;
+  background: var(--grad);
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
 
 /* Shared form fields */
 .field-group { display: flex; flex-direction: column; gap: 6px; }
 .field-group label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
 .field-group input { background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 1rem; color: var(--text); transition: border-color 0.15s; width: 100%; }
-.field-group input:focus { border-color: var(--text); }
+.field-group input:focus { border-color: var(--accent); }
 
-/* Shared primary button */
-.btn-primary { background: var(--red); color: #fff; border: none; border-radius: var(--radius-sm); padding: 16px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; width: 100%; }
+/* Shared primary button — brand gradient */
+.btn-primary {
+  background: var(--grad);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  width: 100%;
+  box-shadow: var(--grad-shadow);
+}
 .btn-primary:hover { opacity: 0.9; }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }

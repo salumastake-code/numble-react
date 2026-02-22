@@ -29,9 +29,13 @@
 }
 
 .nav-btn.active {
-  color: var(--red);
+  /* gradient text for active tab */
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.nav-btn:hover {
+.nav-btn:not(.active):hover {
   color: var(--text-secondary);
 }
