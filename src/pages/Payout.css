@@ -119,6 +119,8 @@
   line-height: 1.6;
 }
 
+.saved-label { font-size: 0.7rem; font-weight: 600; color: var(--green); letter-spacing: 0; text-transform: none; }
+
 .payout-history {
   margin: 24px 16px 0;
 }

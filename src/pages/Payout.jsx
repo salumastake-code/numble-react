@@ -15,6 +15,7 @@ export default function Payout() {
   const [method, setMethod] = useState('paypal');
   const [detail, setDetail] = useState('');
   const [confirmed, setConfirmed] = useState(false);
+  const [prefillLoaded, setPrefillLoaded] = useState(false);
   const { showToast } = useStore();
   const navigate = useNavigate();
   const qc = useQueryClient();
@@ -22,6 +23,19 @@ export default function Payout() {
   const { data, isLoading } = useQuery({
     queryKey: ['payout-balance'],
     queryFn: () => api.get('/payouts/balance'),
+  });
+
+  // Load saved payout preference
+  useQuery({
+    queryKey: ['profile'],
+    queryFn: () => api.get('/profile'),
+    onSuccess: (data) => {
+      if (!prefillLoaded && data?.profile?.preferredPayoutMethod) {
+        setMethod(data.profile.preferredPayoutMethod);
+        setDetail(data.profile.preferredPayoutDetail || '');
+        setPrefillLoaded(true);
+      }
+    },
   });
 
   const { data: historyData } = useQuery({
@@ -106,7 +120,10 @@ export default function Payout() {
 
           {/* Detail input */}
           <div className="field-group" style={{ marginBottom: 16 }}>
-            <label>{selectedMethod?.label} Info</label>
+            <label>
+              {selectedMethod?.label} Info
+              {prefillLoaded && detail && <span className="saved-label"> · Saved</span>}
+            </label>
             <input
               type="text"
               placeholder={selectedMethod?.placeholder}
