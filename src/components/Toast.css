@@ -1,6 +1,6 @@
 .toast {
   position: fixed;
-  bottom: 90px;
+  bottom: 120px;
   left: 50%;
   transform: translateX(-50%);
   background: #1a1a1a;

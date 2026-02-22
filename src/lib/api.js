@@ -33,7 +33,7 @@ async function request(method, path, body, isRetry = false) {
 
   const data = await res.json();
 
-  if (res.status === 401 && !isRetry && path !== '/auth/login' && path !== '/auth/register') {
+  if (res.status === 401 && !isRetry && path !== '/auth/login' && path !== '/auth/register' && path !== '/auth/refresh') {
     const refreshed = await tryRefresh();
     if (refreshed) return request(method, path, body, true);
     clearAuth();

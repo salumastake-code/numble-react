@@ -23,12 +23,15 @@ export default function Auth() {
         nickname: form.nickname, plan,
         referral_code: form.referral || undefined,
       });
+      if (!data) throw new Error('No response from server');
       const token = data.accessToken || data.token;
+      if (!token) throw new Error(data.message || data.error || 'No token received');
       setToken(token);
       if (data.refreshToken) localStorage.setItem('numble_refresh', data.refreshToken);
       storeSetToken(token);
       navigate('/play');
     } catch (e) {
+      console.error('Register error:', e);
       showToast(e.message || 'Registration failed', 'error');
     } finally { setLoading(false); }
   }
