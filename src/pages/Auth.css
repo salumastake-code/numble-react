@@ -32,6 +32,7 @@
   font-size: 2.6rem;
   font-weight: 900;
   letter-spacing: 0.2em;
+  margin-right: -0.2em; /* cancel trailing letter-spacing so group centers true */
   background: var(--grad);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
