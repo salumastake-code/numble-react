@@ -114,6 +114,18 @@ export default function Profile() {
           {buyTokensMutation.isPending ? 'Loading...' : '🎟 Buy 4 Tokens — $9.99'}
         </button>
 
+        {/* Subscribe upsell — shown to free users */}
+        {!isPaid && (
+          <button
+            className="btn-subscribe-upsell"
+            onClick={() => upgradeMutation.mutate()}
+            disabled={upgradeMutation.isPending}
+          >
+            <div className="upsell-top">⭐ Subscribe for $12.99/mo</div>
+            <div className="upsell-sub">4 tokens/month · Win up to $1,000 · 20× the prizes</div>
+          </button>
+        )}
+
         {/* Referral code */}
         <div className="refcode-card" onClick={copyRefCode}>
           <div className="refcode-label">YOUR REFERRAL CODE</div>
