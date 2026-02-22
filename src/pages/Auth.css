@@ -24,16 +24,14 @@
   width: 40px;
   height: 40px;
   flex-shrink: 0;
+  display: block;
 }
 
 .auth-logo-text {
-  font-family: var(--display-impact);
-  font-size: 2.8rem;
+  font-family: 'Arial Black', 'Franklin Gothic Heavy', Impact, sans-serif;
+  font-size: 2.6rem;
   font-weight: 900;
-  letter-spacing: 0.22em;
-  display: inline-block;
-  transform: scaleX(1.18);
-  transform-origin: left center;
+  letter-spacing: 0.2em;
   background: var(--grad);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
