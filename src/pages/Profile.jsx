@@ -37,9 +37,13 @@ export default function Profile() {
 
   const upgradeMutation = useMutation({
     mutationFn: () => api.post('/stripe/create-checkout'),
-    onSuccess: (data) => {
-      if (data?.url) window.location.href = data.url;
-    },
+    onSuccess: (data) => { if (data?.url) window.location.href = data.url; },
+    onError: (e) => showToast(e.message || 'Failed to open checkout', 'error'),
+  });
+
+  const buyTokensMutation = useMutation({
+    mutationFn: () => api.post('/stripe/buy-tokens'),
+    onSuccess: (data) => { if (data?.url) window.location.href = data.url; },
     onError: (e) => showToast(e.message || 'Failed to open checkout', 'error'),
   });
 
@@ -100,6 +104,15 @@ export default function Profile() {
             💸 Request Payout — ${cashBalance.toFixed(2)}
           </button>
         )}
+
+        {/* Buy token pack */}
+        <button
+          className="btn-buy-tokens-profile"
+          onClick={() => buyTokensMutation.mutate()}
+          disabled={buyTokensMutation.isPending}
+        >
+          {buyTokensMutation.isPending ? 'Loading...' : '🎟 Buy 4 Tokens — $9.99'}
+        </button>
 
         {/* Referral code */}
         <div className="refcode-card" onClick={copyRefCode}>

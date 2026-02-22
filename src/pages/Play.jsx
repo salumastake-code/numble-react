@@ -5,6 +5,14 @@ import useStore from '../store/useStore';
 import BalloonReveal from '../components/BalloonReveal';
 import './Play.css';
 
+function useBuyTokens(showToast) {
+  return useMutation({
+    mutationFn: () => api.post('/stripe/buy-tokens'),
+    onSuccess: (data) => { if (data?.url) window.location.href = data.url; },
+    onError: (e) => showToast(e.message || 'Failed to open checkout', 'error'),
+  });
+}
+
 function useCountdown(draw) {
   const [time, setTime] = useState('');
   const [week, setWeek] = useState('');
@@ -41,6 +49,17 @@ export default function Play() {
   const [input, setInput] = useState('');
   const { showToast, reveal, setReveal } = useStore();
   const qc = useQueryClient();
+  const buyTokensMutation = useBuyTokens(showToast);
+
+  // Handle return from token pack purchase
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('tokens_purchased') === '1') {
+      showToast('🎉 4 tokens added to your account!', 'success');
+      window.history.replaceState({}, '', '/play');
+      qc.invalidateQueries(['current-draw']);
+    }
+  }, []);
 
   const { data, isLoading } = useQuery({
     queryKey: ['current-draw'],
@@ -168,6 +187,17 @@ export default function Play() {
       >
         {submitMutation.isPending ? 'SUBMITTING...' : 'SUBMIT ENTRY'}
       </button>
+
+      {/* Buy tokens CTA — shown when out of tokens */}
+      {tokenBalance === 0 && (
+        <button
+          className="btn-buy-tokens"
+          onClick={() => buyTokensMutation.mutate()}
+          disabled={buyTokensMutation.isPending}
+        >
+          {buyTokensMutation.isPending ? 'Loading...' : '🎟 Buy 4 Tokens — $9.99'}
+        </button>
+      )}
 
       {/* Entries list */}
       {entries.length > 0 && (

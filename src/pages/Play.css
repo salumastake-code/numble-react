@@ -190,6 +190,24 @@
 .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
 .btn-submit:not(:disabled):hover { opacity: 0.92; }
 
+/* Buy tokens */
+.btn-buy-tokens {
+  margin: 0 16px 16px;
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-buy-tokens:hover { border-color: var(--gold); background: var(--gold-light); }
+.btn-buy-tokens:disabled { opacity: 0.5; cursor: not-allowed; }
+
 /* Entries */
 .entries-section { padding: 0 16px; }
 .entries-title {
