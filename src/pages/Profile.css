@@ -71,3 +71,6 @@
 .upsell-sub { font-size: 0.75rem; color: rgba(255,255,255,0.82); line-height: 1.4; }
 .btn-signout { background: none; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); width: 100%; cursor: pointer; transition: border-color 0.15s; }
 .btn-signout:hover { border-color: var(--red); color: var(--red); }
+.profile-support { text-align: center; font-size: 0.78rem; color: var(--muted); padding-bottom: 8px; }
+.profile-support a { color: var(--accent); text-decoration: none; }
+.profile-support a:hover { text-decoration: underline; }

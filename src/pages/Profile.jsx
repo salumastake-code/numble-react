@@ -275,6 +275,10 @@ export default function Profile() {
         )}
 
         <button className="btn-signout" onClick={signOut}>Sign Out</button>
+
+        <p className="profile-support">
+          Questions? <a href="mailto:support@numble.io">support@numble.io</a>
+        </p>
       </div>
     </div>
   );
