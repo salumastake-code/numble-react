@@ -201,6 +201,26 @@ export default function Play() {
         </button>
       )}
 
+      {/* Referral nudge — shown after first entry */}
+      {entries.length > 0 && user?.referralCode && (
+        <div className="referral-nudge" onClick={() => {
+          const code = user.referralCode;
+          const msg = `I've been playing Numble — pick a 3-digit number each week and win real cash. Use my code ${code} when you sign up and I earn 10% of whatever you win, forever. Play free at numble.io`;
+          if (navigator.share) {
+            navigator.share({ title: 'Play Numble', text: msg, url: 'https://numble.io' }).catch(() => {});
+          } else {
+            navigator.clipboard?.writeText(msg).catch(() => {});
+          }
+        }}>
+          <span className="nudge-icon">🎁</span>
+          <div className="nudge-text">
+            <div className="nudge-title">Know someone lucky?</div>
+            <div className="nudge-sub">Share your code <strong>{user.referralCode}</strong> — earn 10% of whatever they win, <strong>forever.</strong></div>
+          </div>
+          <span className="nudge-arrow">›</span>
+        </div>
+      )}
+
       {/* Entries list */}
       {entries.length > 0 && (
         <div className="entries-section">

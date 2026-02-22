@@ -141,11 +141,31 @@ export default function Profile() {
           </button>
         )}
 
-        {/* Referral code */}
-        <div className="refcode-card" onClick={copyRefCode}>
+        {/* Referral card */}
+        <div className="refcode-card">
           <div className="refcode-label">YOUR REFERRAL CODE</div>
           <div className="refcode-value">{profile?.referralCode || '—'}</div>
-          <div className="refcode-hint">Tap to copy</div>
+          <div className="refcode-tagline">Your friends win, you get paid too — <strong>forever.</strong></div>
+          {(data?.recentReferralBonuses?.length > 0) && (
+            <div className="refcode-earned">
+              💰 You've earned ${(data.recentReferralBonuses.reduce((s, r) => s + parseFloat(r.amount_usd || 0), 0)).toFixed(2)} from referrals
+            </div>
+          )}
+          <div className="refcode-actions">
+            <button className="btn-refcode-copy" onClick={copyRefCode}>Copy Code</button>
+            <button className="btn-refcode-share" onClick={() => {
+              const code = profile?.referralCode || '';
+              const msg = `I've been playing Numble — pick a 3-digit number each week and win real cash. Use my code ${code} when you sign up and I earn 10% of whatever you win, forever. Play free at numble.io`;
+              if (navigator.share) {
+                navigator.share({ title: 'Play Numble', text: msg, url: 'https://numble.io' }).catch(() => {});
+              } else {
+                navigator.clipboard?.writeText(msg).catch(() => {});
+                showToast('Message copied!', 'success');
+              }
+            }}>
+              Share 🔗
+            </button>
+          </div>
         </div>
 
         {/* Subscription */}
