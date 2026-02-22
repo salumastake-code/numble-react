@@ -134,7 +134,7 @@ export default function Profile() {
             <span className="referrals-meta">
               {referralData?.summary
                 ? `${referralData.summary.totalReferred} referred · $${referralData.summary.totalBonusEarned.toFixed(2)} earned`
-                : 'See who you've referred'}
+                : "See who you've referred"}
               <span className="referrals-chevron">{showReferrals ? '▲' : '▼'}</span>
             </span>
           </button>
