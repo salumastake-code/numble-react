@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api, setToken } from '../lib/api';
+import { getFingerprint } from '../lib/fingerprint';
 import useStore from '../store/useStore';
 import './Auth.css';
 
@@ -18,10 +19,12 @@ export default function Auth() {
     if (!form.email || !form.nickname || !form.password) return showToast('All fields required', 'error');
     setLoading(true);
     try {
+      const fingerprint = await getFingerprint().catch(() => null);
       const data = await api.post('/auth/register', {
         email: form.email, password: form.password,
         nickname: form.nickname, plan,
         referral_code: form.referral || undefined,
+        fingerprint,
       });
       if (!data) throw new Error('No response from server');
       const token = data.accessToken || data.token;
