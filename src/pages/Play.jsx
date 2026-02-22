@@ -66,6 +66,7 @@ export default function Play() {
     queryKey: ['current-draw'],
     queryFn: () => api.get('/draws/current'),
     refetchInterval: 60000,
+    retry: false,
   });
 
   const draw = data?.draw;

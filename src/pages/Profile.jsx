@@ -13,7 +13,16 @@ export default function Profile() {
 
   const { data } = useQuery({
     queryKey: ['profile'],
-    queryFn: () => api.get('/profile'),
+    queryFn: async () => {
+      const res = await api.get('/profile');
+      // If the user was wiped, profile will be null — force logout
+      if (!res?.profile?.email) {
+        clearToken();
+        navigate('/auth');
+        return null;
+      }
+      return res;
+    },
   });
 
   const { data: balanceData } = useQuery({
