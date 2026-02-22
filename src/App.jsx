@@ -6,6 +6,7 @@ import Play from './pages/Play';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
 import Payout from './pages/Payout';
+import History from './pages/History';
 import Rules from './pages/Rules';
 import Admin from './pages/Admin';
 import BottomNav from './components/BottomNav';
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/leaderboard" element={<PrivateRoute><AppLayout><Leaderboard /></AppLayout></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><AppLayout><Profile /></AppLayout></PrivateRoute>} />
           <Route path="/payout" element={<PrivateRoute><AppLayout><Payout /></AppLayout></PrivateRoute>} />
+          <Route path="/history" element={<PrivateRoute><AppLayout><History /></AppLayout></PrivateRoute>} />
           <Route path="/rules" element={<PrivateRoute><AppLayout><Rules /></AppLayout></PrivateRoute>} />
           <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<Navigate to={getToken() ? '/play' : '/auth'} replace />} />

@@ -120,6 +120,11 @@ export default function Profile() {
           </div>
         </div>
 
+        {/* Entry history link */}
+        <button className="btn-history" onClick={() => navigate('/history')}>
+          📋 View Entry History
+        </button>
+
         {/* Payout button */}
         {cashBalance > 0 && (
           <button className="btn-payout" onClick={() => navigate('/payout')}>
