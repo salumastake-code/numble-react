@@ -105,7 +105,17 @@ function Dashboard({ secret }) {
   });
 
   const openDrawMutation = useMutation({
-    mutationFn: () => adminPost('/admin/open-draw'),
+    mutationFn: async () => {
+      const res = await adminPost('/admin/open-draw');
+      // If conflict warning, ask to force
+      if (res.error && res.openDraws) {
+        if (confirm(`⚠️ ${res.error}\n\nForce open anyway?`)) {
+          return adminPost('/admin/open-draw', { force: true });
+        }
+        throw new Error('Cancelled');
+      }
+      return res;
+    },
     onSuccess: () => qc.invalidateQueries(['admin-status']),
   });
 
