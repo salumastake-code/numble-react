@@ -11,6 +11,7 @@ import History from './pages/History';
 import Rules from './pages/Rules';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import ResetPassword from './pages/ResetPassword';
 import Admin from './pages/Admin';
 import BottomNav from './components/BottomNav';
 import Toast from './components/Toast';
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/payout" element={<PrivateRoute><AppLayout><Payout /></AppLayout></PrivateRoute>} />
           <Route path="/history" element={<PrivateRoute><AppLayout><History /></AppLayout></PrivateRoute>} />
           <Route path="/rules" element={<PrivateRoute><AppLayout><Rules /></AppLayout></PrivateRoute>} />
+          <Route path="/auth/reset-password" element={<ResetPassword />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin" element={<Admin />} />
