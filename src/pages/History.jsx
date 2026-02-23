@@ -16,6 +16,7 @@ function resultLabel(entry) {
   if (num === win) return { label: '🏆 Exact Match!', cls: 'exact' };
   if (numSorted === winSorted) return { label: '🎯 All Digits', cls: 'anagram' };
   if (posMatches === 2) return { label: '✌️ 2 In Place', cls: 'token' };
+  if (posMatches === 1) return { label: '1️⃣ 1 In Place', cls: 'token' };
   return { label: 'No match', cls: 'none' };
 }
 
@@ -32,7 +33,8 @@ function getPrize(entry) {
 
   if (num === win) return isPaid ? '$1,000' : '$50';
   if (numSorted === winSorted) return isPaid ? '$100' : '$5';
-  if (posMatches === 2) return '+1 token';
+  if (posMatches === 2) return '+1,500 tokens';
+  if (posMatches === 1) return '+500 tokens';
   return null;
 }
 
