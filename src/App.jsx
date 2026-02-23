@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { getToken } from './lib/api';
+import { useEffect } from 'react';
+import { getToken, initAuth } from './lib/api';
 import Auth from './pages/Auth';
 import AuthCallback from './pages/AuthCallback';
 import Play from './pages/Play';
@@ -40,6 +41,8 @@ export default function App() {
     window.location.href = '/auth';
     return null;
   }
+
+  useEffect(() => { initAuth(); }, []);
 
   return (
     <QueryClientProvider client={qc}>

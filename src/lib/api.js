@@ -27,6 +27,43 @@ async function tryRefresh() {
   return false;
 }
 
+// Decode JWT expiry without a library
+function getTokenExp(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.exp ? payload.exp * 1000 : null; // ms
+  } catch { return null; }
+}
+
+// Call on app load — silently refreshes if token is within 10 min of expiring
+export async function initAuth() {
+  const token = getToken();
+  if (!token) return;
+  const exp = getTokenExp(token);
+  if (!exp) return;
+  const msLeft = exp - Date.now();
+  if (msLeft < 10 * 60 * 1000) { // < 10 minutes left
+    await tryRefresh();
+  }
+  // Schedule next refresh 5 min before expiry
+  scheduleRefresh();
+}
+
+let _refreshTimer = null;
+function scheduleRefresh() {
+  if (_refreshTimer) clearTimeout(_refreshTimer);
+  const token = getToken();
+  if (!token) return;
+  const exp = getTokenExp(token);
+  if (!exp) return;
+  const msLeft = exp - Date.now();
+  const delay = Math.max(msLeft - 5 * 60 * 1000, 10 * 1000); // refresh 5 min before expiry
+  _refreshTimer = setTimeout(async () => {
+    const ok = await tryRefresh();
+    if (ok) scheduleRefresh(); // reschedule for new token
+  }, delay);
+}
+
 async function request(method, path, body, isRetry = false) {
   const headers = { 'Content-Type': 'application/json' };
   const token = getToken();
