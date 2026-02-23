@@ -190,6 +190,15 @@ export default function Play() {
         {submitMutation.isPending ? 'SUBMITTING...' : 'SUBMIT ENTRY'}
       </button>
 
+      {/* How it works explainer — shown before first entry */}
+      {entries.length === 0 && tokenBalance > 0 && (
+        <div className="play-explainer">
+          <div className="play-explainer-row"><span className="play-explainer-icon">🎯</span><span>Pick any number 000–999. If it's drawn Monday, you win.</span></div>
+          <div className="play-explainer-row"><span className="play-explainer-icon">💸</span><span>Winners split the weekly cash prize pool.</span></div>
+          <div className="play-explainer-row"><span className="play-explainer-icon">🎁</span><span>Refer friends and earn 10% of their winnings — forever.</span></div>
+        </div>
+      )}
+
       {/* Buy tokens CTA — shown when out of tokens */}
       {tokenBalance === 0 && (
         <button

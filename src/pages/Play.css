@@ -274,3 +274,28 @@
   border: 1.5px solid var(--green);
   color: var(--green);
 }
+
+/* Play page explainer */
+.play-explainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: #f9f6f2;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-top: 4px;
+}
+.play-explainer-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.5;
+}
+.play-explainer-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
