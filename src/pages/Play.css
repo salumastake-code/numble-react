@@ -264,6 +264,26 @@
 .btn-buy-tokens:hover { border-color: var(--gold); background: var(--gold-light); }
 .btn-buy-tokens:disabled { opacity: 0.5; cursor: not-allowed; }
 
+.btn-buy-tokens-slim {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 0 16px 16px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  width: calc(100% - 32px);
+}
+.btn-buy-tokens-slim:hover { border-color: var(--gold); color: var(--text); }
+.btn-buy-tokens-slim:disabled { opacity: 0.5; cursor: not-allowed; }
+
 /* Entries */
 .entries-section { padding: 0 16px; }
 .entries-title {

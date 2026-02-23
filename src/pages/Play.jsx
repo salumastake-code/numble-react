@@ -212,16 +212,14 @@ export default function Play() {
         </div>
       )}
 
-      {/* Buy tokens CTA — shown when out of tokens */}
-      {tokenBalance === 0 && (
-        <button
-          className="btn-buy-tokens"
-          onClick={() => buyTokensMutation.mutate()}
-          disabled={buyTokensMutation.isPending}
-        >
-          {buyTokensMutation.isPending ? 'Loading...' : <><TokenIcon size={16} /> Buy 4,000 Tokens — $9.99</>}
-        </button>
-      )}
+      {/* Buy tokens — always visible slim button */}
+      <button
+        className="btn-buy-tokens-slim"
+        onClick={() => buyTokensMutation.mutate()}
+        disabled={buyTokensMutation.isPending}
+      >
+        {buyTokensMutation.isPending ? 'Loading...' : <><TokenIcon size={13} /> Buy 3,500 Tokens — $9.99</>}
+      </button>
 
       {/* Referral nudge — shown after first entry */}
       {entries.length > 0 && user?.referralCode && (
