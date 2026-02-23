@@ -243,13 +243,14 @@
   border-color: var(--primary);
   background: #fff8f3;
 }
-.how-arrow {
-  font-size: 1rem;
-  transition: transform 0.2s;
+.how-plus {
+  font-size: 1.3rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--primary);
   display: inline-block;
-}
-.how-arrow.open {
-  transform: rotate(180deg);
+  width: 20px;
+  text-align: center;
 }
 .how-content {
   background: #f9f6f2;
