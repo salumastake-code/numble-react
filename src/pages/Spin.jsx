@@ -71,12 +71,6 @@ function WheelCanvas({ rotation }) {
         ctx.fillText(`🟡 ${outcome.label}`, radius - 12, 5);
       }
 
-      // Lightning bolt for 10k
-      if (outcome.tokens === 10000) {
-        ctx.font = '14px Arial';
-        ctx.fillText('⚡', radius - 100, 5);
-      }
-
       ctx.restore();
     });
 
