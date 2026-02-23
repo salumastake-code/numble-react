@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { getToken, initAuth } from './lib/api';
+import { getToken, initAuth, api } from './lib/api';
+import useStore from './store/useStore';
 import Auth from './pages/Auth';
 import AuthCallback from './pages/AuthCallback';
 import Play from './pages/Play';
@@ -42,7 +43,18 @@ export default function App() {
     return null;
   }
 
-  useEffect(() => { initAuth(); }, []);
+  const { setTokenBalance, setTicketBalance } = useStore();
+
+  useEffect(() => {
+    initAuth();
+    // Pre-load balance into store so all pages have it immediately
+    if (getToken()) {
+      api.get('/profile').then(data => {
+        if (data?.tokenBalance !== undefined) setTokenBalance(data.tokenBalance);
+        if (data?.ticketBalance !== undefined) setTicketBalance(data.ticketBalance);
+      }).catch(() => {});
+    }
+  }, []);
 
   return (
     <QueryClientProvider client={qc}>
