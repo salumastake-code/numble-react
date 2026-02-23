@@ -59,9 +59,12 @@ function WheelCanvas({ rotation }) {
       ctx.fillStyle = '#fff';
 
       if (outcome.tokens === 0) {
-        // BANKRUPT
-        ctx.font = 'bold 13px Arial Black, Arial';
-        ctx.fillText('BANKRUPT', radius - 12, 5);
+        // Big red X
+        ctx.textAlign = 'center';
+        ctx.font = 'bold 42px Arial Black, Arial';
+        ctx.fillStyle = '#ef4444';
+        ctx.fillText('✕', radius * 0.55, 14);
+        ctx.textAlign = 'right'; // reset
       } else {
         // Coin icon + amount
         ctx.font = 'bold 13px Arial Black, Arial';
