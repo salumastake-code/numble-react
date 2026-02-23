@@ -52,7 +52,7 @@ export default function ExchangeWidget({ ticketBalance, tokenBalance, onSuccess,
           disabled={loading || ticketBalance < 1}
           title={ticketBalance < 1 ? 'No tickets to exchange' : ''}
         >
-          {loading ? '...' : <>🎟️ 1 →</>}
+          {loading ? '...' : <>🎟️ 1 &nbsp;→</>}
         </button>
 
         <button
@@ -61,7 +61,7 @@ export default function ExchangeWidget({ ticketBalance, tokenBalance, onSuccess,
           disabled={loading || tokenBalance < TOKENS_PER_TICKET}
           title={tokenBalance < TOKENS_PER_TICKET ? `Need ${TOKENS_PER_TICKET.toLocaleString()} tokens` : ''}
         >
-          {loading ? '...' : <>← <TokenIcon size={14} /> 1,000</>}
+          {loading ? '...' : <>←&nbsp; <TokenIcon size={14} /> 1,000</>}
         </button>
       </div>
     </div>
