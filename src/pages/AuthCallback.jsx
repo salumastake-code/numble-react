@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setToken } from '../lib/api';
 import useStore from '../store/useStore';
@@ -15,6 +15,8 @@ export default function AuthCallback() {
   const [phase, setPhase] = useState('loading');
   const [nickname, setNickname] = useState('');
   const [saving, setSaving] = useState(false);
+  // Use refs for tokens so they're always current in async handlers
+  const pendingTokenRef = useRef(null);
   const [pendingToken, setPendingToken] = useState(null);
   const [pendingRefresh, setPendingRefresh] = useState(null);
 
@@ -113,6 +115,7 @@ export default function AuthCallback() {
 
       if (cbData.status === 'needs_nickname') {
         // New Google user — needs to pick a username
+        pendingTokenRef.current = accessToken;
         setPendingToken(accessToken);
         setPendingRefresh(refreshToken);
         setNickname(cbData.suggestedNickname || '');
@@ -142,11 +145,17 @@ export default function AuthCallback() {
 
     setSaving(true);
     try {
+      const token = pendingTokenRef.current || pendingToken;
+      if (!token) {
+        showToast('Session expired — please try signing in again', 'error');
+        navigate('/auth');
+        return;
+      }
       const res = await fetch('https://api.numble.io/auth/google-set-nickname', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${pendingToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ nickname: clean }),
       });
