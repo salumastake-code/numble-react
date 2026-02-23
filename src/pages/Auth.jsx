@@ -94,9 +94,17 @@ export default function Auth() {
 
   const hero = (
     <div className="auth-hero">
-      <div className="auth-logo">
-        <img src="/favicon.svg" alt="" className="auth-logo-icon" />
-        <span className="auth-logo-text">NUMBLE</span>
+      <div className="auth-hero-top">
+        <div className="auth-logo">
+          <img src="/favicon.svg" alt="" className="auth-logo-icon" />
+          <span className="auth-logo-text">NUMBLE</span>
+        </div>
+        {mode === 'register' && (
+          <button className="btn-signin-top" onClick={() => setMode('login')}>Sign in</button>
+        )}
+        {mode === 'login' && (
+          <button className="btn-signin-top" onClick={() => setMode('register')}>Create account</button>
+        )}
       </div>
       <h1 className="auth-headline">Pick your number.<br/>Win cash.</h1>
       <p className="auth-sub">Weekly sweepstakes. 3-digit numbers. Real prizes.<br/>Free to play. No purchase necessary.</p>
@@ -212,7 +220,6 @@ export default function Auth() {
               {GOOGLE_ICON} Continue with Google
             </button>
 
-            <p className="auth-switch">Already have an account? <a href="#" onClick={e => { e.preventDefault(); setMode('login'); }}>Sign in</a></p>
             <p className="auth-legal">By continuing you agree to our <a href="/terms" target="_blank" rel="noopener">Terms of Use</a> and <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>. You must be 18 or older.</p>
           </>
         ) : (
@@ -256,7 +263,6 @@ export default function Auth() {
               {GOOGLE_ICON} Continue with Google
             </button>
 
-            <p className="auth-switch">New here? <a href="#" onClick={e => { e.preventDefault(); setMode('register'); }}>Create account</a></p>
           </>
         )}
       </div>
