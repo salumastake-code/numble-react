@@ -50,6 +50,15 @@ export default function Auth() {
       setToken(token);
       if (data.refreshToken) localStorage.setItem('numble_refresh', data.refreshToken);
       storeSetToken(token);
+
+      // If user picked paid plan, send them to Stripe checkout right away
+      if (plan === 'paid') {
+        const checkoutRes = await api.post('/stripe/create-checkout');
+        if (checkoutRes?.url) {
+          window.location.href = checkoutRes.url;
+          return;
+        }
+      }
       navigate('/play');
     } catch (e) {
       console.error('Register error:', e);
