@@ -13,6 +13,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import ResetPassword from './pages/ResetPassword';
 import Admin from './pages/Admin';
+import Spin from './pages/Spin';
 import BottomNav from './components/BottomNav';
 import Toast from './components/Toast';
 
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/profile" element={<PrivateRoute><AppLayout><Profile /></AppLayout></PrivateRoute>} />
           <Route path="/payout" element={<PrivateRoute><AppLayout><Payout /></AppLayout></PrivateRoute>} />
           <Route path="/history" element={<PrivateRoute><AppLayout><History /></AppLayout></PrivateRoute>} />
+          <Route path="/spin" element={<PrivateRoute><AppLayout><Spin /></AppLayout></PrivateRoute>} />
           <Route path="/rules" element={<PrivateRoute><AppLayout><Rules /></AppLayout></PrivateRoute>} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
           <Route path="/privacy" element={<Privacy />} />

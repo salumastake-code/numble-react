@@ -1,0 +1,229 @@
+.spin-page {
+  padding: 1.5rem 1rem 6rem;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.spin-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spin-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #f97316, #ec4899, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.spin-balance {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #374151;
+  background: #f3f4f6;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+}
+
+/* Wheel */
+.wheel-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wheel-pointer {
+  font-size: 2rem;
+  color: #f97316;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  z-index: 10;
+  margin-bottom: -8px;
+  line-height: 1;
+}
+
+.wheel-wrapper {
+  border-radius: 50%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.wheel-canvas {
+  display: block;
+  border-radius: 50%;
+}
+
+/* Spin button */
+.spin-btn {
+  width: 100%;
+  max-width: 320px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f97316, #ec4899, #a855f7);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(249,115,22,0.3);
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.spin-btn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.spin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spin-btn.spinning {
+  animation: pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.spin-no-tokens {
+  font-size: 0.9rem;
+  color: #6b7280;
+  text-align: center;
+  margin: -0.5rem 0 0;
+}
+
+.spin-link {
+  color: #f97316;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Result modal */
+.spin-result-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.spin-result-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  max-width: 320px;
+  width: 100%;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.spin-result-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+.spin-result-label {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.spin-result-label.bankrupt {
+  color: #1a1a1a;
+}
+
+.spin-result-label.win {
+  background: linear-gradient(135deg, #f97316, #ec4899, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.spin-result-sub {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.spin-result-tokens {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.spin-result-confetti {
+  font-size: 1.5rem;
+  letter-spacing: 0.2em;
+}
+
+.spin-result-close {
+  margin-top: 0.5rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f97316, #ec4899, #a855f7);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* History */
+.spin-history {
+  width: 100%;
+}
+
+.spin-history-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.spin-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.spin-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+}
+
+.spin-history-label {
+  font-weight: 700;
+  color: #111827;
+}
+
+.spin-history-time {
+  color: #9ca3af;
+  font-size: 0.8rem;
+}

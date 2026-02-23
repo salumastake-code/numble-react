@@ -8,6 +8,13 @@ const tabs = [
       <text x="12" y="16.5" textAnchor="middle" fontSize="10" fill="currentColor" stroke="none" fontWeight="bold" fontFamily="Georgia,serif">N</text>
     </svg>
   )},
+  { path: '/spin', label: 'Spin', icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="22" height="22">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 3 L12 12 L17 7"/>
+      <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
+    </svg>
+  )},
   { path: '/leaderboard', label: 'Board', icon: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="22" height="22">
       <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
