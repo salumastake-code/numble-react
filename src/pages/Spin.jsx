@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
 import useStore from '../store/useStore';
+import TokenIcon from '../components/TokenIcon';
 import './Spin.css';
 
 const OUTCOMES = [
@@ -199,7 +200,7 @@ export default function Spin() {
       <div className="spin-header">
         <h1 className="spin-title">Spin & Win</h1>
         <div className="spin-balance">
-          🪙 <span>{(tokenBalance || 0).toLocaleString()}</span> tokens
+          <TokenIcon size={16} /> <span>{(tokenBalance || 0).toLocaleString()}</span> tokens
         </div>
       </div>
 
@@ -219,7 +220,7 @@ export default function Spin() {
         onClick={handleSpin}
         disabled={spinning || tokenBalance < 1000}
       >
-        {spinning ? 'Spinning...' : 'SPIN  —  1,000 🪙'}
+        {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — 1,000 <TokenIcon size={18} /></span>}
       </button>
 
       {tokenBalance < 1000 && (
@@ -245,7 +246,7 @@ export default function Spin() {
               <>
                 <div className="spin-result-icon">🎉</div>
                 <div className="spin-result-label win">+{result.tokens.toLocaleString()}</div>
-                <div className="spin-result-tokens">🪙 tokens won!</div>
+                <div className="spin-result-tokens"><TokenIcon size={18} /> tokens won!</div>
                 {result.tokens >= 5000 && (
                   <div className="spin-result-confetti">⚡🎊⚡🎊⚡</div>
                 )}
@@ -266,7 +267,7 @@ export default function Spin() {
             {history.slice(0, 10).map(spin => (
               <div key={spin.spin_id} className="spin-history-item">
                 <span className="spin-history-label">
-                  {spin.tokens_won === 0 ? '💀 BANKRUPT' : `🪙 ${spin.tokens_won.toLocaleString()}`}
+                  {spin.tokens_won === 0 ? '💀 BANKRUPT' : <><TokenIcon size={14} /> {spin.tokens_won.toLocaleString()}</>}
                 </span>
                 <span className="spin-history-time">
                   {new Date(spin.created_at).toLocaleDateString()}

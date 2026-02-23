@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { api } from '../lib/api';
+import TokenIcon from './TokenIcon';
 import './ExchangeWidget.css';
 
 const TOKENS_PER_TICKET = 1000;
@@ -38,7 +39,7 @@ export default function ExchangeWidget({ tokenBalance, onSuccess, showToast }) {
         </div>
         <div className="exchange-arrows">⇄</div>
         <div className="exchange-balance-item">
-          <span className="exchange-balance-icon">🪙</span>
+          <span className="exchange-balance-icon"><TokenIcon size={22} /></span>
           <span className="exchange-balance-val">{tokenBalance.toLocaleString()}</span>
           <span className="exchange-balance-label">Tokens</span>
         </div>
@@ -54,7 +55,7 @@ export default function ExchangeWidget({ tokenBalance, onSuccess, showToast }) {
           disabled={loading || tokenBalance < TOKENS_PER_TICKET}
           title={tokenBalance < TOKENS_PER_TICKET ? `Need ${TOKENS_PER_TICKET.toLocaleString()} tokens` : ''}
         >
-          {loading ? '...' : '🪙 1,000 → 🎟️ 1'}
+          {loading ? '...' : <><TokenIcon size={14} /> 1,000 → 🎟️ 1</>}
         </button>
 
         {/* Ticket → Tokens */}
@@ -64,7 +65,7 @@ export default function ExchangeWidget({ tokenBalance, onSuccess, showToast }) {
           disabled={loading || tickets < 1}
           title={tickets < 1 ? 'No tickets to exchange' : ''}
         >
-          {loading ? '...' : '🎟️ 1 → 🪙 1,000'}
+          {loading ? '...' : <>🎟️ 1 → <TokenIcon size={14} /> 1,000</>}
         </button>
       </div>
     </div>

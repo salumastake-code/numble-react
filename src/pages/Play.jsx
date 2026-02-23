@@ -4,6 +4,7 @@ import { api } from '../lib/api';
 import useStore from '../store/useStore';
 import BalloonReveal from '../components/BalloonReveal';
 import ExchangeWidget from '../components/ExchangeWidget';
+import TokenIcon from '../components/TokenIcon';
 import './Play.css';
 
 function useBuyTokens(showToast) {
@@ -145,7 +146,7 @@ export default function Play() {
         <div className="play-meta">
           <span className="tier-badge">{user?.subscriptionStatus === 'paid' ? '⭐ SUBSCRIBER' : 'FREE'}</span>
           <span className="token-badge">
-            🎟️ {Math.floor(tokenBalance / 1000)} &nbsp;|&nbsp; 🪙 {(tokenBalance % 1000).toLocaleString()}
+            🎟️ {Math.floor(tokenBalance / 1000)} &nbsp;|&nbsp; <TokenIcon size={14} /> {(tokenBalance % 1000).toLocaleString()}
           </span>
         </div>
       </div>
@@ -216,7 +217,7 @@ export default function Play() {
           onClick={() => buyTokensMutation.mutate()}
           disabled={buyTokensMutation.isPending}
         >
-          {buyTokensMutation.isPending ? 'Loading...' : '🪙 Buy 4,000 Tokens — $9.99'}
+          {buyTokensMutation.isPending ? 'Loading...' : <><TokenIcon size={16} /> Buy 4,000 Tokens — $9.99</>}
         </button>
       )}
 

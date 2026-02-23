@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import TokenIcon from '../components/TokenIcon';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
@@ -111,7 +112,7 @@ export default function Profile() {
           <div className="stat-card">
             <div className="stat-label">🎟️ Tickets</div>
             <div className="stat-value">{Math.floor(tokenBalance / 1000)}</div>
-            <div className="stat-sub">🪙 {(tokenBalance % 1000).toLocaleString()} tokens</div>
+            <div className="stat-sub"><TokenIcon size={12} /> {(tokenBalance % 1000).toLocaleString()} tokens</div>
           </div>
           <div className="stat-card">
             <div className="stat-label">Cash Won</div>
@@ -206,7 +207,7 @@ export default function Profile() {
           onClick={() => buyTokensMutation.mutate()}
           disabled={buyTokensMutation.isPending}
         >
-          {buyTokensMutation.isPending ? 'Loading...' : '🪙 Buy 4,000 Tokens — $9.99'}
+          {buyTokensMutation.isPending ? 'Loading...' : <><TokenIcon size={16} /> Buy 4,000 Tokens — $9.99</>}
         </button>
 
         {/* Subscribe upsell / VIP badge */}
