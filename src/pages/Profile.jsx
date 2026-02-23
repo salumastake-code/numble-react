@@ -109,8 +109,9 @@ export default function Profile() {
         {/* Stats */}
         <div className="stats-grid">
           <div className="stat-card">
-            <div className="stat-label">Tokens</div>
-            <div className="stat-value">{tokenBalance}</div>
+            <div className="stat-label">🎟️ Tickets</div>
+            <div className="stat-value">{Math.floor(tokenBalance / 1000)}</div>
+            <div className="stat-sub">🪙 {(tokenBalance % 1000).toLocaleString()} tokens</div>
           </div>
           <div className="stat-card">
             <div className="stat-label">Cash Won</div>
@@ -205,7 +206,7 @@ export default function Profile() {
           onClick={() => buyTokensMutation.mutate()}
           disabled={buyTokensMutation.isPending}
         >
-          {buyTokensMutation.isPending ? 'Loading...' : '🎟 Buy 4 Tokens — $9.99'}
+          {buyTokensMutation.isPending ? 'Loading...' : '🪙 Buy 4,000 Tokens — $9.99'}
         </button>
 
         {/* Subscribe upsell / VIP badge */}
@@ -216,7 +217,7 @@ export default function Profile() {
             disabled={upgradeMutation.isPending}
           >
             <div className="upsell-top">⭐ Subscribe for $12.99/mo</div>
-            <div className="upsell-sub">4 tokens/month · Win up to $1,000 · 20× the prizes</div>
+            <div className="upsell-sub">4 tickets + 1,500 tokens/month · Win up to $1,000 · 20× the prizes</div>
           </button>
         ) : (
           <div className="vip-badge">
@@ -224,7 +225,7 @@ export default function Profile() {
               <span className="vip-star">★</span>
               <div>
                 <div className="vip-title">SUBSCRIBER</div>
-                <div className="vip-sub">4 tokens/month · Up to $1,000 per draw</div>
+                <div className="vip-sub">4 tickets + 1,500 tokens/month · Up to $1,000 per draw</div>
               </div>
             </div>
             <span className="vip-check">✓</span>
@@ -263,7 +264,7 @@ export default function Profile() {
         {!isPaid ? (
           <div className="upgrade-card">
             <div className="upgrade-title">⭐ Go Subscriber</div>
-            <div className="upgrade-desc">4 tokens/month · Up to $1,000 per draw · 20× the prizes</div>
+            <div className="upgrade-desc">4 tickets + 1,500 tokens/month · Up to $1,000 per draw · 20× the prizes</div>
             <button className="btn-upgrade" onClick={() => upgradeMutation.mutate()} disabled={upgradeMutation.isPending}>
               {upgradeMutation.isPending ? 'Loading...' : 'Upgrade — $12.99/month'}
             </button>
