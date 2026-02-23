@@ -208,8 +208,8 @@ export default function Profile() {
           {buyTokensMutation.isPending ? 'Loading...' : '🎟 Buy 4 Tokens — $9.99'}
         </button>
 
-        {/* Subscribe upsell — shown to free users */}
-        {!isPaid && (
+        {/* Subscribe upsell / VIP badge */}
+        {!isPaid ? (
           <button
             className="btn-subscribe-upsell"
             onClick={() => upgradeMutation.mutate()}
@@ -218,6 +218,17 @@ export default function Profile() {
             <div className="upsell-top">⭐ Subscribe for $12.99/mo</div>
             <div className="upsell-sub">4 tokens/month · Win up to $1,000 · 20× the prizes</div>
           </button>
+        ) : (
+          <div className="vip-badge">
+            <div className="vip-badge-left">
+              <span className="vip-star">★</span>
+              <div>
+                <div className="vip-title">SUBSCRIBER</div>
+                <div className="vip-sub">4 tokens/month · Up to $1,000 per draw</div>
+              </div>
+            </div>
+            <span className="vip-check">✓</span>
+          </div>
         )}
 
         {/* Referral card */}
@@ -248,7 +259,7 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Subscription */}
+        {/* Subscription management */}
         {!isPaid ? (
           <div className="upgrade-card">
             <div className="upgrade-title">⭐ Go Subscriber</div>

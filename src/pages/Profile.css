@@ -74,3 +74,39 @@
 .profile-support { text-align: center; font-size: 0.78rem; color: var(--muted); padding-bottom: 8px; }
 .profile-support a { color: var(--accent); text-decoration: none; }
 .profile-support a:hover { text-decoration: underline; }
+
+/* VIP subscriber badge */
+.vip-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f97316, #ec4899, #8b5cf6);
+  border-radius: var(--radius-sm);
+  color: #fff;
+}
+.vip-badge-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.vip-star {
+  font-size: 1.8rem;
+  line-height: 1;
+  opacity: 0.9;
+}
+.vip-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.vip-sub {
+  font-size: 0.75rem;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+.vip-check {
+  font-size: 1.3rem;
+  font-weight: 700;
+  opacity: 0.9;
+}
