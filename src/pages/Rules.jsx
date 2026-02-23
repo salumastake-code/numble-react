@@ -18,57 +18,126 @@ export default function Rules() {
       </div>
 
       <div className="rules-body">
+
         <Section title="No Purchase Necessary">
           <p>No purchase is necessary to enter or win. A purchase does not improve your chances of winning. Void where prohibited.</p>
           <ul>
-            <li>Every registered user receives <strong>1 free entry token per month</strong> at no cost.</li>
-            <li>Each token lets you enter one 3-digit number (000–999) per week.</li>
-            <li>You may submit the same number more than once — each uses one token and counts as a separate entry.</li>
-            <li>Each number has a limited number of slots per draw based on total entries. If your preferred number is full, try a less common pick — or try again soon.</li>
+            <li>Every registered user receives <strong>1 free ticket + 500 tokens per month</strong> at no cost.</li>
+            <li>Each ticket lets you enter one 3-digit number (000–999) for the weekly draw.</li>
             <li>The weekly drawing occurs every Monday at 12:00 AM ET.</li>
             <li>Prize tier is determined by your subscription status at the time of entry.</li>
             <li>Referrers earn a 10% cash bonus when someone they referred wins a cash prize.</li>
           </ul>
         </Section>
 
-        <Section title="Tokens Per Month">
+        <Section title="Tickets & Tokens">
+          <p>Numble uses two currencies:</p>
+          <ul>
+            <li><strong>🎟️ Tickets</strong> — used to enter the weekly draw or spin the wheel. 1 ticket = 1 entry or 1 spin.</li>
+            <li><strong>🪙 Tokens</strong> — earned through gameplay and monthly grants. 1,000 tokens = 1 ticket.</li>
+          </ul>
+          <p className="rules-note">You can exchange tokens for tickets at any time from the Play page.</p>
+
           <table className="rules-table">
-            <thead><tr><th>Plan</th><th>Tokens</th><th>Cost</th></tr></thead>
+            <thead>
+              <tr><th>Plan</th><th>Monthly Tickets</th><th>Monthly Tokens</th><th>Cost</th></tr>
+            </thead>
             <tbody>
-              <tr><td>🆓 Free</td><td>1 free token</td><td>No cost</td></tr>
-              <tr className="gold-row"><td>⭐ Subscriber</td><td>1 free + 3 bonus</td><td>$12.99/mo</td></tr>
+              <tr>
+                <td>🆓 Free</td>
+                <td>1 ticket</td>
+                <td>500 tokens</td>
+                <td>No cost</td>
+              </tr>
+              <tr className="gold-row">
+                <td>⭐ Subscriber</td>
+                <td>4 tickets</td>
+                <td>1,500 tokens</td>
+                <td>$12.99/mo</td>
+              </tr>
             </tbody>
           </table>
+          <p className="rules-note">Subscribers receive their full monthly allocation immediately upon subscribing, then on the 1st of each month.</p>
         </Section>
 
-        <Section title="Prize Tiers">
+        <Section title="Token Pack">
+          <ul>
+            <li>All users can purchase a one-time token pack: <strong>4,000 tokens for $9.99</strong>.</li>
+            <li>4,000 tokens = 4 tickets (or save them up and spin the wheel multiple times).</li>
+          </ul>
+        </Section>
+
+        <Section title="Weekly Draw">
+          <ul>
+            <li>Pick any 3-digit number (000–999) and submit it as your entry for the week.</li>
+            <li>Each number has a limited number of slots per draw to keep it competitive.</li>
+            <li>You may enter more than once using additional tickets — each counts as a separate entry.</li>
+            <li>Draws run every Monday at 12:00 AM ET. Results are revealed when you open the app.</li>
+          </ul>
+
           <table className="rules-table">
-            <thead><tr><th>Result</th><th>🆓 Free</th><th>⭐ Subscriber</th></tr></thead>
+            <thead>
+              <tr><th>Result</th><th>🆓 Free</th><th>⭐ Subscriber</th></tr>
+            </thead>
             <tbody>
               <tr><td>Exact match (all 3 in order)</td><td>$50</td><td className="gold-cell">$1,000</td></tr>
               <tr><td>All 3 correct, wrong order</td><td>$5</td><td className="gold-cell">$100</td></tr>
-              <tr><td>Exactly 2 digits in position</td><td>+1 token</td><td className="gold-cell">+1 token</td></tr>
+              <tr><td>Exactly 2 digits in position</td><td>+1,000 tokens</td><td className="gold-cell">+1,000 tokens</td></tr>
             </tbody>
           </table>
           <p className="rules-note">Subscription status at time of entry determines your prize tier.</p>
         </Section>
 
+        <Section title="Spin the Wheel">
+          <ul>
+            <li>Use 1 ticket (1,000 tokens) to spin the wheel for an instant token prize.</li>
+            <li>Possible outcomes range from BANKRUPT to ⚡ 10,000 tokens.</li>
+            <li>The wheel has a 95% return-to-player (RTP) — meaning on average, you get back 950 tokens per spin.</li>
+            <li>Spin results are determined server-side before the animation plays.</li>
+          </ul>
+
+          <table className="rules-table">
+            <thead><tr><th>Outcome</th><th>Tokens Won</th><th>Probability</th></tr></thead>
+            <tbody>
+              <tr><td>💀 BANKRUPT</td><td>0</td><td>20.00%</td></tr>
+              <tr><td>🔴 Small win</td><td>250</td><td>20.89%</td></tr>
+              <tr><td>🟡 Bronze</td><td>750</td><td>15.60%</td></tr>
+              <tr><td>🟠 Silver</td><td>1,000</td><td>20.30%</td></tr>
+              <tr><td>🟣 Gold</td><td>1,500</td><td>12.00%</td></tr>
+              <tr><td>🔵 Platinum</td><td>2,500</td><td>8.25%</td></tr>
+              <tr><td>🟢 Diamond</td><td>5,000</td><td>2.30%</td></tr>
+              <tr><td>⚡ Jackpot</td><td>10,000</td><td>0.80%</td></tr>
+            </tbody>
+          </table>
+        </Section>
+
         <Section title="Referral Program">
           <ul>
             <li>Share your unique referral code with friends.</li>
-            <li>When someone you referred wins a cash prize, you earn a 10% bonus.</li>
+            <li>When someone you referred wins a cash prize, you earn a <strong>10% bonus</strong>.</li>
             <li>Example: your referral wins $1,000 — you earn $100.</li>
-            <li>Referral bonuses are paid via the same methods as prizes.</li>
+            <li>Referral bonuses accumulate in your balance and are paid via the same methods as prizes.</li>
+            <li>There is no limit to how many people you can refer — bonuses last forever.</li>
+          </ul>
+        </Section>
+
+        <Section title="Payouts">
+          <ul>
+            <li>Cash prizes are paid via PayPal, Venmo, or Cash App.</li>
+            <li>Enter your preferred payout method in your Profile before requesting a withdrawal.</li>
+            <li>Payouts are processed manually within 5 business days.</li>
+            <li>A minimum balance of $5.00 is required to request a payout.</li>
           </ul>
         </Section>
 
         <Section title="Privacy Policy">
-          <p>We collect your email, username, and entry data solely to operate the sweepstakes, determine winners, and process payouts. We do not sell or share your personal data with third parties.</p>
+          <p>We collect your email, username, and entry data solely to operate the sweepstakes, determine winners, and process payouts. We do not sell or share your personal data with third parties. See our full <a href="/privacy" className="rules-link">Privacy Policy</a>.</p>
         </Section>
 
         <Section title="Terms of Use">
-          <p>By using Numble, you agree to play fairly, follow all sweepstakes rules, and confirm you are 18 years of age or older. Automated or unauthorized entry is prohibited.</p>
+          <p>By using Numble, you agree to play fairly, follow all sweepstakes rules, and confirm you are 18 years of age or older. Automated or unauthorized entry is prohibited. See our full <a href="/terms" className="rules-link">Terms of Use</a>.</p>
         </Section>
+
       </div>
     </div>
   );

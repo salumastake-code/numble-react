@@ -11,3 +11,9 @@
 .gold-row td { color: #b45309; font-weight: 600; background: var(--gold-light); }
 .gold-cell { color: #b45309; font-weight: 700; }
 .rules-note { font-size: 0.75rem; color: var(--muted); margin-top: 8px; font-style: italic; }
+
+.rules-link {
+  color: var(--primary, #f97316);
+  font-weight: 600;
+  text-decoration: underline;
+}
