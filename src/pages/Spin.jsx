@@ -124,7 +124,7 @@ export default function Spin() {
 
   async function loadBalance() {
     try {
-      const data = await api('/profile');
+      const data = await api.get('/profile');
       if (data.tokenBalance !== undefined) setTokenBalance(data.tokenBalance);
       if (data.ticketBalance !== undefined && setTicketBalance) setTicketBalance(data.ticketBalance);
     } catch (e) { /* non-fatal */ }
@@ -132,7 +132,7 @@ export default function Spin() {
 
   async function loadHistory() {
     try {
-      const data = await api('/spin/history');
+      const data = await api.get('/spin/history');
       setHistory(data.spins || []);
     } catch (e) {
       // non-fatal
@@ -151,7 +151,7 @@ export default function Spin() {
     setResult(null);
 
     try {
-      const data = await api('/spin', { method: 'POST' });
+      const data = await api.post('/spin');
       const outcomeIndex = data.outcome.index;
 
       // Calculate target rotation:
