@@ -270,18 +270,18 @@
   justify-content: center;
   gap: 5px;
   margin: 0 16px 16px;
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
+  background: #f97316;
+  color: #fff;
+  border: none;
   border-radius: 20px;
   padding: 7px 16px;
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition: opacity 0.15s;
   width: calc(100% - 32px);
 }
-.btn-buy-tokens-slim:hover { border-color: var(--gold); color: var(--text); }
+.btn-buy-tokens-slim:hover { opacity: 0.88; }
 .btn-buy-tokens-slim:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* Entries */
