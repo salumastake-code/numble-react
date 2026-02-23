@@ -82,8 +82,10 @@ export default function Profile() {
   }
 
   function copyRefCode() {
-    navigator.clipboard?.writeText(profile?.referralCode || '').catch(() => {});
-    showToast('Referral code copied!', 'success');
+    const code = profile?.referralCode || '';
+    const link = `https://numble.io/auth?ref=${code}`;
+    navigator.clipboard?.writeText(link).catch(() => {});
+    showToast('Referral link copied!', 'success');
   }
 
   return (
@@ -229,15 +231,16 @@ export default function Profile() {
             </div>
           )}
           <div className="refcode-actions">
-            <button className="btn-refcode-copy" onClick={copyRefCode}>Copy Code</button>
+            <button className="btn-refcode-copy" onClick={copyRefCode}>Copy Link</button>
             <button className="btn-refcode-share" onClick={() => {
               const code = profile?.referralCode || '';
-              const msg = `I've been playing Numble — pick a 3-digit number each week and win real cash. Use my code ${code} when you sign up and I earn 10% of whatever you win, forever. Play free at numble.io`;
+              const link = `https://numble.io/auth?ref=${code}`;
+              const msg = `I've been playing Numble — pick a 3-digit number each week and win real cash. Sign up with my link and I earn 10% of whatever you win, forever. Play free 👇`;
               if (navigator.share) {
-                navigator.share({ title: 'Play Numble', text: msg, url: 'https://numble.io' }).catch(() => {});
+                navigator.share({ title: 'Play Numble', text: msg, url: link }).catch(() => {});
               } else {
-                navigator.clipboard?.writeText(msg).catch(() => {});
-                showToast('Message copied!', 'success');
+                navigator.clipboard?.writeText(`${msg}\n${link}`).catch(() => {});
+                showToast('Referral link copied!', 'success');
               }
             }}>
               Share 🔗

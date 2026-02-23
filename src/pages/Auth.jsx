@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api, setToken } from '../lib/api';
 import { getFingerprint } from '../lib/fingerprint';
 import useStore from '../store/useStore';
@@ -12,6 +12,12 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const { showToast, setToken: storeSetToken } = useStore();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const ref = searchParams.get('ref');
+    if (ref) update('referral', ref);
+  }, []);
 
   const update = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
