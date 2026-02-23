@@ -65,7 +65,7 @@ function WheelCanvas({ rotation }) {
       } else {
         // Coin icon + amount
         ctx.font = 'bold 13px Arial Black, Arial';
-        ctx.fillText(`🪙 ${outcome.label}`, radius - 12, 5);
+        ctx.fillText(`🟡 ${outcome.label}`, radius - 12, 5);
       }
 
       // Lightning bolt for 10k
