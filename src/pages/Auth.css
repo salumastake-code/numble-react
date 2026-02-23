@@ -300,21 +300,19 @@
   margin-bottom: 20px;
 }
 .btn-signin-top {
-  background: rgba(255,255,255,0.9);
-  border: 1.5px solid var(--border);
+  background: #f97316;
+  border: 1.5px solid #f97316;
   border-radius: 20px;
   padding: 8px 18px;
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text);
+  color: #fff;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition: opacity 0.15s;
   white-space: nowrap;
 }
 .btn-signin-top:hover {
-  background: #fff;
-  border-color: var(--primary);
-  color: var(--primary);
+  opacity: 0.88;
 }
 
 .auth-switch-link {
