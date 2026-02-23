@@ -23,7 +23,7 @@ export default function Rules() {
         <Section title="No Purchase Necessary">
           <p>No purchase is necessary to enter or win. A purchase does not improve your chances of winning. Void where prohibited.</p>
           <ul>
-            <li>Every registered user receives <strong>1 free ticket + 500 tokens per month</strong> at no cost.</li>
+            <li>Every registered user receives <strong>1,500 tokens per month</strong> at no cost.</li>
             <li>Each ticket lets you enter one 3-digit number (000–999) for the weekly draw.</li>
             <li>The weekly drawing occurs every Monday at 12:00 AM ET.</li>
             <li>Prize tier is determined by your subscription status at the time of entry.</li>
@@ -41,30 +41,28 @@ export default function Rules() {
 
           <table className="rules-table">
             <thead>
-              <tr><th>Plan</th><th>Monthly Tickets</th><th>Monthly Tokens</th><th>Cost</th></tr>
+              <tr><th>Plan</th><th>Monthly Tokens</th><th>Cost</th></tr>
             </thead>
             <tbody>
               <tr>
                 <td>🆓 Free</td>
-                <td>1 ticket</td>
-                <td>500 tokens</td>
+                <td>1,500 tokens</td>
                 <td>No cost</td>
               </tr>
               <tr className="gold-row">
                 <td>⭐ Subscriber</td>
-                <td>4 tickets</td>
-                <td>1,500 tokens</td>
+                <td>4,500 tokens</td>
                 <td>$12.99/mo</td>
               </tr>
             </tbody>
           </table>
-          <p className="rules-note">Subscribers receive their full monthly allocation immediately upon subscribing, then on the 1st of each month.</p>
+          <p className="rules-note">Exchange 1,000 tokens for 1 ticket anytime. Subscribers receive a 3,000-token bonus immediately upon subscribing, then their full monthly allocation on the 1st of each month.</p>
         </Section>
 
         <Section title="Token Pack">
           <ul>
             <li>All users can purchase a one-time token pack: <strong>4,000 tokens for $9.99</strong>.</li>
-            <li>4,000 tokens = 4 tickets (or save them up and spin the wheel multiple times).</li>
+            <li>4,000 tokens = 4 tickets (or use them to spin the wheel — 1,000 tokens per spin).</li>
           </ul>
         </Section>
 

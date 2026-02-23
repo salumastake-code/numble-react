@@ -170,7 +170,7 @@ export default function Auth() {
                 <div className="how-step"><span className="how-num">2</span><span>Every Monday a winning number is drawn at random.</span></div>
                 <div className="how-step"><span className="how-num">3</span><span>Match the winning number and take home real cash.</span></div>
                 <div className="how-step"><span className="how-num">4</span><span>Free users can win up to $50. Subscribers can win up to $1,000.</span></div>
-                <p className="how-fine">No purchase necessary. Free accounts get 1 ticket + 500 tokens per month.</p>
+                <p className="how-fine">No purchase necessary. Free accounts get 1,500 tokens per month.</p>
               </div>
             )}
             <div className="auth-fields">
@@ -201,12 +201,12 @@ export default function Auth() {
               <button className={`plan-btn ${plan === 'free' ? 'selected' : ''}`} onClick={() => setPlan('free')}>
                 <div className="plan-icon">🆓</div>
                 <div className="plan-name">Free</div>
-                <div className="plan-desc">1 ticket + 500 tokens/mo<br/>Up to $50</div>
+                <div className="plan-desc">1,500 tokens/mo<br/>Up to $50</div>
               </button>
               <button className={`plan-btn ${plan === 'paid' ? 'selected' : ''}`} onClick={() => setPlan('paid')}>
                 <div className="plan-icon">⭐</div>
                 <div className="plan-name gold">Subscriber</div>
-                <div className="plan-desc gold-muted">4 tickets + 1,500 tokens/mo<br/>Up to $1,000</div>
+                <div className="plan-desc gold-muted">4,500 tokens/mo<br/>Up to $1,000</div>
               </button>
             </div>
 
@@ -236,7 +236,7 @@ export default function Auth() {
                 <div className="how-step"><span className="how-num">2</span><span>Every Monday a winning number is drawn at random.</span></div>
                 <div className="how-step"><span className="how-num">3</span><span>Match the winning number and take home real cash.</span></div>
                 <div className="how-step"><span className="how-num">4</span><span>Free users can win up to $50. Subscribers can win up to $1,000.</span></div>
-                <p className="how-fine">No purchase necessary. Free accounts get 1 ticket + 500 tokens per month.</p>
+                <p className="how-fine">No purchase necessary. Free accounts get 1,500 tokens per month.</p>
               </div>
             )}
             <div className="auth-fields">
