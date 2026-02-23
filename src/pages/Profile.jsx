@@ -219,7 +219,7 @@ export default function Profile() {
             disabled={upgradeMutation.isPending}
           >
             <div className="upsell-top">⭐ Subscribe for $12.99/mo</div>
-            <div className="upsell-sub">4,500 tokens/month · Win up to $1,000 · 20× the prizes</div>
+            <div className="upsell-sub">4,500 tokens/month · Subscriber prize tier · Win up to $1,000</div>
           </button>
         ) : (
           <div className="vip-badge">
@@ -266,7 +266,7 @@ export default function Profile() {
         {!isPaid ? (
           <div className="upgrade-card">
             <div className="upgrade-title">⭐ Go Subscriber</div>
-            <div className="upgrade-desc">4,500 tokens/month · Up to $1,000 per draw · 20× the prizes</div>
+            <div className="upgrade-desc">4,500 tokens/month · Subscriber prize tier · Up to $1,000 per draw</div>
             <button className="btn-upgrade" onClick={() => upgradeMutation.mutate()} disabled={upgradeMutation.isPending}>
               {upgradeMutation.isPending ? 'Loading...' : 'Upgrade — $12.99/month'}
             </button>
@@ -279,7 +279,7 @@ export default function Profile() {
               </button>
             ) : (
               <div className="downgrade-confirm">
-                <p>Are you sure? You'll lose your bonus tokens and drop to $50 max prizes.</p>
+                <p>Are you sure? You'll move to the free prize tier ($50 max) and receive 1,500 tokens/month.</p>
                 <div className="downgrade-btns">
                   <button className="btn-cancel-no" onClick={() => setShowDowngradeConfirm(false)}>Keep It</button>
                   <button className="btn-cancel-yes" onClick={() => downgradeMutation.mutate()} disabled={downgradeMutation.isPending}>
