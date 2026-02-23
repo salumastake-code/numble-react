@@ -47,21 +47,21 @@ export default function ExchangeWidget({ ticketBalance, tokenBalance, onSuccess,
 
       <div className="exchange-actions">
         <button
-          className="exchange-btn tokens-to-ticket"
-          onClick={() => exchange('tokens_to_tickets', 1)}
-          disabled={loading || tokenBalance < TOKENS_PER_TICKET}
-          title={tokenBalance < TOKENS_PER_TICKET ? `Need ${TOKENS_PER_TICKET.toLocaleString()} tokens` : ''}
-        >
-          {loading ? '...' : <><TokenIcon size={14} /> 1,000 → 🎟️ 1</>}
-        </button>
-
-        <button
           className="exchange-btn ticket-to-tokens"
           onClick={() => exchange('tickets_to_tokens', 1)}
           disabled={loading || ticketBalance < 1}
           title={ticketBalance < 1 ? 'No tickets to exchange' : ''}
         >
-          {loading ? '...' : <>🎟️ 1 → <TokenIcon size={14} /> 1,000</>}
+          {loading ? '...' : <>🎟️ 1 →</>}
+        </button>
+
+        <button
+          className="exchange-btn tokens-to-ticket"
+          onClick={() => exchange('tokens_to_tickets', 1)}
+          disabled={loading || tokenBalance < TOKENS_PER_TICKET}
+          title={tokenBalance < TOKENS_PER_TICKET ? `Need ${TOKENS_PER_TICKET.toLocaleString()} tokens` : ''}
+        >
+          {loading ? '...' : <>← <TokenIcon size={14} /> 1,000</>}
         </button>
       </div>
     </div>
