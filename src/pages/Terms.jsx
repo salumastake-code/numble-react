@@ -14,14 +14,16 @@ export default function Terms() {
       </ul>
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>No Purchase Necessary</h2>
-      <p>No purchase is necessary to enter or win. Free users receive one entry token per month. A subscription ($12.99/month) provides additional tokens and higher prize tiers. Token packs may also be purchased separately.</p>
+      <p>No purchase is necessary to enter or win. Every registered user receives 1 free ticket and 500 tokens per month at no cost. A subscription ($12.99/month) provides 4 tickets and 1,500 tokens per month, plus access to higher prize tiers. Token packs (4,000 tokens for $9.99) may also be purchased separately. 1 ticket = 1,000 tokens.</p>
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>How It Works</h2>
       <ul>
-        <li>Each week, a 3-digit winning number (000–999) is drawn at random.</li>
-        <li>Players who entered the winning number split the prize pool equally.</li>
-        <li>If no one picks the winning number, the prize rolls over to the next week.</li>
-        <li>Prizes are paid out via PayPal, Venmo, or Cash App within 7 business days.</li>
+        <li>Each week, a 3-digit winning number (000–999) is drawn at random every Monday at 12:00 AM ET.</li>
+        <li>Use a ticket to enter your chosen number. Each ticket = one entry.</li>
+        <li>Prizes are fixed — exact match wins $50 (free) or $1,000 (subscriber). All 3 digits correct, wrong order wins $5 (free) or $100 (subscriber).</li>
+        <li>Prizes are paid out via PayPal, Venmo, or Cash App within 5 business days.</li>
+        <li>Use the Spin Wheel feature to spend tickets for instant token prizes (95% RTP).</li>
+        <li>Tokens can be exchanged for tickets at any time — 1,000 tokens = 1 ticket.</li>
       </ul>
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>Account Rules</h2>
@@ -33,10 +35,12 @@ export default function Terms() {
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>Prizes & Payouts</h2>
       <ul>
-        <li>Prize amounts are determined by the number of paying subscribers each week.</li>
-        <li>Winners must provide a valid payout method to claim prizes.</li>
-        <li>Unclaimed prizes after 30 days are forfeited and added to the next week's pool.</li>
+        <li>Prize amounts are fixed based on subscription tier at time of entry (see Rules page for full prize table).</li>
+        <li>Winners must provide a valid payout method (PayPal, Venmo, or Cash App) to claim prizes.</li>
+        <li>Unclaimed prizes after 30 days are forfeited.</li>
+        <li>A minimum balance of $5.00 is required to request a payout.</li>
         <li>Numble reserves the right to withhold prizes in cases of suspected fraud.</li>
+        <li>Referral bonuses (10% of referred user's cash winnings) are paid alongside regular prize payouts.</li>
       </ul>
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>Subscriptions & Refunds</h2>
