@@ -131,8 +131,8 @@ export default function Spin() {
 
   async function handleSpin() {
     if (spinning) return;
-    if (tokenBalance < 1) {
-      showToast('Not enough tokens! Buy more or subscribe.', 'error');
+    if (tokenBalance < 1000) {
+      showToast('Not enough tokens! You need 1,000 tokens to spin.', 'error');
       return;
     }
 
@@ -217,12 +217,12 @@ export default function Spin() {
       <button
         className={`spin-btn ${spinning ? 'spinning' : ''}`}
         onClick={handleSpin}
-        disabled={spinning || tokenBalance < 1}
+        disabled={spinning || tokenBalance < 1000}
       >
-        {spinning ? 'Spinning...' : 'SPIN  —  1 🪙'}
+        {spinning ? 'Spinning...' : 'SPIN  —  1,000 🪙'}
       </button>
 
-      {tokenBalance < 1 && (
+      {tokenBalance < 1000 && (
         <p className="spin-no-tokens">
           You need tokens to spin.{' '}
           <span className="spin-link" onClick={() => navigate('/profile')}>
