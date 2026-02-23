@@ -67,6 +67,32 @@
   background: var(--grad);
 }
 
+/* Exchange bar */
+.exchange-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 16px;
+  padding: 10px 16px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #c2410c;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.exchange-bar:hover {
+  background: #ffedd5;
+}
+
+.exchange-cta {
+  font-weight: 700;
+  color: #f97316;
+}
+
 /* Countdown */
 .countdown-card {
   margin: 16px;

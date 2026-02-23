@@ -144,11 +144,24 @@ export default function Play() {
         <div className="play-meta">
           <span className="tier-badge">{user?.subscriptionStatus === 'paid' ? '⭐ SUBSCRIBER' : 'FREE'}</span>
           <span className="token-badge">
-            <span className="token-dot" />
-            {tokenBalance} token{tokenBalance !== 1 ? 's' : ''}
+            🎟️ {Math.floor(tokenBalance / 1000)} &nbsp;|&nbsp; 🪙 {(tokenBalance % 1000).toLocaleString()}
           </span>
         </div>
       </div>
+
+      {/* Exchange bar — shown when user has 1,000+ tokens */}
+      {tokenBalance >= 1000 && (
+        <div className="exchange-bar" onClick={async () => {
+          try {
+            const data = await api('/profile/exchange', { method: 'POST', body: JSON.stringify({ tickets: 1 }) });
+            showToast('🎟️ 1 ticket purchased!', 'success');
+            qc.invalidateQueries(['current-draw']);
+          } catch (e) { showToast(e.message || 'Exchange failed', 'error'); }
+        }}>
+          <span>🪙 1,000 tokens → 🎟️ 1 ticket</span>
+          <span className="exchange-cta">Exchange →</span>
+        </div>
+      )}
 
       {/* Countdown */}
       <div className="countdown-card">
@@ -206,7 +219,7 @@ export default function Play() {
           onClick={() => buyTokensMutation.mutate()}
           disabled={buyTokensMutation.isPending}
         >
-          {buyTokensMutation.isPending ? 'Loading...' : '🎟 Buy 4 Tokens — $9.99'}
+          {buyTokensMutation.isPending ? 'Loading...' : '🪙 Buy 4,000 Tokens — $9.99'}
         </button>
       )}
 
