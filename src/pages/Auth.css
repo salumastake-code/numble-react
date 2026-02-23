@@ -221,3 +221,72 @@
 .forgot-link:hover {
   text-decoration: underline;
 }
+
+/* How it works expandable */
+.how-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 16px;
+  background: #f9f6f2;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  margin-bottom: 4px;
+  text-align: left;
+}
+.how-toggle:hover {
+  border-color: var(--primary);
+  background: #fff8f3;
+}
+.how-arrow {
+  font-size: 1rem;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.how-arrow.open {
+  transform: rotate(180deg);
+}
+.how-content {
+  background: #f9f6f2;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.how-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: #444;
+  line-height: 1.5;
+}
+.how-num {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.how-fine {
+  font-size: 0.78rem;
+  color: #999;
+  margin: 4px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}

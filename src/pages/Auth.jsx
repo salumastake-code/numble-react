@@ -21,6 +21,7 @@ export default function Auth() {
   const [form, setForm] = useState({ email: '', nickname: '', password: '', referral: '' });
   const [loading, setLoading] = useState(false);
   const [forgotSent, setForgotSent] = useState(false);
+  const [howOpen, setHowOpen] = useState(false);
   const { showToast, setToken: storeSetToken } = useStore();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -142,6 +143,19 @@ export default function Auth() {
       <div className="auth-card">
         {mode === 'register' ? (
           <>
+            <button className="how-toggle" onClick={() => setHowOpen(o => !o)} type="button">
+              <span>How does it work?</span>
+              <span className={`how-arrow ${howOpen ? 'open' : ''}`}>▾</span>
+            </button>
+            {howOpen && (
+              <div className="how-content">
+                <div className="how-step"><span className="how-num">1</span><span>Pick any 3-digit number (000–999) each week using a token.</span></div>
+                <div className="how-step"><span className="how-num">2</span><span>Every Monday a winning number is drawn at random.</span></div>
+                <div className="how-step"><span className="how-num">3</span><span>If your number wins, you split the cash prize with other winners.</span></div>
+                <div className="how-step"><span className="how-num">4</span><span>Free users can win up to $50. Subscribers can win up to $1,000.</span></div>
+                <p className="how-fine">No purchase necessary. Free accounts get 1 token per month.</p>
+              </div>
+            )}
             <div className="auth-fields">
               <div className="field-group">
                 <label>Email</label>
@@ -194,6 +208,19 @@ export default function Auth() {
           </>
         ) : (
           <>
+            <button className="how-toggle" onClick={() => setHowOpen(o => !o)} type="button">
+              <span>How does it work?</span>
+              <span className={`how-arrow ${howOpen ? 'open' : ''}`}>▾</span>
+            </button>
+            {howOpen && (
+              <div className="how-content">
+                <div className="how-step"><span className="how-num">1</span><span>Pick any 3-digit number (000–999) each week using a token.</span></div>
+                <div className="how-step"><span className="how-num">2</span><span>Every Monday a winning number is drawn at random.</span></div>
+                <div className="how-step"><span className="how-num">3</span><span>If your number wins, you split the cash prize with other winners.</span></div>
+                <div className="how-step"><span className="how-num">4</span><span>Free users can win up to $50. Subscribers can win up to $1,000.</span></div>
+                <p className="how-fine">No purchase necessary. Free accounts get 1 token per month.</p>
+              </div>
+            )}
             <div className="auth-fields">
               <div className="field-group">
                 <label>Email</label>
