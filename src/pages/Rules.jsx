@@ -1,3 +1,4 @@
+import TokenIcon from '../components/TokenIcon';
 import './Rules.css';
 
 function Section({ title, children }) {
@@ -34,7 +35,7 @@ export default function Rules() {
           <p>Numble uses two currencies:</p>
           <ul>
             <li><strong>🎟️ Tickets</strong> — used to enter the weekly draw or spin the wheel. 1 ticket = 1 entry or 1 spin.</li>
-            <li><strong>🪙 Tokens</strong> — earned through gameplay and monthly grants. 1,000 tokens = 1 ticket.</li>
+            <li><strong><TokenIcon size={15} /> Tokens</strong> — earned through gameplay and monthly grants. 1,000 tokens = 1 ticket.</li>
           </ul>
           <p className="rules-note">You can exchange tokens for tickets at any time from the Play page.</p>
 

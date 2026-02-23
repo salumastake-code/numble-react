@@ -19,7 +19,7 @@ export default function ExchangeWidget({ tokenBalance, onSuccess, showToast }) {
       if (direction === 'tokens_to_tickets') {
         showToast(`🎟️ ${amount} ticket${amount > 1 ? 's' : ''} added!`, 'success');
       } else {
-        showToast(`🪙 ${(amount * TOKENS_PER_TICKET).toLocaleString()} tokens restored!`, 'success');
+        showToast(`# ${(amount * TOKENS_PER_TICKET).toLocaleString()} tokens restored!`, 'success');
       }
     } catch (e) {
       showToast(e.message || 'Exchange failed', 'error');
