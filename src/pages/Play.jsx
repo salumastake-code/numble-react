@@ -153,8 +153,8 @@ export default function Play() {
       {tokenBalance >= 1000 && (
         <div className="exchange-bar" onClick={async () => {
           try {
-            const data = await api('/profile/exchange', { method: 'POST', body: JSON.stringify({ tickets: 1 }) });
-            showToast('🎟️ 1 ticket purchased!', 'success');
+            await api.post('/profile/exchange', { tickets: 1 });
+            showToast('🎟️ 1 ticket added!', 'success');
             qc.invalidateQueries(['current-draw']);
           } catch (e) { showToast(e.message || 'Exchange failed', 'error'); }
         }}>
