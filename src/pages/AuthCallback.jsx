@@ -29,24 +29,40 @@ export default function AuthCallback() {
       const hash = window.location.hash;
       const query = window.location.search;
 
+      // Check for error params first (e.g. duplicate email conflict)
+      const hashParams = new URLSearchParams(hash.replace('#', ''));
+      const queryParams = new URLSearchParams(query);
+      const errorCode = hashParams.get('error_code') || queryParams.get('error_code');
+      const errorDesc = hashParams.get('error_description') || queryParams.get('error_description');
+
+      if (errorCode) {
+        // Duplicate email: user already has an account with email+password
+        if (errorCode === 'identity_already_exists' || errorCode === 'email_exists' ||
+            (errorDesc && errorDesc.toLowerCase().includes('already'))) {
+          showToast('An account with this email already exists. Sign in with your password instead.', 'error');
+        } else {
+          showToast('Google sign-in failed. Please try again.', 'error');
+        }
+        navigate('/auth');
+        return;
+      }
+
       let accessToken = null;
       let refreshToken = null;
 
       // Try hash first (post-PKCE exchange redirect)
       if (hash) {
-        const params = new URLSearchParams(hash.replace('#', ''));
-        accessToken = params.get('access_token');
-        refreshToken = params.get('refresh_token');
+        accessToken = hashParams.get('access_token');
+        refreshToken = hashParams.get('refresh_token');
       }
 
       // Try query params as fallback
       if (!accessToken && query) {
-        const params = new URLSearchParams(query);
-        accessToken = params.get('access_token');
-        refreshToken = params.get('refresh_token');
+        accessToken = queryParams.get('access_token');
+        refreshToken = queryParams.get('refresh_token');
 
         // If there's a code param, exchange it
-        const code = params.get('code');
+        const code = queryParams.get('code');
         if (!accessToken && code) {
           // Exchange code via Supabase
           const exchRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=pkce`, {
