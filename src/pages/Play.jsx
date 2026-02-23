@@ -203,6 +203,15 @@ export default function Play() {
         {submitMutation.isPending ? 'SUBMITTING...' : 'SUBMIT ENTRY'}
       </button>
 
+      {/* Buy More Tokens — slim button, always visible, below submit */}
+      <button
+        className="btn-buy-tokens-slim"
+        onClick={() => buyTokensMutation.mutate()}
+        disabled={buyTokensMutation.isPending}
+      >
+        {buyTokensMutation.isPending ? 'Loading...' : <><TokenIcon size={13} /> Buy More Tokens — 3,500 for $9.99</>}
+      </button>
+
       {/* How it works explainer — shown before first entry */}
       {entries.length === 0 && tokenBalance > 0 && (
         <div className="play-explainer">
@@ -211,15 +220,6 @@ export default function Play() {
           <div className="play-explainer-row"><span className="play-explainer-icon">🎁</span><span>Refer friends and earn 10% of their winnings — forever.</span></div>
         </div>
       )}
-
-      {/* Buy tokens — always visible slim button */}
-      <button
-        className="btn-buy-tokens-slim"
-        onClick={() => buyTokensMutation.mutate()}
-        disabled={buyTokensMutation.isPending}
-      >
-        {buyTokensMutation.isPending ? 'Loading...' : <><TokenIcon size={13} /> Buy 3,500 Tokens — $9.99</>}
-      </button>
 
       {/* Referral nudge — shown after first entry */}
       {entries.length > 0 && user?.referralCode && (
