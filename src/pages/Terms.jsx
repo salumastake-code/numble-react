@@ -14,7 +14,7 @@ export default function Terms() {
       </ul>
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>No Purchase Necessary</h2>
-      <p>No purchase is necessary to enter or win. Every registered user receives 1,500 tokens per month at no cost. A subscription ($12.99/month) provides 4,500 tokens per month, plus access to the subscriber prize tier. Token packs (4,000 tokens for $9.99) may also be purchased separately. 1,000 tokens = 1 ticket = 1 draw entry.</p>
+      <p>No purchase is necessary to enter or win. Every registered user receives 1,500 tokens per month at no cost. A subscription ($12.99/month) provides 3,500 tokens per month, plus access to the subscriber prize tier. Token packs (3,500 tokens for $9.99) may also be purchased separately. 1,000 tokens = 1 ticket = 1 draw entry.</p>
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>How It Works</h2>
       <ul>

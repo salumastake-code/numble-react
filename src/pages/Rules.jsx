@@ -51,18 +51,18 @@ export default function Rules() {
               </tr>
               <tr className="gold-row">
                 <td>⭐ Subscriber</td>
-                <td>4,500 tokens</td>
+                <td>3,500 tokens</td>
                 <td>$12.99/mo</td>
               </tr>
             </tbody>
           </table>
-          <p className="rules-note">Exchange 1,000 tokens for 1 ticket anytime. Subscribers receive a 3,000-token bonus immediately upon subscribing, then their full monthly allocation on the 1st of each month.</p>
+          <p className="rules-note">Exchange 1,000 tokens for 1 ticket anytime. Subscribers receive a 2,000-token bonus immediately upon subscribing, then their full monthly allocation on the 1st of each month.</p>
         </Section>
 
         <Section title="Token Pack">
           <ul>
-            <li>All users can purchase a one-time token pack: <strong>4,000 tokens for $9.99</strong>.</li>
-            <li>4,000 tokens = 4 tickets (or use them to spin the wheel — 1,000 tokens per spin).</li>
+            <li>All users can purchase a one-time token pack: <strong>3,500 tokens for $9.99</strong>.</li>
+            <li>3,500 tokens = 3 tickets (or use them to spin the wheel — 1,000 tokens per spin).</li>
           </ul>
         </Section>
 
