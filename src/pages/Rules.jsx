@@ -81,7 +81,8 @@ export default function Rules() {
             <tbody>
               <tr><td>Exact match (all 3 in order)</td><td>$50</td><td className="gold-cell">$1,000</td></tr>
               <tr><td>All 3 correct, wrong order</td><td>$5</td><td className="gold-cell">$100</td></tr>
-              <tr><td>Exactly 2 digits in position</td><td>+1,000 tokens</td><td className="gold-cell">+1,000 tokens</td></tr>
+              <tr><td>Exactly 2 digits in position</td><td colSpan="2" style={{textAlign:'center'}}>+1,500 tokens</td></tr>
+              <tr><td>Exactly 1 digit in position</td><td colSpan="2" style={{textAlign:'center'}}>+500 tokens</td></tr>
             </tbody>
           </table>
           <p className="rules-note">Subscription status at time of entry determines your prize tier.</p>
@@ -89,9 +90,9 @@ export default function Rules() {
 
         <Section title="Spin the Wheel">
           <ul>
-            <li>Use 1 ticket (1,000 tokens) to spin the wheel for an instant token prize.</li>
-            <li>Possible outcomes range from BANKRUPT to ⚡ 10,000 tokens.</li>
-            <li>The wheel has a <strong>95% return-to-player (RTP)</strong> — on average, you get back 950 tokens per spin.</li>
+            <li>Spend 1,000 tokens to spin the wheel for an instant token prize.</li>
+            <li>Possible outcomes range from 0 (Bankrupt) to 10,000 tokens.</li>
+            <li>The wheel has a <strong>92.875% return-to-player (RTP)</strong> — on average, you get back ~929 tokens per spin.</li>
             <li>Spin results are determined server-side before the animation plays.</li>
           </ul>
         </Section>

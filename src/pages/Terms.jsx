@@ -14,7 +14,7 @@ export default function Terms() {
       </ul>
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>No Purchase Necessary</h2>
-      <p>No purchase is necessary to enter or win. Every registered user receives 1 free ticket and 500 tokens per month at no cost. A subscription ($12.99/month) provides 4 tickets and 1,500 tokens per month, plus access to higher prize tiers. Token packs (4,000 tokens for $9.99) may also be purchased separately. 1 ticket = 1,000 tokens.</p>
+      <p>No purchase is necessary to enter or win. Every registered user receives 1,500 tokens per month at no cost. A subscription ($12.99/month) provides 4,500 tokens per month, plus access to the subscriber prize tier. Token packs (4,000 tokens for $9.99) may also be purchased separately. 1,000 tokens = 1 ticket = 1 draw entry.</p>
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>How It Works</h2>
       <ul>
@@ -22,7 +22,7 @@ export default function Terms() {
         <li>Use a ticket to enter your chosen number. Each ticket = one entry.</li>
         <li>Prizes are fixed — exact match wins $50 (free) or $1,000 (subscriber). All 3 digits correct, wrong order wins $5 (free) or $100 (subscriber).</li>
         <li>Prizes are paid out via PayPal, Venmo, or Cash App within 5 business days.</li>
-        <li>Use the Spin Wheel feature to spend tickets for instant token prizes (95% RTP).</li>
+        <li>Use the Spin Wheel feature to spend 1,000 tokens for instant token prizes (92.875% RTP).</li>
         <li>Tokens can be exchanged for tickets at any time — 1,000 tokens = 1 ticket.</li>
       </ul>
 
