@@ -1,4 +1,11 @@
 const API = 'https://api.numble.io';
+const SUPABASE_URL = 'https://jzbjcjgcvcsitmtnfuhq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6YmpjamdjdmNzaXRtdG5mdWhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NDAzNzMsImV4cCI6MjA4NzExNjM3M30.O_1kIEHn5MhO4ERfbYpbHFaBzPDJ0hmzJi3JPSB9kJ4';
+
+async function signInWithGoogle() {
+  const redirectTo = `${window.location.origin}/auth/callback`;
+  window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}`;
+}
 
 function getToken() { return localStorage.getItem('numble_token'); }
 function setToken(t) { localStorage.setItem('numble_token', t); }
@@ -51,4 +58,4 @@ export const api = {
   patch: (path, body) => request('PATCH', path, body),
 };
 
-export { getToken, setToken, setRefresh, clearAuth };
+export { getToken, setToken, setRefresh, clearAuth, signInWithGoogle };

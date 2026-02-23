@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getToken } from './lib/api';
 import Auth from './pages/Auth';
+import AuthCallback from './pages/AuthCallback';
 import Play from './pages/Play';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
@@ -41,6 +42,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<Auth />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/play" element={<PrivateRoute><AppLayout><Play /></AppLayout></PrivateRoute>} />
           <Route path="/leaderboard" element={<PrivateRoute><AppLayout><Leaderboard /></AppLayout></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><AppLayout><Profile /></AppLayout></PrivateRoute>} />
