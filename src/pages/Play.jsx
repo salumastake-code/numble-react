@@ -74,6 +74,7 @@ export default function Play() {
   const draw = data?.draw;
   const entries = data?.userEntries || [];
   const tokenBalance = data?.tokenBalance ?? 0;
+  const ticketBalance = data?.ticketBalance ?? 0;
   const user = data?.user;
   const { time, week } = useCountdown(draw);
 
@@ -134,7 +135,7 @@ export default function Play() {
   function del() { setInput(p => p.slice(0, -1)); }
   function clear() { setInput(''); }
 
-  const canSubmit = input.length === 3 && tokenBalance > 0 && !submitMutation.isPending;
+  const canSubmit = input.length === 3 && ticketBalance > 0 && !submitMutation.isPending;
 
   return (
     <div className="play-page">
@@ -146,13 +147,14 @@ export default function Play() {
         <div className="play-meta">
           <span className="tier-badge">{user?.subscriptionStatus === 'paid' ? '⭐ SUBSCRIBER' : 'FREE'}</span>
           <span className="token-badge">
-            🎟️ {Math.floor(tokenBalance / 1000)} &nbsp;|&nbsp; <TokenIcon size={14} /> {(tokenBalance % 1000).toLocaleString()}
+            🎟️ {ticketBalance} &nbsp;|&nbsp; <TokenIcon size={14} /> {tokenBalance.toLocaleString()}
           </span>
         </div>
       </div>
 
       {/* Exchange widget — always visible */}
       <ExchangeWidget
+        ticketBalance={ticketBalance}
         tokenBalance={tokenBalance}
         showToast={showToast}
         onSuccess={() => {

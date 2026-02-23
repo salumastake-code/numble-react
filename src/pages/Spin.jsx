@@ -108,7 +108,7 @@ function WheelCanvas({ rotation }) {
 
 export default function Spin() {
   const navigate = useNavigate();
-  const { tokenBalance, setTokenBalance, showToast } = useStore();
+  const { tokenBalance, ticketBalance, setTokenBalance, setTicketBalance, showToast } = useStore();
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState(null);
@@ -132,8 +132,8 @@ export default function Spin() {
 
   async function handleSpin() {
     if (spinning) return;
-    if (tokenBalance < 1000) {
-      showToast('Not enough tokens! You need 1,000 tokens to spin.', 'error');
+    if (ticketBalance < 1) {
+      showToast('You need a ticket to spin!', 'error');
       return;
     }
 
@@ -179,7 +179,8 @@ export default function Spin() {
           rotationRef.current = finalRotation % 360;
           setRotation(finalRotation % 360);
           setResult(data.outcome);
-          setTokenBalance(data.token_balance);
+          setTokenBalance(data.token_balance ?? 0);
+          if (setTicketBalance) setTicketBalance(data.ticket_balance ?? 0);
           setShowResult(true);
           setSpinning(false);
           loadHistory();
@@ -218,12 +219,12 @@ export default function Spin() {
       <button
         className={`spin-btn ${spinning ? 'spinning' : ''}`}
         onClick={handleSpin}
-        disabled={spinning || tokenBalance < 1000}
+        disabled={spinning || ticketBalance < 1}
       >
-        {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — 1,000 <TokenIcon size={18} /></span>}
+        {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — 1 🎟️</span>}
       </button>
 
-      {tokenBalance < 1000 && (
+      {ticketBalance < 1 && (
         <p className="spin-no-tokens">
           You need tokens to spin.{' '}
           <span className="spin-link" onClick={() => navigate('/profile')}>

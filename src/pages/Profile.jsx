@@ -46,6 +46,7 @@ export default function Profile() {
 
   const profile = data?.profile;
   const tokenBalance = data?.tokenBalance ?? 0;
+  const ticketBalance = data?.ticketBalance ?? 0;
   const isPaid = profile?.subscriptionStatus === 'paid';
   const cashBalance = balanceData?.unpaidCash ?? 0;
   const totalEarned = balanceData?.totalEarnedCash ?? 0;
@@ -111,8 +112,8 @@ export default function Profile() {
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-label">🎟️ Tickets</div>
-            <div className="stat-value">{Math.floor(tokenBalance / 1000)}</div>
-            <div className="stat-sub"><TokenIcon size={12} /> {(tokenBalance % 1000).toLocaleString()} tokens</div>
+            <div className="stat-value">{ticketBalance}</div>
+            <div className="stat-sub"><TokenIcon size={12} /> {tokenBalance.toLocaleString()} tokens</div>
           </div>
           <div className="stat-card">
             <div className="stat-label">Cash Won</div>

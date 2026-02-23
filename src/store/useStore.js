@@ -20,7 +20,9 @@ const useStore = create((set) => ({
 
   // Token balance
   tokenBalance: 0,
+  ticketBalance: 0,
   setTokenBalance: (tokenBalance) => set({ tokenBalance }),
+  setTicketBalance: (ticketBalance) => set({ ticketBalance }),
 
   // Leaderboard
   leaderboard: [],
