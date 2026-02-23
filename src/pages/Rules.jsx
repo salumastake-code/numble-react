@@ -92,23 +92,9 @@ export default function Rules() {
           <ul>
             <li>Use 1 ticket (1,000 tokens) to spin the wheel for an instant token prize.</li>
             <li>Possible outcomes range from BANKRUPT to ⚡ 10,000 tokens.</li>
-            <li>The wheel has a 95% return-to-player (RTP) — meaning on average, you get back 950 tokens per spin.</li>
+            <li>The wheel has a <strong>95% return-to-player (RTP)</strong> — on average, you get back 950 tokens per spin.</li>
             <li>Spin results are determined server-side before the animation plays.</li>
           </ul>
-
-          <table className="rules-table">
-            <thead><tr><th>Outcome</th><th>Tokens Won</th><th>Probability</th></tr></thead>
-            <tbody>
-              <tr><td>💀 BANKRUPT</td><td>0</td><td>20.00%</td></tr>
-              <tr><td>🔴 Small win</td><td>250</td><td>20.89%</td></tr>
-              <tr><td>🟡 Bronze</td><td>750</td><td>15.60%</td></tr>
-              <tr><td>🟠 Silver</td><td>1,000</td><td>20.30%</td></tr>
-              <tr><td>🟣 Gold</td><td>1,500</td><td>12.00%</td></tr>
-              <tr><td>🔵 Platinum</td><td>2,500</td><td>8.25%</td></tr>
-              <tr><td>🟢 Diamond</td><td>5,000</td><td>2.30%</td></tr>
-              <tr><td>⚡ Jackpot</td><td>10,000</td><td>0.80%</td></tr>
-            </tbody>
-          </table>
         </Section>
 
         <Section title="Referral Program">
