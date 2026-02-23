@@ -5,6 +5,26 @@ import useStore from '../store/useStore';
 import BalloonReveal from '../components/BalloonReveal';
 import './Play.css';
 
+function ExchangeBar({ onExchange, showToast }) {
+  const [loading, setLoading] = useState(false);
+  return (
+    <div className={`exchange-bar ${loading ? 'loading' : ''}`} onClick={async () => {
+      if (loading) return;
+      setLoading(true);
+      try {
+        await onExchange();
+      } catch (e) {
+        showToast(e.message || 'Exchange failed', 'error');
+      } finally {
+        setLoading(false);
+      }
+    }}>
+      <span>🪙 1,000 tokens → 🎟️ 1 ticket</span>
+      <span className="exchange-cta">{loading ? 'Processing...' : 'Exchange →'}</span>
+    </div>
+  );
+}
+
 function useBuyTokens(showToast) {
   return useMutation({
     mutationFn: () => api.post('/stripe/buy-tokens'),
@@ -151,16 +171,12 @@ export default function Play() {
 
       {/* Exchange bar — shown when user has 1,000+ tokens */}
       {tokenBalance >= 1000 && (
-        <div className="exchange-bar" onClick={async () => {
-          try {
-            await api.post('/profile/exchange', { tickets: 1 });
-            showToast('🎟️ 1 ticket added!', 'success');
-            qc.invalidateQueries(['current-draw']);
-          } catch (e) { showToast(e.message || 'Exchange failed', 'error'); }
-        }}>
-          <span>🪙 1,000 tokens → 🎟️ 1 ticket</span>
-          <span className="exchange-cta">Exchange →</span>
-        </div>
+        <ExchangeBar onExchange={async () => {
+          await api.post('/profile/exchange', { tickets: 1 });
+          await qc.invalidateQueries(['current-draw']);
+          await qc.refetchQueries(['current-draw']);
+          showToast('🎟️ 1 ticket added!', 'success');
+        }} showToast={showToast} />
       )}
 
       {/* Countdown */}
