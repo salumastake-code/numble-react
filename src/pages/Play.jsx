@@ -169,7 +169,7 @@ export default function Play() {
         </div>
       </div>
 
-      {/* Exchange bar — shown when user has 1,000+ tokens */}
+      {/* Exchange bar — shown when total balance >= 1,000 tokens */}
       {tokenBalance >= 1000 && (
         <ExchangeBar onExchange={async () => {
           await api.post('/profile/exchange', { tickets: 1 });
