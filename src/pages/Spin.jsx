@@ -119,7 +119,16 @@ export default function Spin() {
 
   useEffect(() => {
     loadHistory();
+    loadBalance();
   }, []);
+
+  async function loadBalance() {
+    try {
+      const data = await api('/profile');
+      if (data.tokenBalance !== undefined) setTokenBalance(data.tokenBalance);
+      if (data.ticketBalance !== undefined && setTicketBalance) setTicketBalance(data.ticketBalance);
+    } catch (e) { /* non-fatal */ }
+  }
 
   async function loadHistory() {
     try {
@@ -132,8 +141,8 @@ export default function Spin() {
 
   async function handleSpin() {
     if (spinning) return;
-    if (ticketBalance < 1) {
-      showToast('You need a ticket to spin!', 'error');
+    if (tokenBalance < 1000) {
+      showToast('You need 1,000 tokens to spin!', 'error');
       return;
     }
 
@@ -219,14 +228,14 @@ export default function Spin() {
       <button
         className={`spin-btn ${spinning ? 'spinning' : ''}`}
         onClick={handleSpin}
-        disabled={spinning || ticketBalance < 1}
+        disabled={spinning || tokenBalance < 1000}
       >
-        {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — 1 🎟️</span>}
+        {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — <TokenIcon size={14} /> 1,000</span>}
       </button>
 
-      {ticketBalance < 1 && (
+      {tokenBalance < 1000 && (
         <p className="spin-no-tokens">
-          You need tokens to spin.{' '}
+          You need 1,000 tokens to spin.{' '}
           <span className="spin-link" onClick={() => navigate('/profile')}>
             Get more →
           </span>
