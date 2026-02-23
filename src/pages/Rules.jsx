@@ -34,8 +34,8 @@ export default function Rules() {
         <Section title="Tickets & Tokens">
           <p>Numble uses two currencies:</p>
           <ul>
-            <li><strong>🎟️ Tickets</strong> — used to enter the weekly draw or spin the wheel. 1 ticket = 1 entry or 1 spin.</li>
-            <li><strong><TokenIcon size={15} /> Tokens</strong> — earned through gameplay and monthly grants. 1,000 tokens = 1 ticket.</li>
+            <li><strong>🎟️ Tickets</strong> — used to enter the weekly draw or spin the wheel. 1 ticket = 1,000 tokens = 1 entry or 1 spin.</li>
+            <li><strong><TokenIcon size={15} /> Tokens</strong> — earned through monthly grants and gameplay. Exchange 1,000 tokens for 1 ticket anytime.</li>
           </ul>
           <p className="rules-note">You can exchange tokens for tickets at any time from the Play page.</p>
 
@@ -70,7 +70,7 @@ export default function Rules() {
           <ul>
             <li>Pick any 3-digit number (000–999) and submit it as your entry for the week.</li>
             <li>Each number has a limited number of slots per draw to keep it competitive.</li>
-            <li>You may enter more than once using additional tickets — each counts as a separate entry.</li>
+            <li>You may enter more than once — each entry costs 1,000 tokens and counts separately.</li>
             <li>Draws run every Monday at 12:00 AM ET. Results are revealed when you open the app.</li>
           </ul>
 
