@@ -221,6 +221,8 @@ export default function Auth() {
             </button>
 
             <p className="auth-legal">By continuing you agree to our <a href="/terms" target="_blank" rel="noopener">Terms of Use</a> and <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>. You must be 18 or older.</p>
+
+            <p className="auth-switch-link">Already have an account? <a href="#" onClick={e => { e.preventDefault(); setMode('login'); }}>Sign in</a></p>
           </>
         ) : (
           <>
@@ -263,6 +265,7 @@ export default function Auth() {
               {GOOGLE_ICON} Continue with Google
             </button>
 
+            <p className="auth-switch-link">Don't have an account? <a href="#" onClick={e => { e.preventDefault(); setMode('register'); }}>Create one</a></p>
           </>
         )}
       </div>
