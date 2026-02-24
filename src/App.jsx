@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getToken, initAuth, api } from './lib/api';
 import useStore from './store/useStore';
 import Auth from './pages/Auth';
@@ -21,7 +21,8 @@ import Toast from './components/Toast';
 
 const qc = new QueryClient({ defaultOptions: { queries: { retry: 1, staleTime: 30000 } } });
 
-function PrivateRoute({ children }) {
+function PrivateRoute({ children, authReady }) {
+  if (!authReady) return null; // wait for token refresh before deciding
   return getToken() ? children : <Navigate to="/auth" replace />;
 }
 
@@ -44,16 +45,20 @@ export default function App() {
   }
 
   const { setTokenBalance, setTicketBalance } = useStore();
+  const [authReady, setAuthReady] = useState(!getToken()); // if no token, already ready
 
   useEffect(() => {
-    initAuth();
-    // Pre-load balance into store so all pages have it immediately
-    if (getToken()) {
-      api.get('/profile').then(data => {
-        if (data?.tokenBalance !== undefined) setTokenBalance(data.tokenBalance);
-        if (data?.ticketBalance !== undefined) setTicketBalance(data.ticketBalance);
-      }).catch(() => {});
-    }
+    // Wait for token refresh to complete before rendering protected routes
+    initAuth().then(() => {
+      setAuthReady(true);
+      // Pre-load balance into store
+      if (getToken()) {
+        api.get('/profile').then(data => {
+          if (data?.tokenBalance !== undefined) setTokenBalance(data.tokenBalance);
+          if (data?.ticketBalance !== undefined) setTicketBalance(data.ticketBalance);
+        }).catch(() => {});
+      }
+    });
   }, []);
 
   return (
@@ -62,18 +67,18 @@ export default function App() {
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
-          <Route path="/play" element={<PrivateRoute><AppLayout><Play /></AppLayout></PrivateRoute>} />
-          <Route path="/leaderboard" element={<PrivateRoute><AppLayout><Leaderboard /></AppLayout></PrivateRoute>} />
-          <Route path="/profile" element={<PrivateRoute><AppLayout><Profile /></AppLayout></PrivateRoute>} />
-          <Route path="/payout" element={<PrivateRoute><AppLayout><Payout /></AppLayout></PrivateRoute>} />
-          <Route path="/history" element={<PrivateRoute><AppLayout><History /></AppLayout></PrivateRoute>} />
-          <Route path="/spin" element={<PrivateRoute><AppLayout><Spin /></AppLayout></PrivateRoute>} />
-          <Route path="/rules" element={<PrivateRoute><AppLayout><Rules /></AppLayout></PrivateRoute>} />
+          <Route path="/play" element={<PrivateRoute authReady={authReady}><AppLayout><Play /></AppLayout></PrivateRoute>} />
+          <Route path="/leaderboard" element={<PrivateRoute authReady={authReady}><AppLayout><Leaderboard /></AppLayout></PrivateRoute>} />
+          <Route path="/profile" element={<PrivateRoute authReady={authReady}><AppLayout><Profile /></AppLayout></PrivateRoute>} />
+          <Route path="/payout" element={<PrivateRoute authReady={authReady}><AppLayout><Payout /></AppLayout></PrivateRoute>} />
+          <Route path="/history" element={<PrivateRoute authReady={authReady}><AppLayout><History /></AppLayout></PrivateRoute>} />
+          <Route path="/spin" element={<PrivateRoute authReady={authReady}><AppLayout><Spin /></AppLayout></PrivateRoute>} />
+          <Route path="/rules" element={<PrivateRoute authReady={authReady}><AppLayout><Rules /></AppLayout></PrivateRoute>} />
           <Route path="/auth/reset-password" element={<ResetPassword />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="*" element={<Navigate to={getToken() ? '/play' : '/auth'} replace />} />
+          <Route path="*" element={authReady ? <Navigate to={getToken() ? '/play' : '/auth'} replace /> : null} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

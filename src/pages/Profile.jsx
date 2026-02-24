@@ -104,6 +104,7 @@ export default function Profile() {
           <div>
             <div className="profile-name">{profile?.nickname || '—'}</div>
             <div className="profile-email">{profile?.email || ''}</div>
+            <div className="profile-uid">ID: {profile?.userId || '—'}</div>
           </div>
           <div className={`profile-tier ${isPaid ? 'paid' : 'free'}`}>{isPaid ? '⭐ SUBSCRIBER' : 'FREE'}</div>
         </div>
