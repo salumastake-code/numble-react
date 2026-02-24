@@ -92,7 +92,7 @@ export default function Rules() {
           <ul>
             <li>Spend 1,000 tokens to spin the wheel for an instant token prize.</li>
             <li>Possible outcomes range from 0 (Bankrupt) to 10,000 tokens.</li>
-            <li>The wheel has a <strong>92.875% return-to-player (RTP)</strong> — on average, you get back ~929 tokens per spin.</li>
+            <li>The wheel has a <strong>92.875% RTP</strong>.</li>
             <li>Spin results are determined server-side before the animation plays.</li>
           </ul>
         </Section>
@@ -104,6 +104,14 @@ export default function Rules() {
             <li>Example: your referral wins $1,000 — you earn $100.</li>
             <li>Referral bonuses accumulate in your balance and are paid via the same methods as prizes.</li>
             <li>There is no limit to how many people you can refer — bonuses last forever.</li>
+          </ul>
+        </Section>
+
+        <Section title="Fair Play">
+          <ul>
+            <li>One account per person. Creating multiple accounts to gain additional tokens, entries, or prizes is strictly prohibited.</li>
+            <li>Accounts found to be duplicates will be permanently banned and any prizes forfeited.</li>
+            <li>Automated entry, bots, and scripts are not permitted.</li>
           </ul>
         </Section>
 
