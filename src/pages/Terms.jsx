@@ -40,7 +40,7 @@ export default function Terms() {
         <li>Unclaimed prizes after 30 days are forfeited.</li>
         <li>A minimum balance of $5.00 is required to request a payout.</li>
         <li>Numble reserves the right to withhold prizes in cases of suspected fraud.</li>
-        <li>Referral bonuses (10% of referred user's cash winnings) are paid alongside regular prize payouts.</li>
+        <li>Referral bonuses (10% of a referred user's cash winnings) are paid as an additional bonus on top of the winner's prize — the winner's prize amount is never reduced.</li>
       </ul>
 
       <h2 style={{ fontSize: '1.2rem', marginTop: '2rem' }}>Subscriptions & Refunds</h2>

@@ -161,7 +161,7 @@ export default function Profile() {
                 <div className="referrals-empty">Loading...</div>
               ) : !referralData?.referrals?.length ? (
                 <div className="referrals-empty">
-                  No referrals yet. Share your code and earn 10% of whatever your friends win — forever.
+                  No referrals yet. Share your code and get a 10% bonus on top of whatever your friends win — their prize is never affected.
                 </div>
               ) : (
                 <>
@@ -244,7 +244,7 @@ export default function Profile() {
         <div className="refcode-card">
           <div className="refcode-label">YOUR REFERRAL CODE</div>
           <div className="refcode-value">{profile?.referralCode || '—'}</div>
-          <div className="refcode-tagline">Your friends win, you get paid too — <strong>forever.</strong></div>
+          <div className="refcode-tagline">Your friends win their full prize — you get a <strong>bonus on top, forever.</strong></div>
           {(data?.recentReferralBonuses?.length > 0) && (
             <div className="refcode-earned">
               💰 You've earned ${(data.recentReferralBonuses.reduce((s, r) => s + parseFloat(r.amount_usd || 0), 0)).toFixed(2)} from referrals
@@ -255,7 +255,7 @@ export default function Profile() {
             <button className="btn-refcode-share" onClick={() => {
               const code = profile?.referralCode || '';
               const link = `https://numble.io/auth?ref=${code}`;
-              const msg = `I've been playing Numble — pick a 3-digit number each week and win real cash. Sign up with my link and I earn 10% of whatever you win, forever. Play free 👇`;
+              const msg = `I've been playing Numble — pick a 3-digit number each week and win real cash. Sign up with my link and I get a 10% bonus on top of whatever you win — your prize isn't affected at all. Play free 👇`;
               if (navigator.share) {
                 navigator.share({ title: 'Play Numble', text: msg, url: link }).catch(() => {});
               } else {

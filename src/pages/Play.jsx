@@ -217,7 +217,7 @@ export default function Play() {
         <div className="play-explainer">
           <div className="play-explainer-row"><span className="play-explainer-icon">🎯</span><span>Pick any number 000–999. If it's drawn Monday, you win.</span></div>
           <div className="play-explainer-row"><span className="play-explainer-icon">💸</span><span>Pick the winning number and take home real cash — up to $1,000.</span></div>
-          <div className="play-explainer-row"><span className="play-explainer-icon">🎁</span><span>Refer friends and earn 10% of their winnings — forever.</span></div>
+          <div className="play-explainer-row"><span className="play-explainer-icon">🎁</span><span>Refer friends and get a 10% bonus on top of their winnings — forever.</span></div>
         </div>
       )}
 
@@ -225,7 +225,7 @@ export default function Play() {
       {entries.length > 0 && user?.referralCode && (
         <div className="referral-nudge" onClick={() => {
           const code = user.referralCode;
-          const msg = `I've been playing Numble — pick a 3-digit number each week and win real cash. Use my code ${code} when you sign up and I earn 10% of whatever you win, forever. Play free at numble.io`;
+          const msg = `I've been playing Numble — pick a 3-digit number each week and win real cash. Use my code ${code} when you sign up and I get a 10% bonus on top of whatever you win (doesn't affect your prize). Play free at numble.io`;
           if (navigator.share) {
             navigator.share({ title: 'Play Numble', text: msg, url: 'https://numble.io' }).catch(() => {});
           } else {
@@ -235,7 +235,7 @@ export default function Play() {
           <span className="nudge-icon">🎁</span>
           <div className="nudge-text">
             <div className="nudge-title">Know someone lucky?</div>
-            <div className="nudge-sub">Share your code <strong>{user.referralCode}</strong> — earn 10% of whatever they win, <strong>forever.</strong></div>
+            <div className="nudge-sub">Share your code <strong>{user.referralCode}</strong> — get a 10% bonus on top of whatever they win, <strong>forever.</strong></div>
           </div>
           <span className="nudge-arrow">›</span>
         </div>

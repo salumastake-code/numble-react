@@ -27,7 +27,7 @@ export default function Rules() {
             <li>Each ticket lets you enter one 3-digit number (000–999) for the weekly draw.</li>
             <li>The weekly drawing occurs every Monday at 12:00 AM ET.</li>
             <li>Prize tier is determined by your subscription status at the time of entry.</li>
-            <li>Referrers earn a 10% cash bonus when someone they referred wins a cash prize.</li>
+            <li>Referrers earn a 10% cash bonus when someone they referred wins a cash prize — paid on top of the winner's prize, not taken from it.</li>
           </ul>
         </Section>
 
@@ -91,8 +91,8 @@ export default function Rules() {
         <Section title="Referral Program">
           <ul>
             <li>Share your unique referral code with friends.</li>
-            <li>When someone you referred wins a cash prize, you earn a <strong>10% bonus</strong>.</li>
-            <li>Example: your referral wins $1,000 — you earn $100.</li>
+            <li>When someone you referred wins a cash prize, you earn a <strong>10% bonus on top</strong> — their prize is paid in full, unaffected.</li>
+            <li>Example: your referral wins $1,000 — they keep $1,000, you earn a $100 bonus on top.</li>
             <li>Referral bonuses accumulate in your balance and are paid via the same methods as prizes.</li>
             <li>There is no limit to how many people you can refer — bonuses last forever.</li>
           </ul>
