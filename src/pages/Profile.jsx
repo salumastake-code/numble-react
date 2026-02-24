@@ -77,6 +77,10 @@ export default function Profile() {
     showToast('🎉 Welcome to Subscriber!', 'success');
     window.history.replaceState({}, '', '/profile');
   }
+  if (params.get('tokens_purchased') === '1') {
+    showToast('✅ 3,500 tokens added to your account!', 'success');
+    window.history.replaceState({}, '', '/profile');
+  }
 
   function signOut() {
     clearToken();
