@@ -164,7 +164,15 @@ export default function Spin() {
       // rotationRef is always normalized to [0, 360) at end of each spin.
       // We spin forward: from current position, add enough full rotations
       // for drama, then land exactly on the target absolute angle.
-      const targetAngle = ((67.5 - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
+      // Segment i midpoint is at (i*45 - 90 + 22.5)° = (i*45 - 67.5)° in canvas coords.
+      // Pointer is at top (0°). To bring segment i's midpoint to top, we need
+      // the CSS rotation R such that: (i*45 - 67.5 + R) ≡ 0 (mod 360)
+      // => R = 67.5 - i*45
+      // BUT: canvas arc startAngle = (i*45 - 90)° means segment 0 STARTS at top.
+      // Segment 0 midpoint is 22.5° past top (clockwise). So with R=0, pointer is
+      // at the START of segment 0, not its center.
+      // Correct: R = -22.5 - i*45 = -(22.5 + i*45) => normalized: (337.5 - i*45)
+      const targetAngle = ((337.5 - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
       const current = rotationRef.current; // in [0, 360)
       // How many degrees forward to reach targetAngle from current
       const forwardToTarget = (targetAngle - current + 360) % 360 || 360; // at least 360 so we always move forward
