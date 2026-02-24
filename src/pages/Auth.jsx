@@ -217,7 +217,7 @@ export default function Auth() {
             <div className="auth-divider"><span>or</span></div>
 
             <button className="btn-google" onClick={signInWithGoogle} type="button">
-              {GOOGLE_ICON} Continue with Google
+              {GOOGLE_ICON} Sign up with Google
             </button>
 
             <p className="auth-legal">By continuing you agree to our <a href="/terms" target="_blank" rel="noopener">Terms of Use</a> and <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>. You must be 18 or older.</p>
@@ -262,7 +262,7 @@ export default function Auth() {
             <div className="auth-divider"><span>or</span></div>
 
             <button className="btn-google" onClick={signInWithGoogle} type="button">
-              {GOOGLE_ICON} Continue with Google
+              {GOOGLE_ICON} Sign in with Google
             </button>
 
             <p className="auth-switch-link">Don't have an account? <a href="#" onClick={e => { e.preventDefault(); setMode('register'); }}>Create one</a></p>
