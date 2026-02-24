@@ -1,8 +1,16 @@
 /**
  * TokenIcon — a gold coin with a # symbol, on-brand for Numble.
  * Usage: <TokenIcon size={20} />
+ *
+ * Uses a unique gradient ID per instance to avoid SVG defs collision
+ * when multiple TokenIcons render on the same page.
  */
+import { useId } from 'react';
+
 export default function TokenIcon({ size = 18, className = '' }) {
+  const uid = useId().replace(/:/g, '');
+  const gradId = `coinGrad_${uid}`;
+
   return (
     <svg
       width={size}
@@ -13,8 +21,16 @@ export default function TokenIcon({ size = 18, className = '' }) {
       className={className}
       style={{ display: 'inline-block', verticalAlign: 'middle', flexShrink: 0 }}
     >
+      <defs>
+        <radialGradient id={gradId} cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#fde68a" />
+          <stop offset="50%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#d97706" />
+        </radialGradient>
+      </defs>
+
       {/* Coin background */}
-      <circle cx="12" cy="12" r="11" fill="url(#coinGrad)" />
+      <circle cx="12" cy="12" r="11" fill={`url(#${gradId})`} />
 
       {/* Coin rim */}
       <circle cx="12" cy="12" r="11" fill="none" stroke="#b45309" strokeWidth="1" />
@@ -35,15 +51,6 @@ export default function TokenIcon({ size = 18, className = '' }) {
       >
         #
       </text>
-
-      {/* Gradient definition */}
-      <defs>
-        <radialGradient id="coinGrad" cx="40%" cy="35%" r="65%">
-          <stop offset="0%" stopColor="#fde68a" />
-          <stop offset="50%" stopColor="#f59e0b" />
-          <stop offset="100%" stopColor="#d97706" />
-        </radialGradient>
-      </defs>
     </svg>
   );
 }
