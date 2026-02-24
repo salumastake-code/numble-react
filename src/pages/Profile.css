@@ -12,6 +12,7 @@
 .stat-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
 .stat-value { font-family: var(--display); font-size: 1.3rem; font-weight: 700; color: var(--text); }
 .stat-value.gold { color: var(--gold); }
+.stat-value.token-balance-stat { display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 1.15rem; }
 .stat-sub { font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
 .refcode-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; text-align: center; box-shadow: var(--shadow); }
 .refcode-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }

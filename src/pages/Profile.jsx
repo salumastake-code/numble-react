@@ -118,15 +118,16 @@ export default function Profile() {
           <div className="stat-card">
             <div className="stat-label">🎟️ Tickets</div>
             <div className="stat-value">{ticketBalance}</div>
-            <div className="stat-sub"><TokenIcon size={12} /> {tokenBalance.toLocaleString()} tokens</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Tokens</div>
+            <div className="stat-value token-balance-stat">
+              <TokenIcon size={16} /> {tokenBalance.toLocaleString()}
+            </div>
           </div>
           <div className="stat-card">
             <div className="stat-label">Cash Won</div>
             <div className="stat-value gold">${totalEarned.toFixed(2)}</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-label">Available</div>
-            <div className="stat-value gold">${cashBalance.toFixed(2)}</div>
           </div>
         </div>
 
