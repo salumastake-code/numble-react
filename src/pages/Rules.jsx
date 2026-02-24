@@ -88,15 +88,6 @@ export default function Rules() {
           <p className="rules-note">Subscription status at time of entry determines your prize tier.</p>
         </Section>
 
-        <Section title="Spin the Wheel">
-          <ul>
-            <li>Spend 1,000 tokens to spin the wheel for an instant token prize.</li>
-            <li>Possible outcomes range from 0 (Bankrupt) to 10,000 tokens.</li>
-            <li>The wheel has a <strong>92.875% RTP</strong>.</li>
-            <li>Spin results are determined server-side before the animation plays.</li>
-          </ul>
-        </Section>
-
         <Section title="Referral Program">
           <ul>
             <li>Share your unique referral code with friends.</li>
@@ -121,6 +112,15 @@ export default function Rules() {
             <li>Enter your preferred payout method in your Profile before requesting a withdrawal.</li>
             <li>Payouts are processed manually within 5 business days.</li>
             <li>A minimum balance of $5.00 is required to request a payout.</li>
+          </ul>
+        </Section>
+
+        <Section title="Spin the Wheel">
+          <ul>
+            <li>Spend 1,000 tokens to spin the wheel for an instant token prize.</li>
+            <li>Possible outcomes range from 0 (Bankrupt) to 10,000 tokens.</li>
+            <li>The wheel has a <strong>92.875% RTP</strong>.</li>
+            <li>Spin results are determined server-side before the animation plays.</li>
           </ul>
         </Section>
 
