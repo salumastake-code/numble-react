@@ -85,6 +85,16 @@
 .btn-landing-signup:hover { opacity: 0.9; }
 
 .btn-landing-signin {
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  padding: 16px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  
   width: 100%;
   padding: 16px;
   border-radius: var(--radius-sm);
@@ -360,6 +370,18 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+}
+.btn-signin-top {
+  background: #f97316;
+  border: 1.5px solid #f97316;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
 }
 .btn-signin-top {
   background: #f97316;
