@@ -154,17 +154,22 @@ export default function Spin() {
       // Calculate target rotation so the pointer (fixed at top) lands on the
       // center of the winning segment.
       //
-      // The canvas draws segment i with its leading edge at (i*45 - 90)° and
-      // midpoint at (i*45 - 90 + 22.5)° = (i*45 - 67.5)°.
+      // The canvas draws segment i with:
+      //   leading edge at (i*45 - 90)°, midpoint at (i*45 - 67.5)°
       //
-      // After CSS rotation R, that midpoint sits at (i*45 - 67.5 + R)°.
-      // We want that ≡ 0° (mod 360), so:
+      // After CSS rotation R, the midpoint is at (i*45 - 67.5 + R)°.
+      // For the pointer (top = 0°) to hit segment i:
       //   R ≡ 67.5 - i*45  (mod 360)
       //
-      // Add full spins for drama (6-9 full rotations).
-      const segmentMidOffset = ((67.5 - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
-      const fullSpins = (6 + Math.floor(Math.random() * 4)) * 360;
-      const finalRotation = rotationRef.current + fullSpins + segmentMidOffset - (rotationRef.current % 360);
+      // rotationRef is always normalized to [0, 360) at end of each spin.
+      // We spin forward: from current position, add enough full rotations
+      // for drama, then land exactly on the target absolute angle.
+      const targetAngle = ((67.5 - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
+      const current = rotationRef.current; // in [0, 360)
+      // How many degrees forward to reach targetAngle from current
+      const forwardToTarget = (targetAngle - current + 360) % 360 || 360; // at least 360 so we always move forward
+      const fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
+      const finalRotation = current + fullSpins + forwardToTarget;
 
       // Animate with easeOut
       const startRotation = rotationRef.current;
