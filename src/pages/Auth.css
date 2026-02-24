@@ -61,6 +61,68 @@
   line-height: 1.6;
 }
 
+/* ── Landing two-button layout ── */
+.auth-landing-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 24px 0;
+}
+
+.btn-landing-signup {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--grad);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-landing-signup:hover { opacity: 0.9; }
+
+.btn-landing-signin {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.btn-landing-signin:hover { border-color: var(--text); }
+
+/* ── Back button & card title ── */
+.auth-back-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  text-align: left;
+  display: block;
+}
+.auth-back-btn:hover { color: var(--text); }
+
+.auth-card-title {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 20px;
+  color: var(--text);
+}
+
+/* ── Remove old top-right sign-in button (no longer needed) ── */
+.btn-signin-top { display: none; }
+
 .auth-card {
   background: var(--bg-card);
   border-radius: var(--radius) var(--radius) 0 0;
