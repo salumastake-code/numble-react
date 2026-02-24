@@ -151,14 +151,20 @@ export default function Spin() {
       const data = await api.post('/spin');
       const outcomeIndex = data.outcome.index;
 
-      // Calculate target rotation:
-      // Land on the correct segment. Each segment = 45°
-      // Segment 0 starts at top (-90° offset baked in canvas)
-      // We want to land in the middle of outcomeIndex segment
-      const targetSegmentAngle = outcomeIndex * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
-      // Add multiple full rotations for drama (5-8 full spins)
-      const fullSpins = (5 + Math.floor(Math.random() * 3)) * 360;
-      const finalRotation = rotationRef.current + fullSpins + (360 - targetSegmentAngle);
+      // Calculate target rotation so the pointer (fixed at top) lands on the
+      // center of the winning segment.
+      //
+      // The canvas draws segment i with its leading edge at (i*45 - 90)° and
+      // midpoint at (i*45 - 90 + 22.5)° = (i*45 - 67.5)°.
+      //
+      // After CSS rotation R, that midpoint sits at (i*45 - 67.5 + R)°.
+      // We want that ≡ 0° (mod 360), so:
+      //   R ≡ 67.5 - i*45  (mod 360)
+      //
+      // Add full spins for drama (6-9 full rotations).
+      const segmentMidOffset = ((67.5 - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
+      const fullSpins = (6 + Math.floor(Math.random() * 4)) * 360;
+      const finalRotation = rotationRef.current + fullSpins + segmentMidOffset - (rotationRef.current % 360);
 
       // Animate with easeOut
       const startRotation = rotationRef.current;
@@ -176,14 +182,18 @@ export default function Spin() {
         const easedT = easeOut(t);
         const currentRotation = startRotation + totalDelta * easedT;
         rotationRef.current = currentRotation;
-        setRotation(currentRotation % 360);
+        // Do NOT mod during animation — modding causes a visual jump when
+        // crossing 360° boundaries. Pass the raw cumulative rotation so
+        // the CSS transform increases monotonically throughout the spin.
+        setRotation(currentRotation);
 
         if (t < 1) {
           animFrameRef.current = requestAnimationFrame(animate);
         } else {
-          // Animation complete
-          rotationRef.current = finalRotation % 360;
-          setRotation(finalRotation % 360);
+          // Animation complete — normalize to [0, 360) for stable resting position
+          const normalized = ((finalRotation % 360) + 360) % 360;
+          rotationRef.current = normalized;
+          setRotation(normalized);
           setResult(data.outcome);
           setTokenBalance(data.token_balance ?? 0);
           if (setTicketBalance) setTicketBalance(data.ticket_balance ?? 0);
