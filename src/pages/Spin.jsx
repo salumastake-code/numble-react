@@ -148,7 +148,7 @@ export default function Spin() {
     setResult(null);
 
     // Immediately deduct the 1,000 token cost so the balance drops right away
-    setTokenBalance(prev => (prev ?? 0) - 1000);
+    setTokenBalance((tokenBalance ?? 0) - 1000);
 
     try {
       const data = await api.post('/spin');
