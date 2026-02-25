@@ -179,30 +179,13 @@
   color: var(--text);
 }
 
-/* Spin to Win More Tokens Button */
-.btn-spin-to-win {
-  background: linear-gradient(90deg, #f97316, #ec4899);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  padding: 12px 16px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity 0.15s;
-  width: 100%;
-}
-.btn-spin-to-win:hover {
-  opacity: 0.9;
-}
-
 /* Spin to Win More Tokens button */
 .btn-spin-to-win {
   background: linear-gradient(90deg, #f97316, #ec4899, #8b5cf6);
   color: #fff;
   border: none;
   border-radius: var(--radius-sm);
-  padding: 16px;
+  padding: 14px 24px;
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.04em;
