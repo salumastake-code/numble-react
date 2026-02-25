@@ -206,11 +206,16 @@
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.04em;
+  text-align: center;
   margin: 0 16px 14px;
   width: calc(100% - 32px);
   cursor: pointer;
   transition: opacity 0.15s;
   box-shadow: 0 4px 14px rgba(249,115,22,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 .btn-spin-to-win:hover { opacity: 0.9; }
 
