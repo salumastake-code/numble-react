@@ -1,21 +1,144 @@
-.page { padding-bottom: 80px; min-height: 100dvh; }
-.page-header { padding: 20px 20px 0; }
-.page-title { font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-.page-accent { width: 40px; height: 3px; background: var(--grad); border-radius: 2px; margin-bottom: 20px; }
-.loading, .empty { text-align: center; color: var(--muted); padding: 40px 20px; font-size: 0.9rem; }
-.lb-list { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
-.lb-row { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); }
-.lb-row.top { border-color: #ec4899; background: #fdf2f8; }
-.lb-rank { font-size: 1.1rem; width: 28px; text-align: center; }
-.lb-name { flex: 1; font-weight: 600; font-size: 0.95rem; }
-.lb-prize { font-family: var(--display); font-weight: 700; color: var(--gold); font-size: 1rem; }
-.btn-back {
-  background: none;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 8px 14px;
+.lb-body { padding: 0 16px 24px; display: flex; flex-direction: column; gap: 10px; }
+
+.lb-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; gap: 10px; }
+.lb-empty-icon { font-size: 2.5rem; }
+.lb-empty-text { font-family: var(--display); font-size: 1.2rem; font-weight: 700; color: var(--text); }
+.lb-empty-sub { font-size: 0.82rem; color: var(--muted); }
+
+.lb-section-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+/* Roulette-style strip */
+.lb-strip-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;
+}
+.lb-strip {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+}
+.lb-ball {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
   font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+  box-shadow: var(--shadow);
+}
+.lb-ball-latest {
+  background: linear-gradient(135deg, #f97316, #ec4899, #8b5cf6);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(249,115,22,0.35);
+}
+
+/* Full history table */
+.lb-table {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.lb-table-header {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 1fr;
+  padding: 10px 14px;
+  background: var(--bg-card2);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.lb-table-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 1fr;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  cursor: pointer;
+  align-items: center;
+}
+.lb-table-row:last-child { border-bottom: none; }
+.lb-row-latest { background: #fff7ed; }
+.lb-week { font-size: 0.75rem; color: var(--muted); font-weight: 600; }
+.lb-number {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.lb-row-latest .lb-number {
+  background: linear-gradient(90deg, #f97316, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.lb-entries { font-size: 0.8rem; color: var(--muted); }
+.lb-date { font-size: 0.78rem; color: var(--muted); }
+
+/* Digit frequency bars */
+.lb-freq {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow);
+}
+.lb-freq-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.lb-freq-digit {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.lb-freq-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-card2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.lb-freq-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #f97316, #ec4899);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+  min-width: 4px;
+}
+.lb-freq-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  width: 20px;
+  text-align: right;
   flex-shrink: 0;
 }

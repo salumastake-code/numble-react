@@ -39,7 +39,7 @@ export default function BottomNav() {
   return (
     <nav className="bottom-nav">
       {tabs.map(tab => {
-        const isDisabled = tab.path === '/leaderboard';
+        const isDisabled = false;
         return (
           <button
             key={tab.path}
