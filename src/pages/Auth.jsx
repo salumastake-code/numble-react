@@ -95,7 +95,7 @@ export default function Auth() {
         <img src="/favicon.svg" alt="" className="auth-logo-icon" />
         <span className="auth-logo-text">NUMBLE</span>
       </div>
-      <h1 className="auth-headline">Pick your number. Win cash.</h1>
+      <h1 className="auth-headline">Pick your number.<br/>Win cash.</h1>
       <p className="auth-sub">Weekly sweepstakes. 3-digit numbers. Real prizes.<br/>Free to play. No purchase necessary.</p>
     </div>
   );
