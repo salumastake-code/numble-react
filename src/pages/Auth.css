@@ -41,9 +41,9 @@
 
 .auth-headline {
   font-family: var(--display);
-  font-size: 2.4rem;
+  font-size: 1.7rem;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.2;
   margin-bottom: 14px;
   color: var(--text);
 }
