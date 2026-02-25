@@ -39,3 +39,9 @@
 .nav-btn:not(.active):hover {
   color: var(--text-secondary);
 }
+
+.nav-btn.disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}

@@ -38,16 +38,19 @@ export default function BottomNav() {
 
   return (
     <nav className="bottom-nav">
-      {tabs.map(tab => (
-        <button
-          key={tab.path}
-          className={`nav-btn ${pathname === tab.path ? 'active' : ''}`}
-          onClick={() => navigate(tab.path)}
-        >
-          {tab.icon}
-          <span>{tab.label}</span>
-        </button>
-      ))}
+      {tabs.map(tab => {
+        const isDisabled = tab.path === '/leaderboard';
+        return (
+          <button
+            key={tab.path}
+            className={`nav-btn ${pathname === tab.path ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`}
+            onClick={() => !isDisabled && navigate(tab.path)}
+          >
+            {tab.icon}
+            <span>{tab.label}</span>
+          </button>
+        );
+      })}
     </nav>
   );
 }
