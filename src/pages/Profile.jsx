@@ -102,6 +102,7 @@ export default function Profile() {
       </div>
 
       <div className="profile-body">
+
         {/* User card */}
         <div className="profile-card">
           <div className="profile-avatar">{profile?.nickname?.[0]?.toUpperCase() || '?'}</div>
@@ -131,12 +132,16 @@ export default function Profile() {
           </div>
         </div>
 
+        {/* Spin to Win More Tokens */}
+        <button className="btn-spin-to-win" onClick={() => navigate('/spin')}>
+          🎡 Spin to Win More Tokens!
+        </button>
+
         {/* Entry history link */}
         <button className="btn-history" onClick={() => navigate('/history')}>
           📋 View Entry History
         </button>
 
-        {/* Payout button */}
         {cashBalance > 0 && (
           <button className="btn-payout" onClick={() => navigate('/payout')}>
             💸 Request Payout — ${cashBalance.toFixed(2)}

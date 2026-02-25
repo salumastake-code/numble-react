@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
 import useStore from '../store/useStore';
 import BalloonReveal from '../components/BalloonReveal';
@@ -21,12 +22,9 @@ function useCountdown(draw) {
 
   useEffect(() => {
     if (!draw) return;
-    // Draw happens at the START of weekStart (Monday midnight ET)
-    // weekStart = "2026-02-23" means the draw closes Sunday night / Monday 12am
     const weekStartStr = draw.weekStart || draw.week_start;
-    const target = new Date(weekStartStr + 'T00:00:00'); // local midnight on draw day
+    const target = new Date(weekStartStr + 'T00:00:00');
 
-    // week number — count from first draw week
     const firstDraw = new Date('2026-02-23T00:00:00');
     const weekNum = Math.max(1, Math.round((target - firstDraw) / (7 * 86400000)) + 1);
     setWeek('#' + weekNum);
@@ -52,13 +50,14 @@ export default function Play() {
   const [input, setInput] = useState('');
   const { showToast, reveal, setReveal } = useStore();
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const buyTokensMutation = useBuyTokens(showToast);
 
   // Handle return from token pack purchase
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('tokens_purchased') === '1') {
-      showToast('🎉 4 tokens added to your account!', 'success');
+      showToast('🎉 Tokens added to your account!', 'success');
       window.history.replaceState({}, '', '/play');
       qc.invalidateQueries(['current-draw']);
     }
@@ -109,7 +108,7 @@ export default function Play() {
             const pos = num.split('').filter((c, i) => c === winning[i]).length;
             if (num === winning) { title = `🏆 EXACT MATCH — $${prizes.exact.toLocaleString()}!`; detail = `Winning number: ${winning}. You matched exactly!`; winType = 'jackpot'; break; }
             else if (numSorted === winSorted) { title = `🎯 ALL DIGITS — $${prizes.anagram}`; detail = `Winning number: ${winning}. Right digits, wrong order.`; winType = 'partial'; break; }
-            else if (pos === 2) { title = `✌️ 2 IN PLACE — +1 Token`; detail = `Winning number: ${winning}. 2 digits in position!`; winType = 'token'; break; }
+            else if (pos === 2) { title = `✌️ 2 IN PLACE — +1,500 Tokens`; detail = `Winning number: ${winning}. 2 digits in position!`; winType = 'token'; break; }
           }
           if (winType === 'none') { title = 'No win this week'; detail = `Winning number: ${winning}. Better luck next week!`; }
         } else {
@@ -172,7 +171,12 @@ export default function Play() {
         <div className="week-badge">WEEK<br/>{week}</div>
       </div>
 
-      {/* Number display */}
+      {/* Spin to Win More Tokens */}
+      <button className="btn-spin-to-win" onClick={() => navigate('/spin')}>
+        🎡 Spin to Win More Tokens!
+      </button>
+
+      {/* Number input */}
       <div className="number-display">
         <div className="input-label">ENTER YOUR 3-DIGIT NUMBER</div>
         <div className="digit-row">
@@ -203,7 +207,7 @@ export default function Play() {
         {submitMutation.isPending ? 'SUBMITTING...' : 'SUBMIT ENTRY'}
       </button>
 
-      {/* Buy More Tokens — slim button, always visible, below submit */}
+      {/* Buy More Tokens */}
       <button
         className="btn-buy-tokens-slim"
         onClick={() => buyTokensMutation.mutate()}
