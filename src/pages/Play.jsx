@@ -163,9 +163,7 @@ export default function Play() {
       />
 
       {/* Spin to Win More Tokens */}
-      <button className="btn-spin-to-win" onClick={() => navigate('/spin')}>
-        🎡 Spin to Win More Tokens!
-      </button>
+      <button className="btn-spin-to-win" onClick={() => navigate('/spin')}>🎡 Spin to Win More Tokens!</button>
 
       {/* Countdown */}
       <div className="countdown-card">

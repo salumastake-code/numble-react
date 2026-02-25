@@ -133,9 +133,7 @@ export default function Profile() {
         </div>
 
         {/* Spin to Win More Tokens */}
-        <button className="btn-spin-to-win" onClick={() => navigate('/spin')}>
-          🎡 Spin to Win More Tokens!
-        </button>
+        <button className="btn-spin-to-win" onClick={() => navigate('/spin')}>🎡 Spin to Win More Tokens!</button>
 
         {/* Entry history link */}
         <button className="btn-history" onClick={() => navigate('/history')}>
