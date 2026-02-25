@@ -58,7 +58,7 @@
 }
 .lb-table-header {
   display: grid;
-  grid-template-columns: 40px 1fr 1fr 1fr;
+  grid-template-columns: 40px 1fr 1fr;
   padding: 10px 14px;
   background: var(--bg-card2);
   font-size: 0.58rem;
@@ -70,7 +70,7 @@
 }
 .lb-table-row {
   display: grid;
-  grid-template-columns: 40px 1fr 1fr 1fr;
+  grid-template-columns: 40px 1fr 1fr;
   padding: 11px 14px;
   border-bottom: 1px solid var(--border);
   font-size: 0.85rem;

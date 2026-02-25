@@ -53,7 +53,6 @@ export default function Leaderboard() {
             <div className="lb-table-header">
               <span>WEEK</span>
               <span>NUMBER</span>
-              <span>ENTRIES</span>
               <span>DATE</span>
             </div>
             {draws.map((d, i) => {
@@ -64,7 +63,6 @@ export default function Leaderboard() {
                 <div key={d.draw_id} className={`lb-table-row ${i === 0 ? 'lb-row-latest' : ''}`}>
                   <span className="lb-week">#{weekNum}</span>
                   <span className="lb-number">{d.winning_number}</span>
-                  <span className="lb-entries">{d.total_entries}</span>
                   <span className="lb-date">{dateStr}</span>
                 </div>
               );
