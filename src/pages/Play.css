@@ -207,12 +207,13 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   text-align: center;
-  margin: 0 16px 14px;
+  display: block;
+  box-sizing: border-box;
   width: calc(100% - 32px);
+  margin: 0 16px 14px 16px;
   cursor: pointer;
   transition: opacity 0.15s;
   box-shadow: 0 4px 14px rgba(249,115,22,0.3);
-  display: block;
 }
 .btn-spin-to-win:hover { opacity: 0.9; }
 
