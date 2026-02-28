@@ -145,8 +145,8 @@ export default function Spin() {
 
   async function handleSpin() {
     if (spinning) return;
-    if (tokenBalance < 1000) {
-      showToast('You need 1,000 tokens to spin!', 'error');
+    if (tokenBalance < 300) {
+      showToast('You need 300 tokens to spin!', 'error');
       return;
     }
 
@@ -154,8 +154,8 @@ export default function Spin() {
     setShowResult(false);
     setResult(null);
 
-    // Immediately deduct the 1,000 token cost so the balance drops right away
-    setTokenBalance((tokenBalance ?? 0) - 1000);
+    // Immediately deduct the 300 token cost so the balance drops right away
+    setTokenBalance((tokenBalance ?? 0) - 300);
 
     try {
       const data = await api.post('/spin');
@@ -264,14 +264,14 @@ export default function Spin() {
       <button
         className={`spin-btn ${spinning ? 'spinning' : ''}`}
         onClick={handleSpin}
-        disabled={spinning || tokenBalance < 1000}
+        disabled={spinning || tokenBalance < 300}
       >
-        {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — <TokenIcon size={14} /> 1,000</span>}
+        {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — <TokenIcon size={14} /> 300</span>}
       </button>
 
-      {tokenBalance < 1000 && (
+      {tokenBalance < 300 && (
         <p className="spin-no-tokens">
-          You need 1,000 tokens to spin.{' '}
+          You need 300 tokens to spin.{' '}
           <span className="spin-link" onClick={() => navigate('/profile')}>
             Get more →
           </span>
