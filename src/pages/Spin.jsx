@@ -7,20 +7,21 @@ import './Spin.css';
 
 // ORDER MUST match backend WHEEL_OUTCOMES exactly (index determines animation target)
 // 13 segments, 27.6923° each — updated 2026-02-28
+// Visual layout: 0 (idx 6) flanked by 2500 (idx 5) and 1000 (idx 7)
 const OUTCOMES = [
-  { label: 'RESPIN',  tokens: 0,    color: '#6366f1', textColor: '#fff', respin: true  },
-  { label: '0',       tokens: 0,    color: '#1a1a1a', textColor: '#fff', respin: false },
-  { label: '100',     tokens: 100,  color: '#ef4444', textColor: '#fff', respin: false },
-  { label: '200',     tokens: 200,  color: '#f97316', textColor: '#fff', respin: false },
-  { label: '300',     tokens: 300,  color: '#f59e0b', textColor: '#fff', respin: false },
-  { label: '400',     tokens: 400,  color: '#eab308', textColor: '#fff', respin: false },
-  { label: '500',     tokens: 500,  color: '#22c55e', textColor: '#fff', respin: false },
-  { label: '600',     tokens: 600,  color: '#14b8a6', textColor: '#fff', respin: false },
-  { label: '700',     tokens: 700,  color: '#3b82f6', textColor: '#fff', respin: false },
-  { label: '800',     tokens: 800,  color: '#8b5cf6', textColor: '#fff', respin: false },
-  { label: '900',     tokens: 900,  color: '#a855f7', textColor: '#fff', respin: false },
-  { label: '1,000',   tokens: 1000, color: '#ec4899', textColor: '#fff', respin: false },
-  { label: '2,500',   tokens: 2500, color: '#f59e0b', textColor: '#fff', respin: false },
+  { label: 'RESPIN', tokens: 0,    color: '#6366f1', respin: true  }, // idx 0
+  { label: '300',    tokens: 300,  color: '#f59e0b', respin: false }, // idx 1
+  { label: '700',    tokens: 700,  color: '#3b82f6', respin: false }, // idx 2
+  { label: '100',    tokens: 100,  color: '#ef4444', respin: false }, // idx 3
+  { label: '500',    tokens: 500,  color: '#22c55e', respin: false }, // idx 4
+  { label: '2,500',  tokens: 2500, color: '#f59e0b', respin: false }, // idx 5  ← left of 0
+  { label: '0',      tokens: 0,    color: '#1a1a1a', respin: false }, // idx 6  ← zero
+  { label: '1,000',  tokens: 1000, color: '#ec4899', respin: false }, // idx 7  ← right of 0
+  { label: '200',    tokens: 200,  color: '#f97316', respin: false }, // idx 8
+  { label: '600',    tokens: 600,  color: '#14b8a6', respin: false }, // idx 9
+  { label: '900',    tokens: 900,  color: '#a855f7', respin: false }, // idx 10
+  { label: '400',    tokens: 400,  color: '#eab308', respin: false }, // idx 11
+  { label: '800',    tokens: 800,  color: '#8b5cf6', respin: false }, // idx 12
 ];
 
 const NUM_SEGMENTS = OUTCOMES.length; // 13
