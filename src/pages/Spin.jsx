@@ -6,20 +6,25 @@ import TokenIcon from '../components/TokenIcon';
 import './Spin.css';
 
 // ORDER MUST match backend WHEEL_OUTCOMES exactly (index determines animation target)
-// Visual order: 1000, 250, 1500, BANKRUPT, 10000, 750, 5000, 2500
+// 13 segments, 27.6923° each — updated 2026-02-28
 const OUTCOMES = [
-  { label: '1,000',     tokens: 1000,  color: '#f97316', textColor: '#fff' },
-  { label: '250',       tokens: 250,   color: '#ef4444', textColor: '#fff' },
-  { label: '1,500',     tokens: 1500,  color: '#a855f7', textColor: '#fff' },
-  { label: 'BANKRUPT',  tokens: 0,     color: '#1a1a1a', textColor: '#fff' },
-  { label: '10,000',    tokens: 10000, color: '#f59e0b', textColor: '#fff' },
-  { label: '750',       tokens: 750,   color: '#eab308', textColor: '#fff' },
-  { label: '5,000',     tokens: 5000,  color: '#22c55e', textColor: '#fff' },
-  { label: '2,500',     tokens: 2500,  color: '#3b82f6', textColor: '#fff' },
+  { label: 'RESPIN',  tokens: 0,    color: '#6366f1', textColor: '#fff', respin: true  },
+  { label: '0',       tokens: 0,    color: '#1a1a1a', textColor: '#fff', respin: false },
+  { label: '100',     tokens: 100,  color: '#ef4444', textColor: '#fff', respin: false },
+  { label: '200',     tokens: 200,  color: '#f97316', textColor: '#fff', respin: false },
+  { label: '300',     tokens: 300,  color: '#f59e0b', textColor: '#fff', respin: false },
+  { label: '400',     tokens: 400,  color: '#eab308', textColor: '#fff', respin: false },
+  { label: '500',     tokens: 500,  color: '#22c55e', textColor: '#fff', respin: false },
+  { label: '600',     tokens: 600,  color: '#14b8a6', textColor: '#fff', respin: false },
+  { label: '700',     tokens: 700,  color: '#3b82f6', textColor: '#fff', respin: false },
+  { label: '800',     tokens: 800,  color: '#8b5cf6', textColor: '#fff', respin: false },
+  { label: '900',     tokens: 900,  color: '#a855f7', textColor: '#fff', respin: false },
+  { label: '1,000',   tokens: 1000, color: '#ec4899', textColor: '#fff', respin: false },
+  { label: '2,500',   tokens: 2500, color: '#f59e0b', textColor: '#fff', respin: false },
 ];
 
-const NUM_SEGMENTS = OUTCOMES.length;
-const SEGMENT_ANGLE = 360 / NUM_SEGMENTS;
+const NUM_SEGMENTS = OUTCOMES.length; // 13
+const SEGMENT_ANGLE = 360 / NUM_SEGMENTS; // 27.6923°
 
 function WheelCanvas({ rotation }) {
   const canvasRef = useRef(null);
@@ -60,17 +65,17 @@ function WheelCanvas({ rotation }) {
       ctx.textAlign = 'right';
       ctx.fillStyle = '#fff';
 
-      if (outcome.tokens === 0) {
-        // Big red X
-        ctx.textAlign = 'center';
-        ctx.font = 'bold 42px Arial Black, Arial';
-        ctx.fillStyle = '#ef4444';
-        ctx.fillText('✕', radius * 0.55, 14);
-        ctx.textAlign = 'right'; // reset
+      if (outcome.respin) {
+        ctx.font = 'bold 11px Arial Black, Arial';
+        ctx.fillStyle = '#fff';
+        ctx.fillText('↺ RESPIN', radius - 10, 5);
+      } else if (outcome.tokens === 0) {
+        ctx.font = 'bold 11px Arial Black, Arial';
+        ctx.fillStyle = '#fff';
+        ctx.fillText('✕ 0', radius - 10, 5);
       } else {
-        // Coin icon + amount
-        ctx.font = 'bold 13px Arial Black, Arial';
-        ctx.fillText(`🟡 ${outcome.label}`, radius - 12, 5);
+        ctx.font = 'bold 11px Arial Black, Arial';
+        ctx.fillText(`${outcome.label}`, radius - 10, 5);
       }
 
       ctx.restore();
@@ -177,7 +182,12 @@ export default function Spin() {
       // Segment 0 midpoint is 22.5° past top (clockwise). So with R=0, pointer is
       // at the START of segment 0, not its center.
       // Correct: R = -22.5 - i*45 = -(22.5 + i*45) => normalized: (337.5 - i*45)
-      const targetAngle = ((337.5 - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
+      // Segment i midpoint in canvas coords: i*SEGMENT_ANGLE - 90 + SEGMENT_ANGLE/2
+      // To bring midpoint to top (pointer), CSS rotation R = -(midpoint) mod 360
+      // = (90 - i*SEGMENT_ANGLE - SEGMENT_ANGLE/2) mod 360
+      // = (90 - SEGMENT_ANGLE/2 - i*SEGMENT_ANGLE) mod 360
+      const halfSeg = SEGMENT_ANGLE / 2; // 13.8462°
+      const targetAngle = (((90 - halfSeg) - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
       // Use raw cumulative rotation — never normalized — so forwardToTarget is always accurate
       const current = rotationRef.current;
       const currentMod = ((current % 360) + 360) % 360;
@@ -272,10 +282,16 @@ export default function Spin() {
       {showResult && result && (
         <div className="spin-result-overlay" onClick={() => setShowResult(false)}>
           <div className="spin-result-card" onClick={e => e.stopPropagation()}>
-            {result.bankrupt ? (
+            {result.respin ? (
+              <>
+                <div className="spin-result-icon">↺</div>
+                <div className="spin-result-label" style={{color:'#6366f1'}}>FREE RESPIN!</div>
+                <div className="spin-result-sub">No charge — spin again!</div>
+              </>
+            ) : result.bankrupt ? (
               <>
                 <div className="spin-result-icon">💀</div>
-                <div className="spin-result-label bankrupt">BANKRUPT</div>
+                <div className="spin-result-label bankrupt">ZERO</div>
                 <div className="spin-result-sub">Better luck next spin!</div>
               </>
             ) : (
@@ -283,13 +299,13 @@ export default function Spin() {
                 <div className="spin-result-icon">🎉</div>
                 <div className="spin-result-label win">+{result.tokens.toLocaleString()}</div>
                 <div className="spin-result-tokens"><TokenIcon size={18} /> tokens won!</div>
-                {result.tokens >= 5000 && (
+                {result.tokens >= 1000 && (
                   <div className="spin-result-confetti">⚡🎊⚡🎊⚡</div>
                 )}
               </>
             )}
             <button className="spin-result-close" onClick={() => setShowResult(false)}>
-              Continue
+              {result.respin ? 'Spin Again!' : 'Continue'}
             </button>
           </div>
         </div>
