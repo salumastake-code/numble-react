@@ -67,8 +67,14 @@ function WheelCanvas({ rotation }) {
       ctx.fillStyle = '#fff';
       ctx.font = 'bold 11px Arial Black, Arial';
 
-      const text = outcome.respin ? '↺ RESPIN' : outcome.tokens === 0 ? '0' : outcome.label;
-      ctx.fillText(text, radius - 10, 5);
+      if (outcome.tokens === 0 && !outcome.respin) {
+        ctx.fillStyle = '#ef4444';
+        ctx.font = 'bold 14px Arial Black, Arial';
+        ctx.fillText('✕', radius - 10, 6);
+      } else {
+        const text = outcome.respin ? '↺ RESPIN' : outcome.label;
+        ctx.fillText(text, radius - 10, 5);
+      }
 
       ctx.restore();
     });
