@@ -178,10 +178,6 @@ export default function Play() {
         ticketBalance={ticketBalance}
         tokenBalance={tokenBalance}
         showToast={showToast}
-        onSuccess={() => {
-          qc.invalidateQueries(['current-draw']);
-          qc.refetchQueries(['current-draw']);
-        }}
       />
 
       {/* Spin to Win More Tokens */}
