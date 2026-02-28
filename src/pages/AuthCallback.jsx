@@ -15,6 +15,7 @@ export default function AuthCallback() {
   const [phase, setPhase] = useState('loading');
   const [nickname, setNickname] = useState('');
   const [saving, setSaving] = useState(false);
+  const pendingRefCode = useRef(null);
   // Use refs for tokens so they're always current in async handlers
   const pendingTokenRef = useRef(null);
   const [pendingToken, setPendingToken] = useState(null);
@@ -119,6 +120,12 @@ export default function AuthCallback() {
         setPendingToken(accessToken);
         setPendingRefresh(refreshToken);
         setNickname(cbData.suggestedNickname || '');
+        // Pick up any referral code saved before the OAuth redirect
+        const savedRef = localStorage.getItem('numble_pending_ref');
+        if (savedRef) {
+          pendingRefCode.current = savedRef;
+          localStorage.removeItem('numble_pending_ref');
+        }
         setPhase('pick-nickname');
       } else {
         // Existing user or auto-created — go to play
@@ -157,7 +164,10 @@ export default function AuthCallback() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ nickname: clean }),
+        body: JSON.stringify({
+          nickname: clean,
+          referral_code: pendingRefCode.current || undefined,
+        }),
       });
 
       if (!res.ok) {
