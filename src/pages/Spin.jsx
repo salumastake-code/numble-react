@@ -178,9 +178,11 @@ export default function Spin() {
       // at the START of segment 0, not its center.
       // Correct: R = -22.5 - i*45 = -(22.5 + i*45) => normalized: (337.5 - i*45)
       const targetAngle = ((67.5 - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
-      const current = rotationRef.current; // in [0, 360)
-      // How many degrees forward to reach targetAngle from current
-      const forwardToTarget = (targetAngle - current + 360) % 360 || 360; // at least 360 so we always move forward
+      // Use raw cumulative rotation — never normalized — so forwardToTarget is always accurate
+      const current = rotationRef.current;
+      const currentMod = ((current % 360) + 360) % 360;
+      // How many degrees forward from current mod position to reach targetAngle
+      const forwardToTarget = (targetAngle - currentMod + 360) % 360 || 360;
       const fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
       const finalRotation = current + fullSpins + forwardToTarget;
 
@@ -208,10 +210,9 @@ export default function Spin() {
         if (t < 1) {
           animFrameRef.current = requestAnimationFrame(animate);
         } else {
-          // Animation complete — normalize to [0, 360) for stable resting position
-          const normalized = ((finalRotation % 360) + 360) % 360;
-          rotationRef.current = normalized;
-          setRotation(normalized);
+          // Keep raw cumulative rotation — normalization caused drift on multi-spin sessions
+          rotationRef.current = finalRotation;
+          setRotation(finalRotation);
           setResult(data.outcome);
           setTokenBalance(data.token_balance ?? 0);
           if (setTicketBalance) setTicketBalance(data.ticket_balance ?? 0);
