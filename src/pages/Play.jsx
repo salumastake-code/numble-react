@@ -122,13 +122,34 @@ export default function Play() {
 
   const submitMutation = useMutation({
     mutationFn: (number) => api.post('/entries', { number, idempotency_key: crypto.randomUUID() }),
+    onMutate: async (number) => {
+      // Optimistically decrement ticket balance immediately
+      await qc.cancelQueries(['current-draw']);
+      const prev = qc.getQueryData(['current-draw']);
+      qc.setQueryData(['current-draw'], (old) => {
+        if (!old) return old;
+        return {
+          ...old,
+          ticketBalance: Math.max(0, (old.ticketBalance ?? 0) - 1),
+          userEntries: [
+            { number, subscription_at_entry: old.user?.subscriptionStatus ?? 'free', submitted_at: new Date().toISOString() },
+            ...(old.userEntries || []),
+          ],
+        };
+      });
+      return { prev };
+    },
     onSuccess: (data, variables) => {
       qc.invalidateQueries(['current-draw']);
       qc.refetchQueries(['current-draw']);
-      showToast(`Entry ${variables} submitted!`, 'success');
+      showToast(`🎉 ${variables} entered! Good luck!`, 'success');
       setInput('');
     },
-    onError: (e) => showToast(e.message || 'Submission failed', 'error'),
+    onError: (e, variables, context) => {
+      // Roll back optimistic update
+      if (context?.prev) qc.setQueryData(['current-draw'], context.prev);
+      showToast(e.message || 'Submission failed', 'error');
+    },
   });
 
   function pad(d) { if (input.length >= 3) return; setInput(p => p + d); }
@@ -202,8 +223,13 @@ export default function Play() {
         className="btn-submit"
         disabled={!canSubmit}
         onClick={() => submitMutation.mutate(input)}
+        title={ticketBalance < 1 ? 'Exchange tokens for a ticket first' : ''}
       >
-        {submitMutation.isPending ? 'SUBMITTING...' : 'SUBMIT ENTRY'}
+        {submitMutation.isPending
+          ? 'SUBMITTING...'
+          : ticketBalance < 1 && input.length === 3
+            ? 'NEED A TICKET — EXCHANGE ABOVE'
+            : 'SUBMIT ENTRY'}
       </button>
 
       {/* Buy More Tokens */}
