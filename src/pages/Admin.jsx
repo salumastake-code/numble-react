@@ -69,6 +69,105 @@ function StatCard({ label, value, sub, color }) {
   );
 }
 
+const METHOD_LABELS = { paypal: 'PayPal', venmo: 'Venmo', cashapp: 'Cash App', stripe: 'Bank', zelle: 'Zelle' };
+const STATUS_COLORS = { pending: '#f97316', processing: '#3b82f6', paid: '#22c55e', failed: '#ef4444' };
+
+function PayoutsPanel({ adminGet, adminPost, qc }) {
+  const [filter, setFilter] = useState('pending');
+  const [processing, setProcessing] = useState({});
+
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ['admin-payouts', filter],
+    queryFn: () => adminGet(`/admin/payouts?status=${filter}&limit=100`),
+    refetchInterval: 30000,
+  });
+
+  const payouts = data?.payouts || [];
+
+  async function markStatus(payoutId, status) {
+    setProcessing(p => ({ ...p, [payoutId]: true }));
+    try {
+      await adminPost(`/admin/payout/${payoutId}/process`, { status });
+      refetch();
+    } finally {
+      setProcessing(p => ({ ...p, [payoutId]: false }));
+    }
+  }
+
+  return (
+    <>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+        {['pending', 'processing', 'paid', 'failed', ''].map(s => (
+          <button
+            key={s || 'all'}
+            onClick={() => setFilter(s)}
+            className={`admin-tab ${filter === s ? 'active' : ''}`}
+            style={{ fontSize: '0.75rem', padding: '6px 12px' }}
+          >
+            {s ? s.charAt(0).toUpperCase() + s.slice(1) : 'All'}
+          </button>
+        ))}
+      </div>
+
+      {isLoading ? (
+        <div className="admin-empty">Loading...</div>
+      ) : payouts.length === 0 ? (
+        <div className="admin-empty">✅ No {filter} payouts</div>
+      ) : (
+        <div className="admin-list">
+          {payouts.map(p => (
+            <div key={p.payout_id} className="admin-payout-row">
+              <div className="admin-payout-top">
+                <div className="admin-payout-user">
+                  <strong>{p.users?.nickname || '—'}</strong>
+                  <span className="admin-list-email">{p.users?.email}</span>
+                  <span className={`tier-chip ${p.users?.subscription_status}`}>{p.users?.subscription_status}</span>
+                </div>
+                <div className="admin-payout-amount">${parseFloat(p.amount_usd).toFixed(2)}</div>
+              </div>
+              <div className="admin-payout-detail">
+                <span className="admin-payout-method">{METHOD_LABELS[p.method] || p.method}</span>
+                <span className="admin-payout-handle">{p.payout_detail}</span>
+              </div>
+              <div className="admin-payout-meta">
+                <span style={{ color: STATUS_COLORS[p.status], fontWeight: 700, fontSize: '0.72rem', textTransform: 'uppercase' }}>{p.status}</span>
+                <span style={{ color: 'var(--muted)', fontSize: '0.72rem' }}>
+                  {new Date(p.requested_at).toLocaleString()}
+                </span>
+              </div>
+              {(p.status === 'pending' || p.status === 'processing') && (
+                <div className="admin-payout-actions">
+                  <button
+                    className="btn-admin-success"
+                    onClick={() => markStatus(p.payout_id, 'paid')}
+                    disabled={processing[p.payout_id]}
+                  >
+                    {processing[p.payout_id] ? '...' : '✓ Mark Paid'}
+                  </button>
+                  <button
+                    className="btn-admin-sm"
+                    onClick={() => markStatus(p.payout_id, 'processing')}
+                    disabled={processing[p.payout_id] || p.status === 'processing'}
+                  >
+                    Processing
+                  </button>
+                  <button
+                    className="btn-admin-danger-sm"
+                    onClick={() => { if(confirm('Mark as failed?')) markStatus(p.payout_id, 'failed'); }}
+                    disabled={processing[p.payout_id]}
+                  >
+                    ✕ Fail
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
 function Dashboard({ secret }) {
   const [tab, setTab] = useState('overview');
   const qc = useQueryClient();
@@ -222,8 +321,7 @@ function Dashboard({ secret }) {
       {/* Payouts */}
       {tab === 'payouts' && (
         <div className="admin-section">
-          <div className="admin-card-title" style={{ padding: '0 0 12px' }}>Recent Payouts</div>
-          <div className="admin-empty">Use /admin/status for payout totals.<br/>Full payout management coming soon.</div>
+          <PayoutsPanel adminGet={adminGet} adminPost={adminPost} qc={qc} />
         </div>
       )}
 

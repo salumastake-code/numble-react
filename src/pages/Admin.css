@@ -279,3 +279,30 @@
 
 .flag-reason { font-size: 0.72rem; color: var(--red); font-family: monospace; }
 .winning-num { font-family: var(--display); font-weight: 700; color: var(--gold); font-size: 0.9rem; }
+
+/* Payout rows */
+.admin-payout-row {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.admin-payout-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.admin-payout-user { display: flex; flex-direction: column; gap: 3px; }
+.admin-payout-user strong { font-size: 0.9rem; color: #e0e0e0; }
+.admin-payout-amount { font-family: var(--display); font-size: 1.3rem; font-weight: 700; color: #22c55e; }
+.admin-payout-detail { display: flex; align-items: center; gap: 8px; }
+.admin-payout-method { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: #2a2a2a; color: #aaa; padding: 3px 8px; border-radius: 999px; }
+.admin-payout-handle { font-size: 0.88rem; color: #ccc; font-family: monospace; }
+.admin-payout-meta { display: flex; align-items: center; gap: 12px; }
+.admin-payout-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.btn-admin-success { background: #22c55e; color: #fff; border: none; border-radius: 6px; padding: 8px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+.btn-admin-success:hover { opacity: 0.88; }
+.btn-admin-success:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-admin-danger-sm { background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 6px; padding: 8px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+.btn-admin-danger-sm:hover { background: rgba(239,68,68,0.1); }
+.btn-admin-danger-sm:disabled { opacity: 0.4; cursor: not-allowed; }
