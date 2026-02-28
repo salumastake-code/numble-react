@@ -306,3 +306,12 @@
 .btn-admin-danger-sm { background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 6px; padding: 8px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
 .btn-admin-danger-sm:hover { background: rgba(239,68,68,0.1); }
 .btn-admin-danger-sm:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* User detail */
+.admin-search { flex: 1; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 8px 12px; color: #e0e0e0; font-size: 0.85rem; outline: none; }
+.admin-search:focus { border-color: #444; }
+.admin-user-detail-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px; padding: 16px; }
+.admin-user-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
+.admin-user-stat { background: #111; border-radius: 8px; padding: 10px 8px; text-align: center; }
+.aus-val { font-family: var(--display); font-size: 1.1rem; font-weight: 700; color: #e0e0e0; }
+.aus-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #444; margin-top: 3px; }

@@ -69,6 +69,155 @@ function StatCard({ label, value, sub, color }) {
   );
 }
 
+function UsersPanel({ adminGet, onSelect }) {
+  const [search, setSearch] = useState('');
+  const [q, setQ] = useState('');
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['admin-users', q],
+    queryFn: () => adminGet(`/admin/users?limit=100${q ? `&search=${encodeURIComponent(q)}` : ''}`),
+    refetchInterval: 60000,
+  });
+
+  const users = data?.users || [];
+
+  return (
+    <>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
+        <input
+          className="admin-search"
+          placeholder="Search by name or email..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && setQ(search)}
+        />
+        <button className="btn-admin-sm" onClick={() => setQ(search)}>Search</button>
+        {q && <button className="btn-admin-sm" onClick={() => { setSearch(''); setQ(''); }}>Clear</button>}
+      </div>
+      {isLoading ? <div className="admin-empty">Loading...</div> : (
+        <div className="admin-list">
+          {users.map(u => (
+            <div key={u.user_id} className="admin-list-row" style={{ cursor: 'pointer' }} onClick={() => onSelect(u.user_id)}>
+              <div className="admin-list-main">
+                <div className="admin-list-name">
+                  {u.nickname}
+                  <span className="admin-list-email">{u.email}</span>
+                  <span className={`tier-chip ${u.subscription_status}`}>{u.subscription_status}</span>
+                  {u.fraud_flag && <span style={{ color: 'var(--red)', fontSize: '0.7rem', marginLeft: 4 }}>⚠️ {u.fraud_flag}</span>}
+                </div>
+                <div className="admin-list-meta" style={{ marginTop: 4 }}>
+                  <span style={{ fontSize: '0.75rem', color: '#aaa' }}>🎟️ {u.ticket_balance} tickets</span>
+                  <span style={{ fontSize: '0.75rem', color: '#aaa' }}>🪙 {(u.token_balance || 0).toLocaleString()} tokens</span>
+                  {u.preferred_payout_method && <span style={{ fontSize: '0.72rem', color: '#666' }}>{u.preferred_payout_method}: {u.preferred_payout_detail}</span>}
+                </div>
+                <div className="admin-list-date">Joined {new Date(u.created_at).toLocaleDateString()}</div>
+              </div>
+              <span style={{ color: '#444', fontSize: '1.2rem' }}>›</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+function UserDetail({ userId, adminGet, onBack }) {
+  const { data, isLoading } = useQuery({
+    queryKey: ['admin-user-detail', userId],
+    queryFn: () => adminGet(`/admin/users/${userId}`),
+  });
+
+  if (isLoading) return <div className="admin-empty">Loading...</div>;
+  const { user, entries, payouts, prizes } = data || {};
+  if (!user) return <div className="admin-empty">User not found</div>;
+
+  return (
+    <div>
+      <button className="btn-admin-sm" onClick={onBack} style={{ marginBottom: 14 }}>← Back</button>
+
+      {/* User card */}
+      <div className="admin-user-detail-card">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#e0e0e0' }}>{user.nickname}</div>
+            <div style={{ fontSize: '0.82rem', color: '#888', marginTop: 2 }}>{user.email}</div>
+            <div style={{ fontSize: '0.68rem', color: '#444', fontFamily: 'monospace', marginTop: 2 }}>{user.user_id}</div>
+          </div>
+          <span className={`tier-chip ${user.subscription_status}`}>{user.subscription_status}</span>
+        </div>
+        <div className="admin-user-stats">
+          <div className="admin-user-stat"><div className="aus-val">{(user.token_balance || 0).toLocaleString()}</div><div className="aus-label">Tokens</div></div>
+          <div className="admin-user-stat"><div className="aus-val">{user.ticket_balance || 0}</div><div className="aus-label">Tickets</div></div>
+          <div className="admin-user-stat"><div className="aus-val">{entries?.length || 0}</div><div className="aus-label">Entries</div></div>
+          <div className="admin-user-stat"><div className="aus-val" style={{ color: '#22c55e' }}>${prizes?.filter(p => p.amount_usd > 0).reduce((s, p) => s + parseFloat(p.amount_usd), 0).toFixed(2)}</div><div className="aus-label">Won</div></div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 10, fontSize: '0.78rem', color: '#666' }}>
+          <div>Referral code: <span style={{ color: '#aaa' }}>{user.referral_code || '—'}</span></div>
+          <div>Referred by: <span style={{ color: '#aaa' }}>{user.referred_by || '—'}</span></div>
+          <div>Payout: <span style={{ color: '#aaa' }}>{user.preferred_payout_method ? `${user.preferred_payout_method} — ${user.preferred_payout_detail}` : '—'}</span></div>
+          {user.fraud_flag && <div style={{ color: 'var(--red)' }}>⚠️ Flagged: {user.fraud_flag}</div>}
+          <div>Joined: <span style={{ color: '#aaa' }}>{new Date(user.created_at).toLocaleString()}</span></div>
+        </div>
+      </div>
+
+      {/* Recent entries */}
+      <div className="admin-card-title" style={{ margin: '16px 0 8px' }}>Recent Entries</div>
+      {!entries?.length ? <div className="admin-empty">No entries</div> : (
+        <div className="admin-list">
+          {entries.slice(0, 10).map(e => (
+            <div key={e.entry_id} className="admin-list-row" style={{ cursor: 'default' }}>
+              <div className="admin-list-main">
+                <div className="admin-list-name" style={{ fontFamily: 'monospace', fontSize: '1.1rem' }}>{e.number}</div>
+                <div className="admin-list-meta">
+                  <span style={{ fontSize: '0.72rem', color: '#666' }}>Week of {e.draws?.week_start}</span>
+                  {e.draws?.winning_number && <span style={{ fontSize: '0.72rem', color: e.number === e.draws.winning_number ? '#22c55e' : '#555' }}>→ {e.draws.winning_number}</span>}
+                </div>
+              </div>
+              <span style={{ fontSize: '0.7rem', color: '#444' }}>{new Date(e.created_at).toLocaleDateString()}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Prizes */}
+      <div className="admin-card-title" style={{ margin: '16px 0 8px' }}>Prizes</div>
+      {!prizes?.length ? <div className="admin-empty">No prizes</div> : (
+        <div className="admin-list">
+          {prizes.map(p => (
+            <div key={p.prize_id} className="admin-list-row" style={{ cursor: 'default' }}>
+              <div className="admin-list-main">
+                <div className="admin-list-name">{p.prize_type} {p.amount_usd > 0 ? `$${p.amount_usd}` : `+${p.tokens_awarded} tokens`}</div>
+                <div className="admin-list-meta">
+                  <span style={{ fontSize: '0.72rem', color: p.paid_out ? '#22c55e' : '#f97316' }}>{p.paid_out ? '✓ Paid' : 'Unpaid'}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Payouts */}
+      <div className="admin-card-title" style={{ margin: '16px 0 8px' }}>Payout Requests</div>
+      {!payouts?.length ? <div className="admin-empty">No payout requests</div> : (
+        <div className="admin-list">
+          {payouts.map(p => (
+            <div key={p.payout_id} className="admin-list-row" style={{ cursor: 'default' }}>
+              <div className="admin-list-main">
+                <div className="admin-list-name">${parseFloat(p.amount_usd).toFixed(2)} via {p.method}</div>
+                <div className="admin-list-meta">
+                  <span style={{ color: STATUS_COLORS[p.status], fontSize: '0.72rem', fontWeight: 700 }}>{p.status}</span>
+                  <span style={{ fontSize: '0.72rem', color: '#555' }}>{p.payout_detail}</span>
+                </div>
+              </div>
+              <span style={{ fontSize: '0.7rem', color: '#444' }}>{new Date(p.requested_at).toLocaleDateString()}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const METHOD_LABELS = { paypal: 'PayPal', venmo: 'Venmo', cashapp: 'Cash App', stripe: 'Bank', zelle: 'Zelle' };
 const STATUS_COLORS = { pending: '#f97316', processing: '#3b82f6', paid: '#22c55e', failed: '#ef4444' };
 
@@ -170,6 +319,7 @@ function PayoutsPanel({ adminGet, adminPost, qc }) {
 
 function Dashboard({ secret }) {
   const [tab, setTab] = useState('overview');
+  const [selectedUser, setSelectedUser] = useState(null);
   const qc = useQueryClient();
   const { adminGet, adminPost } = useAdmin(secret);
 
@@ -235,8 +385,8 @@ function Dashboard({ secret }) {
 
       {/* Tabs */}
       <div className="admin-tabs">
-        {['overview', 'fraud', 'payouts', 'draws'].map(t => (
-          <button key={t} className={`admin-tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>
+        {['overview', 'users', 'fraud', 'payouts', 'draws'].map(t => (
+          <button key={t} className={`admin-tab ${tab === t ? 'active' : ''}`} onClick={() => { setTab(t); setSelectedUser(null); }}>
             {t.charAt(0).toUpperCase() + t.slice(1)}
             {t === 'fraud' && (s?.users?.flagged > 0) && <span className="badge">{s.users.flagged}</span>}
           </button>
@@ -287,6 +437,16 @@ function Dashboard({ secret }) {
             {openDrawMutation.data && <div className="admin-result">{JSON.stringify(openDrawMutation.data?.draw || openDrawMutation.data, null, 2)}</div>}
             {executeDrawMutation.data && <div className="admin-result">{JSON.stringify(executeDrawMutation.data, null, 2)}</div>}
           </div>
+        </div>
+      )}
+
+      {/* Users */}
+      {tab === 'users' && (
+        <div className="admin-section">
+          {selectedUser
+            ? <UserDetail userId={selectedUser} adminGet={adminGet} onBack={() => setSelectedUser(null)} />
+            : <UsersPanel adminGet={adminGet} onSelect={setSelectedUser} />
+          }
         </div>
       )}
 
