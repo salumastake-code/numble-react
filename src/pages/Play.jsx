@@ -122,9 +122,10 @@ export default function Play() {
 
   const submitMutation = useMutation({
     mutationFn: (number) => api.post('/entries', { number, idempotency_key: crypto.randomUUID() }),
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       qc.invalidateQueries(['current-draw']);
-      showToast(`Entry ${input} submitted!`, 'success');
+      qc.refetchQueries(['current-draw']);
+      showToast(`Entry ${variables} submitted!`, 'success');
       setInput('');
     },
     onError: (e) => showToast(e.message || 'Submission failed', 'error'),
