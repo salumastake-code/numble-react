@@ -12,6 +12,18 @@
   text-align: center;
 }
 
+/* Compact hero for sign-in / sign-up — just logo, no tagline */
+.auth-hero--compact {
+  padding: 20px 28px 16px;
+}
+.auth-hero--compact .auth-logo {
+  margin-bottom: 0;
+}
+.auth-hero--compact .auth-headline,
+.auth-hero--compact .auth-sub {
+  display: none;
+}
+
 .auth-logo {
   display: flex;
   align-items: center;

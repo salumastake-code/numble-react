@@ -169,16 +169,29 @@ export default function Auth() {
   // ── Sign In ───────────────────────────────────────────────────────────────
   if (mode === 'login') {
     return (
-      <div className="auth-page">
-        {hero}
+      <div className="auth-page auth-page--form">
+        <div className="auth-hero auth-hero--compact">
+          <div className="auth-logo">
+            <img src="/favicon.svg" alt="" className="auth-logo-icon" />
+            <span className="auth-logo-text">NUMBLE</span>
+          </div>
+        </div>
         <div className="auth-card">
           <button className="auth-back-btn" onClick={() => setMode(null)}>← Back</button>
           <h2 className="auth-card-title">Sign In</h2>
+
+          {/* Google first — always visible */}
+          <button className="btn-google" onClick={() => signInWithGoogleAndSaveRef(form.referral)} type="button">
+            {GOOGLE_ICON} Continue with Google
+          </button>
+
+          <div className="auth-divider"><span>or</span></div>
+
           <div className="auth-fields">
             <div className="field-group">
               <label>Email</label>
               <input type="email" placeholder="your@email.com" value={form.email}
-                onChange={e => update('email', e.target.value)} autoComplete="email" autoFocus />
+                onChange={e => update('email', e.target.value)} autoComplete="email" />
             </div>
             <div className="field-group">
               <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -190,13 +203,11 @@ export default function Auth() {
                 onKeyDown={e => e.key === 'Enter' && handleLogin()} />
             </div>
           </div>
+
           <button className="btn-primary" onClick={handleLogin} disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
-          <div className="auth-divider"><span>or</span></div>
-          <button className="btn-google" onClick={() => signInWithGoogleAndSaveRef(form.referral)} type="button">
-            {GOOGLE_ICON} Sign in with Google
-          </button>
+
           <p className="auth-switch-link">
             Don't have an account? <a href="#" onClick={e => { e.preventDefault(); setMode('register'); }}>Create one</a>
           </p>
@@ -207,16 +218,29 @@ export default function Auth() {
 
   // ── Sign Up ───────────────────────────────────────────────────────────────
   return (
-    <div className="auth-page">
-      {hero}
+    <div className="auth-page auth-page--form">
+      <div className="auth-hero auth-hero--compact">
+        <div className="auth-logo">
+          <img src="/favicon.svg" alt="" className="auth-logo-icon" />
+          <span className="auth-logo-text">NUMBLE</span>
+        </div>
+      </div>
       <div className="auth-card">
         <button className="auth-back-btn" onClick={() => setMode(null)}>← Back</button>
         <h2 className="auth-card-title">Create Account</h2>
+
+        {/* Google first — always visible */}
+        <button className="btn-google" onClick={() => signInWithGoogleAndSaveRef(form.referral)} type="button">
+          {GOOGLE_ICON} Sign up with Google
+        </button>
+
+        <div className="auth-divider"><span>or</span></div>
+
         <div className="auth-fields">
           <div className="field-group">
             <label>Email</label>
             <input type="email" placeholder="your@email.com" value={form.email}
-              onChange={e => update('email', e.target.value)} autoComplete="email" autoFocus />
+              onChange={e => update('email', e.target.value)} autoComplete="email" />
           </div>
           <div className="field-group">
             <label>Username</label>
@@ -251,12 +275,6 @@ export default function Auth() {
 
         <button className="btn-primary" onClick={handleRegister} disabled={loading}>
           {loading ? 'Creating...' : 'Create Account'}
-        </button>
-
-        <div className="auth-divider"><span>or</span></div>
-
-        <button className="btn-google" onClick={() => signInWithGoogleAndSaveRef(form.referral)} type="button">
-          {GOOGLE_ICON} Sign up with Google
         </button>
 
         <p className="auth-legal">
