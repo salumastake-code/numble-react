@@ -14,6 +14,7 @@ export default function AuthCallback() {
   // States: 'loading' | 'pick-nickname' | 'done' | 'error'
   const [phase, setPhase] = useState('loading');
   const [nickname, setNickname] = useState('');
+  const [refInput, setRefInput] = useState('');
   const [saving, setSaving] = useState(false);
   const pendingRefCode = useRef(null);
   // Use refs for tokens so they're always current in async handlers
@@ -124,6 +125,7 @@ export default function AuthCallback() {
         const savedRef = localStorage.getItem('numble_pending_ref');
         if (savedRef) {
           pendingRefCode.current = savedRef;
+          setRefInput(savedRef);
           localStorage.removeItem('numble_pending_ref');
         }
         setPhase('pick-nickname');
@@ -166,7 +168,7 @@ export default function AuthCallback() {
         },
         body: JSON.stringify({
           nickname: clean,
-          referral_code: pendingRefCode.current || undefined,
+          referral_code: refInput.trim().toUpperCase() || pendingRefCode.current || undefined,
         }),
       });
 
@@ -218,6 +220,17 @@ export default function AuthCallback() {
                 autoCorrect="off"
                 autoFocus
                 onKeyDown={e => e.key === 'Enter' && handleSaveNickname()}
+              />
+            </div>
+            <div className="field-group">
+              <label>Referral Code <span className="optional">(optional)</span></label>
+              <input
+                type="text"
+                placeholder="Enter code if you have one"
+                value={refInput}
+                onChange={e => setRefInput(e.target.value.toUpperCase())}
+                autoCapitalize="off"
+                autoCorrect="off"
               />
             </div>
           </div>
