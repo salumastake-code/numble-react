@@ -116,7 +116,6 @@ export default function Spin() {
   const [result, setResult] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [history, setHistory] = useState([]);
-  const [debugInfo, setDebugInfo] = useState('');
   const animFrameRef = useRef(null);
   const rotationRef = useRef(0);
 
@@ -181,7 +180,6 @@ export default function Spin() {
       // finalRotation % 360 === targetAngle guaranteed
       const finalRotation = rotationRef.current + fullSpins + forwardToTarget;
 
-      setDebugInfo(`idx=${outcomeIndex} (${data.outcome.label}) | target=${targetAngle.toFixed(1)}° | final%360=${(finalRotation%360).toFixed(1)}°`);
 
       // Animate with easeOut
       const startRotation = rotationRef.current;
@@ -264,11 +262,6 @@ export default function Spin() {
         {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — <TokenIcon size={14} /> 300</span>}
       </button>
 
-      {debugInfo && (
-        <div style={{background:'#1a1a1a',color:'#0f0',fontFamily:'monospace',fontSize:'11px',padding:'8px 12px',borderRadius:'8px',margin:'8px 0',wordBreak:'break-all',textAlign:'center'}}>
-          {debugInfo}
-        </div>
-      )}
 
       {tokenBalance < 300 && (
         <p className="spin-no-tokens">
