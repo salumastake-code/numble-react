@@ -128,7 +128,7 @@ export default function Profile() {
           </div>
           <div className="stat-card">
             <div className="stat-label">Balance</div>
-            <div className="stat-value gold">${totalEarned.toFixed(2)}</div>
+            <div className="stat-value gold">${cashBalance.toFixed(2)}</div>
           </div>
         </div>
 
