@@ -177,7 +177,7 @@ export default function Spin() {
       // Segment 0 midpoint is 22.5° past top (clockwise). So with R=0, pointer is
       // at the START of segment 0, not its center.
       // Correct: R = -22.5 - i*45 = -(22.5 + i*45) => normalized: (337.5 - i*45)
-      const targetAngle = ((337.5 - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
+      const targetAngle = ((67.5 - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
       const current = rotationRef.current; // in [0, 360)
       // How many degrees forward to reach targetAngle from current
       const forwardToTarget = (targetAngle - current + 360) % 360 || 360; // at least 360 so we always move forward
