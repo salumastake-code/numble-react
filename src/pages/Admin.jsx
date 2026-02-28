@@ -121,11 +121,33 @@ function UsersPanel({ adminGet, onSelect }) {
   );
 }
 
-function UserDetail({ userId, adminGet, onBack }) {
-  const { data, isLoading } = useQuery({
+function UserDetail({ userId, adminGet, adminPost, onBack }) {
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['admin-user-detail', userId],
     queryFn: () => adminGet(`/admin/users/${userId}`),
   });
+  const [adjustAmount, setAdjustAmount] = useState('');
+  const [adjustReason, setAdjustReason] = useState('');
+  const [adjusting, setAdjusting] = useState(false);
+  const [adjustMsg, setAdjustMsg] = useState('');
+
+  async function handleAdjust() {
+    const amt = parseInt(adjustAmount);
+    if (!amt || !adjustReason.trim()) return;
+    setAdjusting(true);
+    setAdjustMsg('');
+    try {
+      const res = await adminPost(`/admin/users/${userId}/adjust-tokens`, { amount: amt, reason: adjustReason.trim() });
+      setAdjustMsg(res.message || 'Done');
+      setAdjustAmount('');
+      setAdjustReason('');
+      refetch();
+    } catch (e) {
+      setAdjustMsg('Error: ' + e.message);
+    } finally {
+      setAdjusting(false);
+    }
+  }
 
   if (isLoading) return <div className="admin-empty">Loading...</div>;
   const { user, entries, payouts, prizes } = data || {};
@@ -158,6 +180,36 @@ function UserDetail({ userId, adminGet, onBack }) {
           {user.fraud_flag && <div style={{ color: 'var(--red)' }}>⚠️ Flagged: {user.fraud_flag}</div>}
           <div>Joined: <span style={{ color: '#aaa' }}>{new Date(user.created_at).toLocaleString()}</span></div>
         </div>
+      </div>
+
+      {/* Adjust tokens */}
+      <div className="admin-card-title" style={{ margin: '16px 0 8px' }}>Adjust Tokens</div>
+      <div className="admin-adjust-card">
+        <div className="admin-adjust-row">
+          <input
+            className="admin-search"
+            placeholder="Amount (e.g. 500 or -1000)"
+            value={adjustAmount}
+            onChange={e => setAdjustAmount(e.target.value)}
+            type="number"
+            style={{ width: 140 }}
+          />
+          <input
+            className="admin-search"
+            placeholder="Reason (e.g. goodwill bonus)"
+            value={adjustReason}
+            onChange={e => setAdjustReason(e.target.value)}
+            style={{ flex: 1 }}
+          />
+          <button
+            className="btn-admin-success"
+            onClick={handleAdjust}
+            disabled={adjusting || !adjustAmount || !adjustReason.trim()}
+          >
+            {adjusting ? '...' : 'Apply'}
+          </button>
+        </div>
+        {adjustMsg && <div style={{ fontSize: '0.8rem', color: adjustMsg.startsWith('Error') ? 'var(--red)' : '#22c55e', marginTop: 8 }}>{adjustMsg}</div>}
       </div>
 
       {/* Recent entries */}
@@ -444,7 +496,7 @@ function Dashboard({ secret }) {
       {tab === 'users' && (
         <div className="admin-section">
           {selectedUser
-            ? <UserDetail userId={selectedUser} adminGet={adminGet} onBack={() => setSelectedUser(null)} />
+            ? <UserDetail userId={selectedUser} adminGet={adminGet} adminPost={adminPost} onBack={() => setSelectedUser(null)} />
             : <UsersPanel adminGet={adminGet} onSelect={setSelectedUser} />
           }
         </div>
