@@ -179,6 +179,16 @@ export default function Spin() {
       // finalRotation % 360 === targetAngle guaranteed
       const finalRotation = rotationRef.current + fullSpins + forwardToTarget;
 
+      console.log('[SPIN DEBUG]', {
+        outcomeIndex, outcomeLabel: data.outcome.label,
+        targetAngle: targetAngle.toFixed(4),
+        currentMod: currentMod.toFixed(4),
+        forwardToTarget: forwardToTarget.toFixed(4),
+        finalRotation: finalRotation.toFixed(4),
+        'finalRotation%360': (finalRotation % 360).toFixed(4),
+        'matches target': Math.abs((finalRotation % 360) - targetAngle) < 0.01,
+      });
+
       // Animate with easeOut
       const startRotation = rotationRef.current;
       const totalDelta = finalRotation - startRotation;
