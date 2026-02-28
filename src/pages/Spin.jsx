@@ -224,12 +224,20 @@ export default function Spin() {
           // Keep raw cumulative rotation — normalization caused drift on multi-spin sessions
           rotationRef.current = finalRotation;
           setRotation(finalRotation);
-          setResult(data.outcome);
           setTokenBalance(data.token_balance ?? 0);
           if (setTicketBalance) setTicketBalance(data.ticket_balance ?? 0);
-          setShowResult(true);
-          setSpinning(false);
-          loadHistory();
+
+          if (data.outcome.respin) {
+            // RESPIN: brief pause, show "↺ Free Respin!" toast, then auto-spin
+            setSpinning(false);
+            showToast('↺ Free Respin!', 'success');
+            setTimeout(() => handleSpin(), 1200);
+          } else {
+            setResult(data.outcome);
+            setShowResult(true);
+            setSpinning(false);
+            loadHistory();
+          }
         }
       }
 
@@ -283,13 +291,7 @@ export default function Spin() {
       {showResult && result && (
         <div className="spin-result-overlay" onClick={() => setShowResult(false)}>
           <div className="spin-result-card" onClick={e => e.stopPropagation()}>
-            {result.respin ? (
-              <>
-                <div className="spin-result-icon">↺</div>
-                <div className="spin-result-label" style={{color:'#6366f1'}}>FREE RESPIN!</div>
-                <div className="spin-result-sub">No charge — spin again!</div>
-              </>
-            ) : result.bankrupt ? (
+            {result.bankrupt ? (
               <>
                 <div className="spin-result-icon">💀</div>
                 <div className="spin-result-label bankrupt">ZERO</div>
@@ -306,7 +308,7 @@ export default function Spin() {
               </>
             )}
             <button className="spin-result-close" onClick={() => setShowResult(false)}>
-              {result.respin ? 'Spin Again!' : 'Continue'}
+              Continue
             </button>
           </div>
         </div>
