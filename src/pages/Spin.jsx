@@ -5,23 +5,22 @@ import useStore from '../store/useStore';
 import TokenIcon from '../components/TokenIcon';
 import './Spin.css';
 
-// ORDER MUST match backend WHEEL_OUTCOMES exactly (index determines animation target)
-// 13 segments, 27.6923° each — updated 2026-02-28
-// Visual layout: 0 (idx 6) flanked by 2500 (idx 5) and 1000 (idx 7)
+// ORDER matches actual visual positions clockwise from top (pointer at 12 o'clock)
+// idx0 = segment at top when rotation=0. Must match backend WHEEL_OUTCOMES exactly.
 const OUTCOMES = [
-  { label: 'RESPIN', tokens: 0,    color: '#6366f1', respin: true  }, // idx 0
-  { label: '300',    tokens: 300,  color: '#f59e0b', respin: false }, // idx 1
-  { label: '700',    tokens: 700,  color: '#3b82f6', respin: false }, // idx 2
-  { label: '100',    tokens: 100,  color: '#ef4444', respin: false }, // idx 3
-  { label: '500',    tokens: 500,  color: '#22c55e', respin: false }, // idx 4
-  { label: '2,500',  tokens: 2500, color: '#f59e0b', respin: false }, // idx 5  ← left of 0
-  { label: '0',      tokens: 0,    color: '#1a1a1a', respin: false }, // idx 6  ← zero
-  { label: '1,000',  tokens: 1000, color: '#ec4899', respin: false }, // idx 7  ← right of 0
-  { label: '200',    tokens: 200,  color: '#f97316', respin: false }, // idx 8
-  { label: '600',    tokens: 600,  color: '#14b8a6', respin: false }, // idx 9
-  { label: '900',    tokens: 900,  color: '#a855f7', respin: false }, // idx 10
-  { label: '400',    tokens: 400,  color: '#eab308', respin: false }, // idx 11
-  { label: '800',    tokens: 800,  color: '#8b5cf6', respin: false }, // idx 12
+  { label: '0',      tokens: 0,    color: '#1a1a1a', respin: false }, // idx 0  — top
+  { label: '1,000',  tokens: 1000, color: '#ec4899', respin: false }, // idx 1
+  { label: '200',    tokens: 200,  color: '#f97316', respin: false }, // idx 2
+  { label: '600',    tokens: 600,  color: '#14b8a6', respin: false }, // idx 3
+  { label: '900',    tokens: 900,  color: '#a855f7', respin: false }, // idx 4
+  { label: '400',    tokens: 400,  color: '#eab308', respin: false }, // idx 5
+  { label: '800',    tokens: 800,  color: '#8b5cf6', respin: false }, // idx 6
+  { label: 'RESPIN', tokens: 0,    color: '#6366f1', respin: true  }, // idx 7
+  { label: '300',    tokens: 300,  color: '#f59e0b', respin: false }, // idx 8
+  { label: '700',    tokens: 700,  color: '#3b82f6', respin: false }, // idx 9
+  { label: '100',    tokens: 100,  color: '#ef4444', respin: false }, // idx 10
+  { label: '500',    tokens: 500,  color: '#22c55e', respin: false }, // idx 11
+  { label: '2,500',  tokens: 2500, color: '#f59e0b', respin: false }, // idx 12
 ];
 
 const NUM_SEGMENTS = OUTCOMES.length; // 13
@@ -165,9 +164,10 @@ export default function Spin() {
       //   midpoint + R ≡ 0 (mod 360)
       //   R = (90 - SEGMENT_ANGLE/2 - i * SEGMENT_ANGLE) mod 360
       const halfSeg = SEGMENT_ANGLE / 2;
-      // Canvas draws with idx6 (zero) at top when rotation=0, so correct by -6 mod 13
-      const correctedIdx = ((outcomeIndex - 6) % 13 + 13) % 13;
-      const targetAngle = ((90 - halfSeg - correctedIdx * SEGMENT_ANGLE) % 360 + 360) % 360;
+      // Segment i midpoint in canvas coords: i*SEG - 90 + halfSeg
+      // For pointer (top=0°) to hit midpoint: R = -(midpoint) mod 360 = (90 - halfSeg - i*SEG) mod 360
+      // No index correction needed — OUTCOMES array is ordered to match visual positions directly.
+      const targetAngle = ((90 - halfSeg - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
 
       // Normalize current rotation to [0, 360) for delta calculation
       const currentMod = ((rotationRef.current % 360) + 360) % 360;
@@ -175,7 +175,7 @@ export default function Spin() {
       // Forward distance from currentMod to targetAngle (always positive, clockwise)
       // If result is less than one segment, add 360 to ensure a visible spin
       let forwardToTarget = (targetAngle - currentMod + 360) % 360;
-      if (forwardToTarget < SEGMENT_ANGLE) forwardToTarget += 360;
+      if (forwardToTarget < SEGMENT_ANGLE * 2) forwardToTarget += 360; // ensure clean spin
 
       const fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
       // finalRotation % 360 === targetAngle guaranteed
