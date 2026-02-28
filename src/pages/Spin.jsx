@@ -159,40 +159,25 @@ export default function Spin() {
       const data = await api.post('/spin');
       const outcomeIndex = data.outcome.index;
 
-      // Calculate target rotation so the pointer (fixed at top) lands on the
-      // center of the winning segment.
-      //
-      // The canvas draws segment i with:
-      //   leading edge at (i*45 - 90)°, midpoint at (i*45 - 67.5)°
-      //
-      // After CSS rotation R, the midpoint is at (i*45 - 67.5 + R)°.
-      // For the pointer (top = 0°) to hit segment i:
-      //   R ≡ 67.5 - i*45  (mod 360)
-      //
-      // rotationRef is always normalized to [0, 360) at end of each spin.
-      // We spin forward: from current position, add enough full rotations
-      // for drama, then land exactly on the target absolute angle.
-      // Segment i midpoint is at (i*45 - 90 + 22.5)° = (i*45 - 67.5)° in canvas coords.
-      // Pointer is at top (0°). To bring segment i's midpoint to top, we need
-      // the CSS rotation R such that: (i*45 - 67.5 + R) ≡ 0 (mod 360)
-      // => R = 67.5 - i*45
-      // BUT: canvas arc startAngle = (i*45 - 90)° means segment 0 STARTS at top.
-      // Segment 0 midpoint is 22.5° past top (clockwise). So with R=0, pointer is
-      // at the START of segment 0, not its center.
-      // Correct: R = -22.5 - i*45 = -(22.5 + i*45) => normalized: (337.5 - i*45)
-      // Segment i midpoint in canvas coords: i*SEGMENT_ANGLE - 90 + SEGMENT_ANGLE/2
-      // To bring midpoint to top (pointer), CSS rotation R = -(midpoint) mod 360
-      // = (90 - i*SEGMENT_ANGLE - SEGMENT_ANGLE/2) mod 360
-      // = (90 - SEGMENT_ANGLE/2 - i*SEGMENT_ANGLE) mod 360
-      const halfSeg = SEGMENT_ANGLE / 2; // 13.8462°
-      const targetAngle = (((90 - halfSeg) - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
-      // Use raw cumulative rotation — never normalized — so forwardToTarget is always accurate
-      const current = rotationRef.current;
-      const currentMod = ((current % 360) + 360) % 360;
-      // How many degrees forward from current mod position to reach targetAngle
-      const forwardToTarget = (targetAngle - currentMod + 360) % 360 || 360;
+      // ── Angle calculation ────────────────────────────────────────────────
+      // Canvas draws segment i with midpoint at: (i * SEGMENT_ANGLE - 90 + SEGMENT_ANGLE/2)°
+      // To bring that midpoint to the pointer (top = 0°), CSS rotation R must satisfy:
+      //   midpoint + R ≡ 0 (mod 360)
+      //   R = (90 - SEGMENT_ANGLE/2 - i * SEGMENT_ANGLE) mod 360
+      const halfSeg = SEGMENT_ANGLE / 2;
+      const targetAngle = ((90 - halfSeg - outcomeIndex * SEGMENT_ANGLE) % 360 + 360) % 360;
+
+      // Normalize current rotation to [0, 360) for delta calculation
+      const currentMod = ((rotationRef.current % 360) + 360) % 360;
+
+      // Forward distance from currentMod to targetAngle (always positive, clockwise)
+      // If result is less than one segment, add 360 to ensure a visible spin
+      let forwardToTarget = (targetAngle - currentMod + 360) % 360;
+      if (forwardToTarget < SEGMENT_ANGLE) forwardToTarget += 360;
+
       const fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
-      const finalRotation = current + fullSpins + forwardToTarget;
+      // finalRotation % 360 === targetAngle guaranteed
+      const finalRotation = rotationRef.current + fullSpins + forwardToTarget;
 
       // Animate with easeOut
       const startRotation = rotationRef.current;
