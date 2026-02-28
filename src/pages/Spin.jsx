@@ -5,25 +5,24 @@ import useStore from '../store/useStore';
 import TokenIcon from '../components/TokenIcon';
 import './Spin.css';
 
-// Must match backend WHEEL_OUTCOMES exactly (same index = same outcome)
+// 12 segments, 30° each — must match backend WHEEL_OUTCOMES exactly
 const OUTCOMES = [
-  { label: 'RESPIN', tokens: 0,    color: '#6366f1', respin: true  }, // idx 0
-  { label: '300',    tokens: 300,  color: '#f59e0b', respin: false }, // idx 1
-  { label: '700',    tokens: 700,  color: '#3b82f6', respin: false }, // idx 2
-  { label: '100',    tokens: 100,  color: '#ef4444', respin: false }, // idx 3
-  { label: '500',    tokens: 500,  color: '#22c55e', respin: false }, // idx 4
-  { label: '2,500',  tokens: 2500, color: '#f59e0b', respin: false }, // idx 5
-  { label: '0',      tokens: 0,    color: '#1a1a1a', respin: false }, // idx 6
-  { label: '1,000',  tokens: 1000, color: '#ec4899', respin: false }, // idx 7
-  { label: '200',    tokens: 200,  color: '#f97316', respin: false }, // idx 8
-  { label: '600',    tokens: 600,  color: '#14b8a6', respin: false }, // idx 9
-  { label: '900',    tokens: 900,  color: '#a855f7', respin: false }, // idx 10
-  { label: '400',    tokens: 400,  color: '#eab308', respin: false }, // idx 11
-  { label: '800',    tokens: 800,  color: '#8b5cf6', respin: false }, // idx 12
+  { label: '0',     tokens: 0,    color: '#1a1a1a', respin: false }, // idx 0
+  { label: '100',   tokens: 100,  color: '#ef4444', respin: false }, // idx 1
+  { label: '200',   tokens: 200,  color: '#f97316', respin: false }, // idx 2
+  { label: '300',   tokens: 300,  color: '#f59e0b', respin: false }, // idx 3
+  { label: '400',   tokens: 400,  color: '#eab308', respin: false }, // idx 4
+  { label: '500',   tokens: 500,  color: '#22c55e', respin: false }, // idx 5
+  { label: '600',   tokens: 600,  color: '#14b8a6', respin: false }, // idx 6
+  { label: '700',   tokens: 700,  color: '#3b82f6', respin: false }, // idx 7
+  { label: '800',   tokens: 800,  color: '#8b5cf6', respin: false }, // idx 8
+  { label: '900',   tokens: 900,  color: '#a855f7', respin: false }, // idx 9
+  { label: '1,000', tokens: 1000, color: '#ec4899', respin: false }, // idx 10
+  { label: '2,500', tokens: 2500, color: '#f59e0b', respin: false }, // idx 11
 ];
 
-const NUM_SEGMENTS = OUTCOMES.length; // 13
-const SEGMENT_ANGLE = 360 / NUM_SEGMENTS; // 27.6923°
+const NUM_SEGMENTS = 12;
+const SEGMENT_ANGLE = 30; // exactly 30° per segment
 
 function WheelCanvas({ rotation }) {
   const canvasRef = useRef(null);
@@ -114,6 +113,7 @@ export default function Spin() {
   const [result, setResult] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [history, setHistory] = useState([]);
+  const [debugInfo, setDebugInfo] = useState('');
   const animFrameRef = useRef(null);
   const rotationRef = useRef(0);
 
@@ -162,9 +162,11 @@ export default function Spin() {
       // To bring that midpoint to the pointer (top = 0°), CSS rotation R must satisfy:
       //   midpoint + R ≡ 0 (mod 360)
       //   R = (90 - SEGMENT_ANGLE/2 - i * SEGMENT_ANGLE) mod 360
-      const halfSeg = SEGMENT_ANGLE / 2;
-      // -3 correction empirically confirmed: outcome idx=12(800) landed on 800 visually ✅
-      const targetAngle = ((90 - halfSeg - (outcomeIndex - 3) * SEGMENT_ANGLE) % 360 + 360) % 360;
+      // 12 segments × 30° = clean integer math
+      // Segment i midpoint at canvas angle: i*30 - 90 + 15
+      // For pointer at top: R = -(midpoint) mod 360 = (75 - i*30) mod 360
+      const targetAngle = ((75 - outcomeIndex * 30) % 360 + 360) % 360;
+      setDebugInfo(`idx=${outcomeIndex} (${data.outcome.label}) | target=${targetAngle}° | VISUAL SEGMENT AT POINTER: ?`);
 
       // Normalize current rotation to [0, 360) for delta calculation
       const currentMod = ((rotationRef.current % 360) + 360) % 360;
@@ -259,6 +261,12 @@ export default function Spin() {
         {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — <TokenIcon size={14} /> 300</span>}
       </button>
 
+
+      {debugInfo ? (
+        <div style={{background:'#1a1a1a',color:'#0f0',fontFamily:'monospace',fontSize:'11px',padding:'8px 12px',borderRadius:'8px',textAlign:'center'}}>
+          {debugInfo}
+        </div>
+      ) : null}
 
       {tokenBalance < 300 && (
         <p className="spin-no-tokens">
