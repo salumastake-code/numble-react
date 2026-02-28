@@ -6,14 +6,14 @@ import TokenIcon from '../components/TokenIcon';
 import './Spin.css';
 
 const OUTCOMES = [
-  { label: 'BANKRUPT',  tokens: 0,     color: '#1a1a1a', textColor: '#fff' },
-  { label: '250',       tokens: 250,   color: '#ef4444', textColor: '#fff' },
-  { label: '750',       tokens: 750,   color: '#eab308', textColor: '#fff' },
   { label: '1,000',     tokens: 1000,  color: '#f97316', textColor: '#fff' },
-  { label: '1,500',     tokens: 1500,  color: '#a855f7', textColor: '#fff' },
+  { label: '250',       tokens: 250,   color: '#ef4444', textColor: '#fff' },
   { label: '2,500',     tokens: 2500,  color: '#3b82f6', textColor: '#fff' },
-  { label: '5,000',     tokens: 5000,  color: '#22c55e', textColor: '#fff' },
+  { label: 'BANKRUPT',  tokens: 0,     color: '#1a1a1a', textColor: '#fff' },
   { label: '10,000',    tokens: 10000, color: '#f59e0b', textColor: '#fff' },
+  { label: '750',       tokens: 750,   color: '#eab308', textColor: '#fff' },
+  { label: '5,000',     tokens: 5000,  color: '#22c55e', textColor: '#fff' },
+  { label: '1,500',     tokens: 1500,  color: '#a855f7', textColor: '#fff' },
 ];
 
 const NUM_SEGMENTS = OUTCOMES.length;
