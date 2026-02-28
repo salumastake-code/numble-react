@@ -245,13 +245,12 @@ export default function Spin() {
       </div>
 
       <div className="wheel-container">
-        {/* Pointer arrow */}
-        <div className="wheel-pointer">▼</div>
-
         {/* Wheel */}
         <div className="wheel-wrapper">
           <WheelCanvas rotation={rotation} />
         </div>
+        {/* Pointer — absolutely positioned dead-center at top of wheel */}
+        <div className="wheel-pointer" />
       </div>
 
       {/* Spin button */}
