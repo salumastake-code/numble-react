@@ -126,9 +126,13 @@ export default function Profile() {
               <TokenIcon size={16} /> {tokenBalance.toLocaleString()}
             </div>
           </div>
-          <div className="stat-card">
+          <div
+            className={`stat-card${cashBalance > 0 ? ' stat-card--clickable' : ''}`}
+            onClick={() => cashBalance > 0 && navigate('/payout')}
+          >
             <div className="stat-label">Balance</div>
             <div className="stat-value gold">${cashBalance.toFixed(2)}</div>
+            {cashBalance > 0 && <div className="stat-tap-hint">Tap to withdraw →</div>}
           </div>
         </div>
 

@@ -9,6 +9,10 @@
 .profile-tier.free { background: var(--bg-card2); color: var(--muted); border: 1px solid var(--border); }
 .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 10px; text-align: center; box-shadow: var(--shadow); }
+.stat-card--clickable { cursor: pointer; border-color: var(--gold); transition: box-shadow 0.15s, transform 0.1s; }
+.stat-card--clickable:hover { box-shadow: 0 4px 12px rgba(217,119,6,0.2); transform: translateY(-1px); }
+.stat-card--clickable:active { transform: translateY(0); }
+.stat-tap-hint { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; color: var(--gold); margin-top: 5px; text-transform: uppercase; }
 .stat-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
 .stat-value { font-family: var(--display); font-size: 1.3rem; font-weight: 700; color: var(--text); }
 .stat-value.gold { color: var(--gold); }
