@@ -59,25 +59,29 @@ function WheelCanvas({ rotation }) {
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Text
+      // Text — always readable (never upside down)
+      const midAngleDeg = i * SEGMENT_ANGLE - 90 + SEGMENT_ANGLE / 2;
+      const midAngleRad = (midAngleDeg * Math.PI) / 180;
+
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate((startAngle + endAngle) / 2);
-      ctx.textAlign = 'right';
-      ctx.fillStyle = '#fff';
+      ctx.rotate(midAngleRad);
 
-      if (outcome.respin) {
-        ctx.font = 'bold 11px Arial Black, Arial';
-        ctx.fillStyle = '#fff';
-        ctx.fillText('↺ RESPIN', radius - 10, 5);
-      } else if (outcome.tokens === 0) {
-        ctx.font = 'bold 11px Arial Black, Arial';
-        ctx.fillStyle = '#fff';
-        ctx.fillText('✕ 0', radius - 10, 5);
+      // If segment midpoint is in the left half (90°–270°), flip text so it reads outward
+      const isLeftHalf = midAngleDeg > 90 && midAngleDeg < 270;
+      if (isLeftHalf) {
+        ctx.rotate(Math.PI);
+        ctx.textAlign = 'left';
       } else {
-        ctx.font = 'bold 11px Arial Black, Arial';
-        ctx.fillText(`${outcome.label}`, radius - 10, 5);
+        ctx.textAlign = 'right';
       }
+
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 11px Arial Black, Arial';
+
+      const textR = isLeftHalf ? -(radius - 10) : radius - 10;
+      const text = outcome.respin ? '↺ RESPIN' : outcome.tokens === 0 ? '0' : outcome.label;
+      ctx.fillText(text, textR, 5);
 
       ctx.restore();
     });
@@ -293,9 +297,9 @@ export default function Spin() {
           <div className="spin-result-card" onClick={e => e.stopPropagation()}>
             {result.bankrupt ? (
               <>
-                <div className="spin-result-icon">💀</div>
+                <div className="spin-result-icon">😬</div>
                 <div className="spin-result-label bankrupt">ZERO</div>
-                <div className="spin-result-sub">Better luck next spin!</div>
+                <div className="spin-result-sub">So close — spin again!</div>
               </>
             ) : (
               <>
