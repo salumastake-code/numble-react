@@ -165,8 +165,9 @@ export default function Spin() {
       //   midpoint + R ≡ 0 (mod 360)
       //   R = (90 - SEGMENT_ANGLE/2 - i * SEGMENT_ANGLE) mod 360
       const halfSeg = SEGMENT_ANGLE / 2;
-      // -3 segment correction: empirically the wheel over-rotates by 3 segments
-      const targetAngle = ((90 - halfSeg - (outcomeIndex - 3) * SEGMENT_ANGLE) % 360 + 360) % 360;
+      // Canvas draws with idx6 (zero) at top when rotation=0, so correct by -6 mod 13
+      const correctedIdx = ((outcomeIndex - 6) % 13 + 13) % 13;
+      const targetAngle = ((90 - halfSeg - correctedIdx * SEGMENT_ANGLE) % 360 + 360) % 360;
 
       // Normalize current rotation to [0, 360) for delta calculation
       const currentMod = ((rotationRef.current % 360) + 360) % 360;
