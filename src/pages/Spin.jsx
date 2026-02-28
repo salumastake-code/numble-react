@@ -5,24 +5,37 @@ import useStore from '../store/useStore';
 import TokenIcon from '../components/TokenIcon';
 import './Spin.css';
 
-// 12 segments, 30° each — must match backend WHEEL_OUTCOMES exactly
+// ── 12 segments, 30° each ────────────────────────────────────────────────────
+// Order here is the VISUAL clockwise order starting from the top-most segment.
+// Index 0 = the segment that sits at the top when rotation = 0.
+// This list MUST match WHEEL_OUTCOMES in routes/spin.js (same index mapping).
 const OUTCOMES = [
-  { label: '0',     tokens: 0,    color: '#1a1a1a', respin: false }, // idx 0
-  { label: '100',   tokens: 100,  color: '#ef4444', respin: false }, // idx 1
-  { label: '200',   tokens: 200,  color: '#f97316', respin: false }, // idx 2
-  { label: '300',   tokens: 300,  color: '#f59e0b', respin: false }, // idx 3
-  { label: '400',   tokens: 400,  color: '#eab308', respin: false }, // idx 4
-  { label: '500',   tokens: 500,  color: '#22c55e', respin: false }, // idx 5
-  { label: '600',   tokens: 600,  color: '#14b8a6', respin: false }, // idx 6
-  { label: '700',   tokens: 700,  color: '#3b82f6', respin: false }, // idx 7
-  { label: '800',   tokens: 800,  color: '#8b5cf6', respin: false }, // idx 8
-  { label: '900',   tokens: 900,  color: '#a855f7', respin: false }, // idx 9
-  { label: '1,000', tokens: 1000, color: '#ec4899', respin: false }, // idx 10
-  { label: '2,500', tokens: 2500, color: '#f59e0b', respin: false }, // idx 11
+  { label: '900',   tokens: 900,  color: '#a855f7', respin: false }, // idx 0
+  { label: '400',   tokens: 400,  color: '#eab308', respin: false }, // idx 1
+  { label: '↺',     tokens: 0,    color: '#6366f1', respin: true  }, // idx 2  RESPIN
+  { label: '600',   tokens: 600,  color: '#14b8a6', respin: false }, // idx 3
+  { label: '700',   tokens: 700,  color: '#3b82f6', respin: false }, // idx 4
+  { label: '300',   tokens: 300,  color: '#f59e0b', respin: false }, // idx 5
+  { label: '800',   tokens: 800,  color: '#8b5cf6', respin: false }, // idx 6
+  { label: '200',   tokens: 200,  color: '#f97316', respin: false }, // idx 7
+  { label: '1,000', tokens: 1000, color: '#ec4899', respin: false }, // idx 8
+  { label: '0',     tokens: 0,    color: '#1a1a1a', respin: false }, // idx 9  ZERO
+  { label: '2,500', tokens: 2500, color: '#d97706', respin: false }, // idx 10
+  { label: '100',   tokens: 100,  color: '#ef4444', respin: false }, // idx 11
 ];
 
 const NUM_SEGMENTS = 12;
-const SEGMENT_ANGLE = 30; // exactly 30° per segment
+const SEGMENT_ANGLE = 30; // 360 / 12 = exactly 30°
+
+// ── Pointer-to-segment angle formula ────────────────────────────────────────
+// Canvas draws segment i starting at angle: (i * 30 - 90)° from standard canvas 0°.
+// Segment i CENTER sits at canvas angle: (i * 30 - 90 + 15)° = (i * 30 - 75)°.
+// Pointer is at the top of the wheel = canvas angle 270° (= -90°).
+// We need: segCenter + cssRotation ≡ 270° (mod 360)
+//   cssRotation = 270 - (i * 30 - 75) = 345 - i * 30
+function targetAngleForIndex(i) {
+  return ((345 - i * SEGMENT_ANGLE) % 360 + 360) % 360;
+}
 
 function WheelCanvas({ rotation }) {
   const canvasRef = useRef(null);
@@ -31,19 +44,19 @@ function WheelCanvas({ rotation }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    const size = canvas.width;
+    const size = canvas.width; // 320
     const cx = size / 2;
     const cy = size / 2;
     const radius = cx - 8;
 
     ctx.clearRect(0, 0, size, size);
 
-    // Draw segments
     OUTCOMES.forEach((outcome, i) => {
+      // Each segment spans 30°; segment 0 starts at -90° so it straddles the top
       const startAngle = ((i * SEGMENT_ANGLE - 90) * Math.PI) / 180;
-      const endAngle = (((i + 1) * SEGMENT_ANGLE - 90) * Math.PI) / 180;
+      const endAngle   = (((i + 1) * SEGMENT_ANGLE - 90) * Math.PI) / 180;
 
-      // Segment fill
+      // Fill
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.arc(cx, cy, radius, startAngle, endAngle);
@@ -51,32 +64,38 @@ function WheelCanvas({ rotation }) {
       ctx.fillStyle = outcome.color;
       ctx.fill();
 
-      // Segment border
+      // Border
       ctx.strokeStyle = 'rgba(255,255,255,0.3)';
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Text
+      // Label
+      const midAngle = (startAngle + endAngle) / 2;
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate((startAngle + endAngle) / 2);
+      ctx.rotate(midAngle);
       ctx.textAlign = 'right';
-      ctx.fillStyle = '#fff';
-      ctx.font = 'bold 11px Arial Black, Arial';
 
       if (outcome.tokens === 0 && !outcome.respin) {
+        // Zero — bold red ✕
         ctx.fillStyle = '#ef4444';
         ctx.font = 'bold 14px Arial Black, Arial';
         ctx.fillText('✕', radius - 10, 6);
+      } else if (outcome.respin) {
+        // RESPIN
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 10px Arial Black, Arial';
+        ctx.fillText('↺ RESPIN', radius - 10, 5);
       } else {
-        const text = outcome.respin ? '↺ RESPIN' : outcome.label;
-        ctx.fillText(text, radius - 10, 5);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 11px Arial Black, Arial';
+        ctx.fillText(outcome.label, radius - 10, 5);
       }
 
       ctx.restore();
     });
 
-    // Center circle
+    // Center hub
     ctx.beginPath();
     ctx.arc(cx, cy, 22, 0, Math.PI * 2);
     ctx.fillStyle = '#fff';
@@ -92,7 +111,7 @@ function WheelCanvas({ rotation }) {
     ctx.lineWidth = 8;
     ctx.stroke();
 
-  }, []);
+  }, []); // drawn once; rotation applied via CSS transform
 
   return (
     <canvas
@@ -108,14 +127,13 @@ function WheelCanvas({ rotation }) {
 export default function Spin() {
   const navigate = useNavigate();
   const { tokenBalance, ticketBalance, setTokenBalance, setTicketBalance, showToast } = useStore();
-  const [spinning, setSpinning] = useState(false);
-  const [rotation, setRotation] = useState(0);
-  const [result, setResult] = useState(null);
+  const [spinning, setSpinning]     = useState(false);
+  const [rotation, setRotation]     = useState(0);
+  const [result, setResult]         = useState(null);
   const [showResult, setShowResult] = useState(false);
-  const [history, setHistory] = useState([]);
-  const [debugInfo, setDebugInfo] = useState('');
-  const animFrameRef = useRef(null);
-  const rotationRef = useRef(0);
+  const [history, setHistory]       = useState([]);
+  const animFrameRef                = useRef(null);
+  const rotationRef                 = useRef(0);
 
   useEffect(() => {
     loadHistory();
@@ -125,7 +143,7 @@ export default function Spin() {
   async function loadBalance() {
     try {
       const data = await api.get('/profile');
-      if (data.tokenBalance !== undefined) setTokenBalance(data.tokenBalance);
+      if (data.tokenBalance  !== undefined) setTokenBalance(data.tokenBalance);
       if (data.ticketBalance !== undefined && setTicketBalance) setTicketBalance(data.ticketBalance);
     } catch (e) { /* non-fatal */ }
   }
@@ -134,14 +152,12 @@ export default function Spin() {
     try {
       const data = await api.get('/spin/history');
       setHistory(data.spins || []);
-    } catch (e) {
-      // non-fatal
-    }
+    } catch (e) { /* non-fatal */ }
   }
 
   async function handleSpin() {
     if (spinning) return;
-    if (tokenBalance < 300) {
+    if ((tokenBalance ?? 0) < 300) {
       showToast('You need 300 tokens to spin!', 'error');
       return;
     }
@@ -150,69 +166,55 @@ export default function Spin() {
     setShowResult(false);
     setResult(null);
 
-    // Immediately deduct the 300 token cost so the balance drops right away
+    // Optimistic balance deduct
     setTokenBalance((tokenBalance ?? 0) - 300);
 
     try {
       const data = await api.post('/spin');
       const outcomeIndex = data.outcome.index;
 
-      // ── Angle calculation ────────────────────────────────────────────────
-      // Canvas draws segment i with midpoint at: (i * SEGMENT_ANGLE - 90 + SEGMENT_ANGLE/2)°
-      // To bring that midpoint to the pointer (top = 0°), CSS rotation R must satisfy:
-      //   midpoint + R ≡ 0 (mod 360)
-      //   R = (90 - SEGMENT_ANGLE/2 - i * SEGMENT_ANGLE) mod 360
-      // 12 segments × 30° = clean integer math
-      // Segment i midpoint at canvas angle: i*30 - 90 + 15
-      // For pointer at top: R = -(midpoint) mod 360 = (75 - i*30) mod 360
-      const targetAngle = ((75 - outcomeIndex * 30) % 360 + 360) % 360;
-      setDebugInfo(`idx=${outcomeIndex} (${data.outcome.label}) | target=${targetAngle}° | VISUAL SEGMENT AT POINTER: ?`);
+      // ── Spin animation math ──────────────────────────────────────────────
+      // targetAngle: the CSS rotation at which segment outcomeIndex is under the pointer.
+      const targetAngle  = targetAngleForIndex(outcomeIndex);
 
-      // Normalize current rotation to [0, 360) for delta calculation
-      const currentMod = ((rotationRef.current % 360) + 360) % 360;
+      // Current wheel position modulo 360
+      const currentMod   = ((rotationRef.current % 360) + 360) % 360;
 
-      // Forward distance from currentMod to targetAngle (always positive, clockwise)
-      // If result is less than one segment, add 360 to ensure a visible spin
-      let forwardToTarget = (targetAngle - currentMod + 360) % 360;
-      if (forwardToTarget < SEGMENT_ANGLE * 2) forwardToTarget += 360; // ensure clean spin
+      // Forward (clockwise) delta to reach targetAngle from currentMod
+      let fwdDelta = (targetAngle - currentMod + 360) % 360;
+      // Ensure at least 2 full segments of visible travel (avoid tiny nudge)
+      if (fwdDelta < SEGMENT_ANGLE * 2) fwdDelta += 360;
 
-      const fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
-      // finalRotation % 360 === targetAngle guaranteed
-      const finalRotation = rotationRef.current + fullSpins + forwardToTarget;
+      // Add 5–8 full extra rotations for drama
+      const fullSpins    = (5 + Math.floor(Math.random() * 4)) * 360;
+      const finalRotation = rotationRef.current + fullSpins + fwdDelta;
 
-
-      // Animate with easeOut
+      // Ease-out quartic
       const startRotation = rotationRef.current;
-      const totalDelta = finalRotation - startRotation;
-      const duration = 4000; // 4 seconds
-      const startTime = performance.now();
+      const totalDelta    = finalRotation - startRotation;
+      const duration      = 4000;
+      const startTime     = performance.now();
 
-      function easeOut(t) {
-        return 1 - Math.pow(1 - t, 4);
-      }
+      function easeOut(t) { return 1 - Math.pow(1 - t, 4); }
 
       function animate(now) {
         const elapsed = now - startTime;
-        const t = Math.min(elapsed / duration, 1);
-        const easedT = easeOut(t);
-        const currentRotation = startRotation + totalDelta * easedT;
-        rotationRef.current = currentRotation;
-        // Do NOT mod during animation — modding causes a visual jump when
-        // crossing 360° boundaries. Pass the raw cumulative rotation so
-        // the CSS transform increases monotonically throughout the spin.
-        setRotation(currentRotation);
+        const t       = Math.min(elapsed / duration, 1);
+        const cur     = startRotation + totalDelta * easeOut(t);
+        rotationRef.current = cur;
+        setRotation(cur); // raw cumulative — no modding, no drift
 
         if (t < 1) {
           animFrameRef.current = requestAnimationFrame(animate);
         } else {
-          // Keep raw cumulative rotation — normalization caused drift on multi-spin sessions
           rotationRef.current = finalRotation;
           setRotation(finalRotation);
+
+          // Sync server-authoritative balances
           setTokenBalance(data.token_balance ?? 0);
           if (setTicketBalance) setTicketBalance(data.ticket_balance ?? 0);
 
           if (data.outcome.respin) {
-            // RESPIN: brief pause, show "↺ Free Respin!" toast, then auto-spin
             setSpinning(false);
             showToast('↺ Free Respin!', 'success');
             setTimeout(() => handleSpin(), 1200);
@@ -229,46 +231,43 @@ export default function Spin() {
 
     } catch (err) {
       setSpinning(false);
-      const msg = err.message || 'Spin failed';
-      showToast(msg, 'error');
+      // Restore optimistic deduct on error
+      setTokenBalance((tokenBalance ?? 0));
+      showToast(err.message || 'Spin failed', 'error');
     }
   }
 
   return (
     <div className="spin-page">
       <div className="spin-header">
-        <h1 className="spin-title">Spin & Win</h1>
+        <h1 className="spin-title">Spin &amp; Win</h1>
         <div className="spin-balance">
           <TokenIcon size={16} /> <span>{(tokenBalance || 0).toLocaleString()}</span> tokens
         </div>
       </div>
 
       <div className="wheel-container">
-        {/* Wheel */}
         <div className="wheel-wrapper">
           <WheelCanvas rotation={rotation} />
         </div>
-        {/* Pointer — absolutely positioned dead-center at top of wheel */}
+        {/* Fixed pointer — CSS triangle at exact top-center */}
         <div className="wheel-pointer" />
       </div>
 
-      {/* Spin button */}
       <button
         className={`spin-btn ${spinning ? 'spinning' : ''}`}
         onClick={handleSpin}
-        disabled={spinning || tokenBalance < 300}
+        disabled={spinning || (tokenBalance ?? 0) < 300}
       >
-        {spinning ? 'Spinning...' : <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px'}}>SPIN — <TokenIcon size={14} /> 300</span>}
+        {spinning
+          ? 'Spinning...'
+          : <span style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:'6px' }}>
+              SPIN — <TokenIcon size={14} /> 300
+            </span>
+        }
       </button>
 
-
-      {debugInfo ? (
-        <div style={{background:'#1a1a1a',color:'#0f0',fontFamily:'monospace',fontSize:'11px',padding:'8px 12px',borderRadius:'8px',textAlign:'center'}}>
-          {debugInfo}
-        </div>
-      ) : null}
-
-      {tokenBalance < 300 && (
+      {(tokenBalance ?? 0) < 300 && (
         <p className="spin-no-tokens">
           You need 300 tokens to spin.{' '}
           <span className="spin-link" onClick={() => navigate('/profile')}>
@@ -312,7 +311,10 @@ export default function Spin() {
             {history.slice(0, 10).map(spin => (
               <div key={spin.spin_id} className="spin-history-item">
                 <span className="spin-history-label">
-                  {spin.tokens_won === 0 ? '💀 BANKRUPT' : <><TokenIcon size={14} /> {spin.tokens_won.toLocaleString()}</>}
+                  {spin.tokens_won === 0
+                    ? '💀 BANKRUPT'
+                    : <><TokenIcon size={14} /> {spin.tokens_won.toLocaleString()}</>
+                  }
                 </span>
                 <span className="spin-history-time">
                   {new Date(spin.created_at).toLocaleDateString()}
