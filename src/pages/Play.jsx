@@ -66,7 +66,15 @@ export default function Play() {
   const { data, isLoading } = useQuery({
     queryKey: ['current-draw'],
     queryFn: () => api.get('/draws/current'),
-    refetchInterval: 60000,
+    // Poll every 30s around midnight Monday (otherwise every 60s)
+    refetchInterval: () => {
+      const now = new Date();
+      const dayMins = now.getUTCDay() * 1440 + now.getUTCHours() * 60 + now.getUTCMinutes();
+      // Monday 00:00–00:30 UTC → poll every 15s
+      const mondayMidnight = 1 * 1440; // day=1, hour=0
+      if (dayMins >= mondayMidnight && dayMins < mondayMidnight + 30) return 15000;
+      return 60000;
+    },
     retry: false,
   });
 
@@ -77,17 +85,17 @@ export default function Play() {
   const user = data?.user;
   const { time, week } = useCountdown(draw);
 
-  // Check for last draw result
-  useEffect(() => {
-    async function checkResult() {
-      try {
-        const hist = await api.get('/draws/history?limit=1');
-        if (!hist?.draws?.length) return;
-        const last = hist.draws[0];
-        if (!last.winning_number) return;
-        const seenKey = 'numble_seen_draw_' + last.draw_id;
-        if (localStorage.getItem(seenKey)) return;
-        localStorage.setItem(seenKey, '1');
+  // Check for last draw result — runs on mount AND whenever data refreshes
+  // so users with the app open at midnight see balloons automatically
+  async function checkResult() {
+    try {
+      const hist = await api.get('/draws/history?limit=1');
+      if (!hist?.draws?.length) return;
+      const last = hist.draws[0];
+      if (!last.winning_number) return;
+      const seenKey = 'numble_seen_draw_' + last.draw_id;
+      if (localStorage.getItem(seenKey)) return;
+      localStorage.setItem(seenKey, '1');
 
         let entryList = [];
         try {
@@ -117,8 +125,16 @@ export default function Play() {
         setTimeout(() => setReveal({ winning, title, detail, winType }), 800);
       } catch {}
     }
-    checkResult();
-  }, []);
+  }
+
+  // On mount
+  useEffect(() => { checkResult(); }, []);
+
+  // Also fire whenever React Query refreshes data — catches the draw going live
+  // while the app is open (e.g. someone sitting on the page at midnight)
+  useEffect(() => {
+    if (data) checkResult();
+  }, [data]);
 
   const submitMutation = useMutation({
     mutationFn: (number) => api.post('/entries', { number, idempotency_key: crypto.randomUUID() }),
