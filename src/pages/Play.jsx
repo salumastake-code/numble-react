@@ -246,11 +246,23 @@ export default function Play() {
 
       {/* Buy More Tokens */}
       <button
-        className="btn-buy-tokens-slim"
+        className="btn-buy-tokens-card"
         onClick={() => buyTokensMutation.mutate()}
         disabled={buyTokensMutation.isPending}
       >
-        {buyTokensMutation.isPending ? 'Loading...' : <><TokenIcon size={13} /> Buy More Tokens — 3,500 for $9.99</>}
+        {buyTokensMutation.isPending ? (
+          <span>Loading...</span>
+        ) : (
+          <>
+            <div className="btn-buy-tokens-card__top">
+              <span className="btn-buy-tokens-card__label">
+                <TokenIcon size={16} /> Get 3,500 Tokens
+              </span>
+              <span className="btn-buy-tokens-card__price">$9.99</span>
+            </div>
+            <div className="btn-buy-tokens-card__sub">= 3 draw entries or 11 spins</div>
+          </>
+        )}
       </button>
 
       {/* How it works explainer — shown before first entry */}
