@@ -31,10 +31,10 @@ function getPrize(entry) {
   const isPaid = entry.subscription_at_entry === 'paid';
   const posMatches = num.split('').filter((c, i) => c === win[i]).length;
 
-  if (num === win) return isPaid ? '$1,000' : '$50';
-  if (numSorted === winSorted) return isPaid ? '$100' : '$5';
-  if (posMatches === 2) return '+1,500 tokens';
-  if (posMatches === 1) return '+500 tokens';
+  if (num === win)               return isPaid ? '$1,050' : '$50';
+  if (numSorted === winSorted)   return isPaid ? '$52.50 + 4,200 tokens' : '$2.50 + 200 tokens';
+  if (posMatches === 2)          return isPaid ? '+1,575 tokens' : '+75 tokens';
+  if (posMatches === 1)          return isPaid ? '+525 tokens' : '+25 tokens';
   return null;
 }
 

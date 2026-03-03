@@ -79,13 +79,13 @@ export default function Rules() {
               <tr><th>Result</th><th>🆓 Free</th><th>⭐ Subscriber</th></tr>
             </thead>
             <tbody>
-              <tr><td>Exact match (all 3 in order)</td><td>$50</td><td className="gold-cell">$1,000</td></tr>
-              <tr><td>All 3 correct, wrong order</td><td>$5</td><td className="gold-cell">$100</td></tr>
-              <tr><td>Exactly 2 digits in position</td><td colSpan="2" style={{textAlign:'center'}}>+1,500 tokens</td></tr>
-              <tr><td>Exactly 1 digit in position</td><td colSpan="2" style={{textAlign:'center'}}>+500 tokens</td></tr>
+              <tr><td>Exact match (all 3 in order)</td><td>$50</td><td className="gold-cell">$50 + $1,000 bonus</td></tr>
+              <tr><td>All 3 correct, wrong order</td><td>$2.50 + 200 tokens</td><td className="gold-cell">$52.50 + 4,200 tokens</td></tr>
+              <tr><td>Exactly 2 digits in position</td><td>+75 tokens</td><td className="gold-cell">+1,575 tokens</td></tr>
+              <tr><td>Exactly 1 digit in position</td><td>+25 tokens</td><td className="gold-cell">+525 tokens</td></tr>
             </tbody>
           </table>
-          <p className="rules-note">Subscription status at time of entry determines your prize tier.</p>
+          <p className="rules-note">Subscription status at time of entry determines your prize tier. Subscriber bonuses are added on top of the base prize.</p>
         </Section>
 
         <Section title="Referral Program">
@@ -117,10 +117,11 @@ export default function Rules() {
 
         <Section title="Spin the Wheel">
           <ul>
-            <li>Spend 1,000 tokens to spin the wheel for an instant token prize.</li>
-            <li>Possible outcomes range from 0 (Bankrupt) to 10,000 tokens.</li>
-            <li>The wheel has a <strong>92.875% RTP</strong>.</li>
+            <li>Spend <strong>300 tokens</strong> to spin the wheel for an instant token prize.</li>
+            <li>Possible outcomes range from 0 (Bankrupt) to 2,500 tokens.</li>
+            <li>The wheel has a <strong>93% RTP</strong>.</li>
             <li>Spin results are determined server-side before the animation plays.</li>
+            <li>A RESPIN outcome gives a free re-roll at no additional cost.</li>
           </ul>
         </Section>
 
