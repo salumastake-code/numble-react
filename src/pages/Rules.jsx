@@ -72,20 +72,21 @@ export default function Rules() {
             <li>Each number has a limited number of slots per draw to keep it competitive.</li>
             <li>You may enter more than once — each entry costs 1,000 tokens and counts separately.</li>
             <li>Draws run every Monday at 12:00 AM ET. Results are revealed when you open the app.</li>
+            <li><strong>All entrants receive the same base prize regardless of subscription status.</strong> Subscribers receive an additional bonus prize on top — the subscription bonus is not a condition of winning.</li>
           </ul>
 
           <table className="rules-table">
             <thead>
-              <tr><th>Result</th><th>🆓 Free</th><th>⭐ Subscriber</th></tr>
+              <tr><th>Result</th><th>🆓 Free (base prize)</th><th>⭐ Subscriber bonus</th></tr>
             </thead>
             <tbody>
-              <tr><td>Exact match (all 3 in order)</td><td>$50</td><td className="gold-cell">$50 + $1,000 bonus</td></tr>
-              <tr><td>All 3 correct, wrong order</td><td>$2.50 + 200 tokens</td><td className="gold-cell">$52.50 + 4,200 tokens</td></tr>
-              <tr><td>Exactly 2 digits in position</td><td>+75 tokens</td><td className="gold-cell">+1,575 tokens</td></tr>
-              <tr><td>Exactly 1 digit in position</td><td>+25 tokens</td><td className="gold-cell">+525 tokens</td></tr>
+              <tr><td>Exact match (all 3 in order)</td><td>$50</td><td className="gold-cell">+$1,000 bonus</td></tr>
+              <tr><td>All 3 correct, wrong order</td><td>$2.50 + 200 tokens</td><td className="gold-cell">+$50 bonus + 4,000 token bonus</td></tr>
+              <tr><td>Exactly 2 digits in position</td><td>+75 tokens</td><td className="gold-cell">+1,500 token bonus</td></tr>
+              <tr><td>Exactly 1 digit in position</td><td>+25 tokens</td><td className="gold-cell">+500 token bonus</td></tr>
             </tbody>
           </table>
-          <p className="rules-note">Subscription status at time of entry determines your prize tier. Subscriber bonuses are added on top of the base prize.</p>
+          <p className="rules-note">All entrants — free and subscriber alike — receive the same base prize. Subscribers receive an additional bonus on top of the base prize. Subscription status at time of entry determines bonus eligibility.</p>
         </Section>
 
         <Section title="Referral Program">
