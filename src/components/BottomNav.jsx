@@ -2,30 +2,30 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './BottomNav.css';
 
 const tabs = [
-  { path: '/play', label: 'Play', icon: (
+  { path: '/play', label: 'Play', color: '#f97316', icon: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="22" height="22">
       <circle cx="12" cy="12" r="9"/>
       <text x="12" y="16.5" textAnchor="middle" fontSize="10" fill="currentColor" stroke="none" fontWeight="bold" fontFamily="Georgia,serif">N</text>
     </svg>
   )},
-  { path: '/spin', label: 'Spin', icon: (
+  { path: '/spin', label: 'Spin', color: '#a855f7', icon: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="22" height="22">
       <circle cx="12" cy="12" r="9"/>
       <path d="M12 3 L12 12 L17 7"/>
       <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
     </svg>
   )},
-  { path: '/leaderboard', label: 'Board', icon: (
+  { path: '/profile', label: 'Profile', color: '#ec4899', center: true, icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="24" height="24">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </svg>
+  )},
+  { path: '/leaderboard', label: 'Board', color: '#3b82f6', icon: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="22" height="22">
       <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
     </svg>
   )},
-  { path: '/profile', label: 'Profile', icon: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="22" height="22">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-    </svg>
-  )},
-  { path: '/rules', label: 'Rules', icon: (
+  { path: '/rules', label: 'Rules', color: '#14b8a6', icon: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="22" height="22">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
     </svg>
@@ -39,15 +39,18 @@ export default function BottomNav() {
   return (
     <nav className="bottom-nav">
       {tabs.map(tab => {
-        const isDisabled = false;
+        const isActive = pathname === tab.path;
         return (
           <button
             key={tab.path}
-            className={`nav-btn ${pathname === tab.path ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`}
-            onClick={() => !isDisabled && navigate(tab.path)}
+            className={`nav-btn ${isActive ? 'active' : ''} ${tab.center ? 'nav-btn--center' : ''}`}
+            onClick={() => navigate(tab.path)}
+            style={isActive ? { '--tab-color': tab.color } : {}}
           >
-            {tab.icon}
-            <span>{tab.label}</span>
+            <span className={`nav-icon ${tab.center ? 'nav-icon--center' : ''}`}>
+              {tab.icon}
+            </span>
+            <span className="nav-label">{tab.label}</span>
           </button>
         );
       })}

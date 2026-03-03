@@ -8,6 +8,7 @@
   background: var(--bg-card);
   border-top: 1px solid var(--border);
   display: flex;
+  align-items: flex-end;
   z-index: 100;
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -20,28 +21,84 @@
   gap: 3px;
   padding: 10px 0;
   background: none;
-  color: var(--muted);
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  border: none;
+  color: #bbb;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: color 0.15s;
-}
-
-.nav-btn.active {
-  /* gradient text for active tab */
-  background: var(--grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  cursor: pointer;
+  transition: color 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-btn:not(.active):hover {
-  color: var(--text-secondary);
+  color: #888;
 }
 
-.nav-btn.disabled {
-  opacity: 0.3;
-  cursor: default;
-  pointer-events: none;
+/* Active state — use the per-tab color */
+.nav-btn.active {
+  color: var(--tab-color, #f97316);
+}
+
+.nav-btn.active .nav-label {
+  color: var(--tab-color, #f97316);
+}
+
+/* Icon wrapper */
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+}
+
+/* Center / Profile button — raised pill */
+.nav-btn--center {
+  position: relative;
+  padding-top: 0;
+  padding-bottom: 10px;
+}
+
+.nav-icon--center {
+  background: var(--tab-color, #ec4899);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin-top: -16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+/* Inactive center icon — grey background */
+.nav-btn:not(.active) .nav-icon--center {
+  background: #d1d5db;
+}
+
+.nav-btn--center:active .nav-icon--center {
+  transform: scale(0.93);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* Active center icon — colored */
+.nav-btn.active .nav-icon--center {
+  background: var(--tab-color, #ec4899);
+}
+
+/* Active center icon is white on colored bg */
+.nav-btn.active.nav-btn--center svg {
+  stroke: #fff;
+}
+
+/* Inactive center icon svg */
+.nav-btn:not(.active).nav-btn--center svg {
+  stroke: #fff;
+}
+
+.nav-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: inherit;
 }
