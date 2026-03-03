@@ -303,6 +303,7 @@
 .btn-admin-success { background: #22c55e; color: #fff; border: none; border-radius: 6px; padding: 8px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
 .btn-admin-success:hover { opacity: 0.88; }
 .btn-admin-success:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-admin-success--big { width: 100%; padding: 14px 20px; font-size: 1rem; border-radius: 10px; letter-spacing: 0.01em; box-shadow: 0 2px 8px rgba(34,197,94,0.3); }
 .btn-admin-danger-sm { background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 6px; padding: 8px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
 .btn-admin-danger-sm:hover { background: rgba(239,68,68,0.1); }
 .btn-admin-danger-sm:disabled { opacity: 0.4; cursor: not-allowed; }

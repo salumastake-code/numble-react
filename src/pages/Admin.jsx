@@ -339,26 +339,32 @@ function PayoutsPanel({ adminGet, adminPost, qc }) {
               {(p.status === 'pending' || p.status === 'processing') && (
                 <div className="admin-payout-actions">
                   <button
-                    className="btn-admin-success"
-                    onClick={() => markStatus(p.payout_id, 'paid')}
+                    className="btn-admin-success btn-admin-success--big"
+                    onClick={() => {
+                      if (confirm(`Confirm: you've sent $${parseFloat(p.amount_usd).toFixed(2)} to ${p.payout_detail} via ${METHOD_LABELS[p.method] || p.method}?`)) {
+                        markStatus(p.payout_id, 'paid');
+                      }
+                    }}
                     disabled={processing[p.payout_id]}
                   >
-                    {processing[p.payout_id] ? '...' : '✓ Mark Paid'}
+                    {processing[p.payout_id] ? 'Saving...' : '💸 I Sent This — Mark Paid'}
                   </button>
-                  <button
-                    className="btn-admin-sm"
-                    onClick={() => markStatus(p.payout_id, 'processing')}
-                    disabled={processing[p.payout_id] || p.status === 'processing'}
-                  >
-                    Processing
-                  </button>
-                  <button
-                    className="btn-admin-danger-sm"
-                    onClick={() => { if(confirm('Mark as failed?')) markStatus(p.payout_id, 'failed'); }}
-                    disabled={processing[p.payout_id]}
-                  >
-                    ✕ Fail
-                  </button>
+                  <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+                    <button
+                      className="btn-admin-sm"
+                      onClick={() => markStatus(p.payout_id, 'processing')}
+                      disabled={processing[p.payout_id] || p.status === 'processing'}
+                    >
+                      ⏳ Mark Processing
+                    </button>
+                    <button
+                      className="btn-admin-danger-sm"
+                      onClick={() => { if(confirm('Mark as failed?')) markStatus(p.payout_id, 'failed'); }}
+                      disabled={processing[p.payout_id]}
+                    >
+                      ✕ Mark Failed
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
