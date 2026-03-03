@@ -124,7 +124,6 @@ export default function Play() {
         }
         setTimeout(() => setReveal({ winning, title, detail, winType }), 800);
       } catch {}
-    }
   }
 
   // On mount
