@@ -232,7 +232,7 @@ export default function Profile() {
             disabled={upgradeMutation.isPending}
           >
             <div className="upsell-top">⭐ Subscribe for $12.99/mo</div>
-            <div className="upsell-sub">1,500 free + 3,000 bonus tokens/month · Subscriber prize tier · Win up to $1,000</div>
+            <div className="upsell-sub">1,500 free + 2,500 bonus tokens/month · Subscriber prize tier · Win up to $1,000</div>
           </button>
         ) : (
           <div className="vip-badge">
@@ -240,7 +240,7 @@ export default function Profile() {
               <span className="vip-star">★</span>
               <div>
                 <div className="vip-title">SUBSCRIBER</div>
-                <div className="vip-sub">1,500 free + 3,000 bonus tokens/month · Up to $1,000 per draw</div>
+                <div className="vip-sub">1,500 free + 2,500 bonus tokens/month · Up to $1,000 per draw</div>
               </div>
             </div>
             <span className="vip-check">✓</span>
@@ -279,7 +279,7 @@ export default function Profile() {
         {!isPaid ? (
           <div className="upgrade-card">
             <div className="upgrade-title">⭐ Go Subscriber</div>
-            <div className="upgrade-desc">1,500 free + 3,000 bonus tokens/month · Subscriber prize tier · Up to $1,000 per draw</div>
+            <div className="upgrade-desc">1,500 free + 2,500 bonus tokens/month · Subscriber prize tier · Up to $1,000 per draw</div>
             <button className="btn-upgrade" onClick={() => upgradeMutation.mutate()} disabled={upgradeMutation.isPending}>
               {upgradeMutation.isPending ? 'Loading...' : 'Upgrade — $12.99/month'}
             </button>

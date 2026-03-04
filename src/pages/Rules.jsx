@@ -51,12 +51,12 @@ export default function Rules() {
               </tr>
               <tr className="gold-row">
                 <td>⭐ Subscriber</td>
-                <td>1,500 free + 3,000 bonus tokens</td>
+                <td>1,500 free + 2,500 bonus tokens</td>
                 <td>$12.99/mo</td>
               </tr>
             </tbody>
           </table>
-          <p className="rules-note">Exchange 1,000 tokens for 1 ticket anytime. Subscribers receive 1,500 free tokens + 3,000 bonus tokens each month. Exchange 1,000 tokens for 1 ticket anytime.</p>
+          <p className="rules-note">Exchange 1,000 tokens for 1 ticket anytime. Subscribers receive 1,500 free tokens + 2,500 bonus tokens each month. Exchange 1,000 tokens for 1 ticket anytime.</p>
         </Section>
 
         <Section title="Token Pack">
