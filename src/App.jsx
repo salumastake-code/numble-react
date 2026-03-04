@@ -45,7 +45,7 @@ export default function App() {
   }
 
   const { setTokenBalance, setTicketBalance } = useStore();
-  const [authReady, setAuthReady] = useState(!getToken()); // if no token, already ready
+  const [authReady, setAuthReady] = useState(false); // always wait for initAuth to complete
 
   useEffect(() => {
     // Wait for token refresh to complete before rendering protected routes

@@ -16,15 +16,23 @@ function clearAuth() { localStorage.removeItem('numble_token'); localStorage.rem
 async function tryRefresh() {
   const refresh = getRefresh();
   if (!refresh) return false;
-  const res = await fetch(`${API}/auth/refresh`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ refresh_token: refresh }),
-  });
-  if (!res.ok) return false;
-  const data = await res.json();
-  if (data.accessToken) { setToken(data.accessToken); if (data.refreshToken) setRefresh(data.refreshToken); return true; }
-  return false;
+  try {
+    const res = await fetch(`${API}/auth/refresh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh_token: refresh }),
+    });
+    // Only treat confirmed invalid token (401/400) as a real auth failure
+    // Network errors / 5xx = keep existing token, don't log user out
+    if (res.status === 401 || res.status === 400) return false;
+    if (!res.ok) return true; // server error — assume token still valid
+    const data = await res.json();
+    if (data.accessToken) { setToken(data.accessToken); if (data.refreshToken) setRefresh(data.refreshToken); return true; }
+    return false;
+  } catch {
+    // Network error — don't clear auth, assume token still valid
+    return true;
+  }
 }
 
 // Decode JWT expiry without a library
