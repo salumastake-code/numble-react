@@ -62,7 +62,7 @@ export default function Rules() {
         <Section title="Token Pack">
           <ul>
             <li>All users can purchase a one-time token pack: <strong>3,500 tokens for $9.99</strong>.</li>
-            <li>3,500 tokens = 3 draw entries (1,000 tokens each) or up to 11 spins (300 tokens each).</li>
+            <li>3,500 tokens = 3 draw entries (1,000 tokens each) or multiple spins at 300 tokens each.</li>
           </ul>
         </Section>
 
