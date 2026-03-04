@@ -114,7 +114,7 @@ export default function Rules() {
           <ul>
             <li>Spend <strong>300 tokens</strong> to spin the wheel for an instant token prize.</li>
             <li>Possible outcomes range from 0 (Bankrupt) to 2,500 tokens.</li>
-            <li>The wheel has a <strong>92.875% RTP</strong>.</li>
+            <li>The wheel has a <strong>93% RTP</strong>.</li>
             <li>Spin results are determined server-side before the animation plays.</li>
             <li>A RESPIN outcome gives a free re-roll at no additional cost.</li>
           </ul>
