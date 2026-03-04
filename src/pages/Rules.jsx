@@ -32,12 +32,7 @@ export default function Rules() {
         </Section>
 
         <Section title="Tickets & Tokens">
-          <p>Numble uses two currencies:</p>
-          <ul>
-            <li><strong>🎟️ Tickets</strong> — used to enter the weekly draw or spin the wheel. 1 ticket = 1,000 tokens = 1 entry or 1 spin.</li>
-            <li><strong><TokenIcon size={15} /> Tokens</strong> — earned through monthly grants and gameplay. Exchange 1,000 tokens for 1 ticket anytime.</li>
-          </ul>
-          <p className="rules-note">You can exchange tokens for tickets at any time from the Play page.</p>
+          <p>Exchange 1,000 tokens for a ticket at any time. Each draw entry costs 1 ticket.</p>
 
           <table className="rules-table">
             <thead>
