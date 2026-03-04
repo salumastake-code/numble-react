@@ -56,13 +56,13 @@ export default function Rules() {
               </tr>
             </tbody>
           </table>
-          <p className="rules-note">Exchange 1,000 tokens for 1 ticket anytime. Subscribers receive 1,500 free tokens + 2,500 bonus tokens each month. Exchange 1,000 tokens for 1 ticket anytime.</p>
+          <p className="rules-note">Subscribers receive 1,500 free tokens + 2,500 bonus tokens each month. Exchange 1,000 tokens for 1 ticket anytime.</p>
         </Section>
 
         <Section title="Token Pack">
           <ul>
             <li>All users can purchase a one-time token pack: <strong>3,500 tokens for $9.99</strong>.</li>
-            <li>3,500 tokens = 3 tickets (or use them to spin the wheel — 1,000 tokens per spin).</li>
+            <li>3,500 tokens = 3 draw entries or 3 spins (1,000 tokens each).</li>
           </ul>
         </Section>
 
@@ -118,9 +118,9 @@ export default function Rules() {
 
         <Section title="Spin the Wheel">
           <ul>
-            <li>Spend <strong>300 tokens</strong> to spin the wheel for an instant token prize.</li>
-            <li>Possible outcomes range from 0 (Bankrupt) to 2,500 tokens.</li>
-            <li>The wheel has a <strong>93% RTP</strong>.</li>
+            <li>Spend <strong>1,000 tokens</strong> to spin the wheel for an instant token prize.</li>
+            <li>Possible outcomes range from 0 (Bankrupt) to 10,000 tokens.</li>
+            <li>The wheel has a <strong>92.875% RTP</strong>.</li>
             <li>Spin results are determined server-side before the animation plays.</li>
             <li>A RESPIN outcome gives a free re-roll at no additional cost.</li>
           </ul>
