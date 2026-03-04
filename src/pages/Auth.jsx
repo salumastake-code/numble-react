@@ -269,7 +269,7 @@ export default function Auth() {
           <button className={`plan-btn ${plan === 'paid' ? 'selected' : ''}`} onClick={() => setPlan('paid')}>
             <div className="plan-icon">⭐</div>
             <div className="plan-name gold">Subscriber</div>
-            <div className="plan-desc gold-muted">3,500 tokens/mo<br/>Win up to $1,000</div>
+            <div className="plan-desc gold-muted">1,500 free + 3,000 bonus tokens/mo<br/>Win up to $1,000</div>
           </button>
         </div>
 
