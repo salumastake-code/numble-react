@@ -22,7 +22,7 @@
   padding: 10px 0;
   background: none;
   border: none;
-  color: #bbb;
+  color: color-mix(in srgb, var(--tab-color, #f97316) 35%, #aaa);
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -33,10 +33,10 @@
 }
 
 .nav-btn:not(.active):hover {
-  color: #888;
+  color: color-mix(in srgb, var(--tab-color, #f97316) 55%, #aaa);
 }
 
-/* Active state — use the per-tab color */
+/* Active state — full color */
 .nav-btn.active {
   color: var(--tab-color, #f97316);
 }
@@ -70,9 +70,9 @@
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
-/* Inactive center icon — grey background */
+/* Inactive center icon — low opacity tint of tab color */
 .nav-btn:not(.active) .nav-icon--center {
-  background: #d1d5db;
+  background: color-mix(in srgb, var(--tab-color, #ec4899) 35%, #d1d5db);
 }
 
 .nav-btn--center:active .nav-icon--center {

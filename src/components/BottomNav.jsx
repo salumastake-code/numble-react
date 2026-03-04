@@ -45,7 +45,7 @@ export default function BottomNav() {
             key={tab.path}
             className={`nav-btn ${isActive ? 'active' : ''} ${tab.center ? 'nav-btn--center' : ''}`}
             onClick={() => navigate(tab.path)}
-            style={isActive ? { '--tab-color': tab.color } : {}}
+            style={{ '--tab-color': tab.color }}
           >
             <span className={`nav-icon ${tab.center ? 'nav-icon--center' : ''}`}>
               {tab.icon}
