@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { api, setToken, signInWithGoogle } from '../lib/api';
+import { api, setToken, signInWithGoogle, touchSessionExpiry } from '../lib/api';
 import { getFingerprint } from '../lib/fingerprint';
 import useStore from '../store/useStore';
 import './Auth.css';
@@ -57,6 +57,7 @@ export default function Auth() {
       setToken(token);
       if (data.refreshToken) localStorage.setItem('numble_refresh', data.refreshToken);
       storeSetToken(token);
+      touchSessionExpiry();
 
       if (plan === 'paid') {
         const checkoutRes = await api.post('/stripe/create-checkout');
@@ -77,6 +78,7 @@ export default function Auth() {
       setToken(token);
       if (data.refreshToken) localStorage.setItem('numble_refresh', data.refreshToken);
       storeSetToken(token);
+      touchSessionExpiry();
       navigate('/play');
     } catch (e) {
       showToast(e.message || 'Login failed', 'error');

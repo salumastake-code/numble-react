@@ -11,7 +11,18 @@ function getToken() { return localStorage.getItem('numble_token'); }
 function setToken(t) { localStorage.setItem('numble_token', t); }
 function setRefresh(t) { localStorage.setItem('numble_refresh', t); }
 function getRefresh() { return localStorage.getItem('numble_refresh'); }
-function clearAuth() { localStorage.removeItem('numble_token'); localStorage.removeItem('numble_refresh'); }
+function clearAuth() {
+  localStorage.removeItem('numble_token');
+  localStorage.removeItem('numble_refresh');
+  localStorage.removeItem('numble_session_expiry');
+}
+// Session expiry: track when the refresh token itself expires (7 days from last login/refresh)
+function touchSessionExpiry() { localStorage.setItem('numble_session_expiry', Date.now() + 7 * 24 * 60 * 60 * 1000); }
+function isSessionExpired() {
+  const exp = localStorage.getItem('numble_session_expiry');
+  if (!exp) return false; // no expiry set = legacy session, don't force logout
+  return Date.now() > parseInt(exp, 10);
+}
 
 async function tryRefresh() {
   const refresh = getRefresh();
@@ -27,7 +38,12 @@ async function tryRefresh() {
     if (res.status === 401 || res.status === 400) return false;
     if (!res.ok) return true; // server error — assume token still valid
     const data = await res.json();
-    if (data.accessToken) { setToken(data.accessToken); if (data.refreshToken) setRefresh(data.refreshToken); return true; }
+    if (data.accessToken) {
+      setToken(data.accessToken);
+      if (data.refreshToken) setRefresh(data.refreshToken);
+      touchSessionExpiry(); // extend 7-day device session on every successful refresh
+      return true;
+    }
     return false;
   } catch {
     // Network error — don't clear auth, assume token still valid
@@ -47,6 +63,13 @@ function getTokenExp(token) {
 export async function initAuth() {
   const token = getToken();
   if (!token) return;
+
+  // Check if the 7-day device session has expired
+  if (isSessionExpired()) {
+    clearAuth();
+    return;
+  }
+
   const exp = getTokenExp(token);
   if (!exp) return;
   const msLeft = exp - Date.now();
@@ -109,4 +132,4 @@ export const api = {
   patch: (path, body) => request('PATCH', path, body),
 };
 
-export { getToken, setToken, setRefresh, clearAuth, signInWithGoogle };
+export { getToken, setToken, setRefresh, clearAuth, signInWithGoogle, touchSessionExpiry };

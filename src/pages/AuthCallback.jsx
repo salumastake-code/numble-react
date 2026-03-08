@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setToken } from '../lib/api';
+import { setToken, touchSessionExpiry } from '../lib/api';
 import useStore from '../store/useStore';
 import './Auth.css';
 
@@ -95,6 +95,7 @@ export default function AuthCallback() {
       setToken(accessToken);
       if (refreshToken) localStorage.setItem('numble_refresh', refreshToken);
       storeSetToken(accessToken);
+      touchSessionExpiry();
 
       // Call backend to check/create profile
       const cbRes = await fetch('https://api.numble.io/auth/google-callback', {
