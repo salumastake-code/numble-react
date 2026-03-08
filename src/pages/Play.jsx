@@ -16,6 +16,14 @@ function useBuyTokens(showToast) {
   });
 }
 
+function useBuyTokens10k(showToast) {
+  return useMutation({
+    mutationFn: () => api.post('/stripe/buy-tokens-10k'),
+    onSuccess: (data) => { if (data?.url) window.location.href = data.url; },
+    onError: (e) => showToast(e.message || 'Failed to open checkout', 'error'),
+  });
+}
+
 function useCountdown(draw) {
   const [time, setTime] = useState('');
   const [week, setWeek] = useState('');
@@ -52,11 +60,12 @@ export default function Play() {
   const qc = useQueryClient();
   const navigate = useNavigate();
   const buyTokensMutation = useBuyTokens(showToast);
+  const buyTokens10kMutation = useBuyTokens10k(showToast);
 
   // Handle return from token pack purchase
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('tokens_purchased') === '1') {
+    if (params.get('tokens_purchased') === '1' || params.get('tokens_purchased') === '10k') {
       showToast('🎉 Tokens added to your account!', 'success');
       window.history.replaceState({}, '', '/play');
       qc.invalidateQueries(['current-draw']);
@@ -244,25 +253,24 @@ export default function Play() {
       </button>
 
       {/* Buy More Tokens */}
-      <button
-        className="btn-buy-tokens-card"
-        onClick={() => buyTokensMutation.mutate()}
-        disabled={buyTokensMutation.isPending}
-      >
-        {buyTokensMutation.isPending ? (
-          <span>Loading...</span>
-        ) : (
-          <>
-            <div className="btn-buy-tokens-card__top">
-              <span className="btn-buy-tokens-card__label">
-                <TokenIcon size={16} /> Get 3,500 Tokens
-              </span>
-              <span className="btn-buy-tokens-card__price">$9.99</span>
-            </div>
-            <div className="btn-buy-tokens-card__sub">= 3 draw entries or 11 spins</div>
-          </>
-        )}
-      </button>
+      <div className="token-packs-row">
+        <button
+          className="btn-token-pack btn-token-pack--silver"
+          onClick={() => buyTokensMutation.mutate()}
+          disabled={buyTokensMutation.isPending}
+        >
+          <div className="pack-tokens"><TokenIcon size={14} /> 3,500</div>
+          <div className="pack-price">$9.99</div>
+        </button>
+        <button
+          className="btn-token-pack btn-token-pack--gold"
+          onClick={() => buyTokens10kMutation.mutate()}
+          disabled={buyTokens10kMutation.isPending}
+        >
+          <div className="pack-tokens"><TokenIcon size={14} /> 10,000</div>
+          <div className="pack-price">$24.99</div>
+        </button>
+      </div>
 
       {/* How it works explainer — shown before first entry */}
       {entries.length === 0 && tokenBalance > 0 && (
