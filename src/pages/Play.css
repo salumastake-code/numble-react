@@ -47,6 +47,23 @@
   border: 1px solid var(--border);
 }
 
+.upgrade-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #c8960c, #f5c842, #e8a400);
+  color: #3d2800;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+.upgrade-pill:hover { opacity: 0.9; }
+.upgrade-pill:active { transform: scale(0.96); }
+.upgrade-pill:disabled { opacity: 0.5; cursor: not-allowed; }
+
 .token-badge {
   display: flex;
   align-items: center;

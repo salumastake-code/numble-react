@@ -16,6 +16,14 @@ function useBuyTokens(showToast) {
   });
 }
 
+function useUpgrade(showToast) {
+  return useMutation({
+    mutationFn: () => api.post('/stripe/create-checkout'),
+    onSuccess: (data) => { if (data?.url) window.location.href = data.url; },
+    onError: (e) => showToast(e.message || 'Failed to open checkout', 'error'),
+  });
+}
+
 function useBuyTokens10k(showToast) {
   return useMutation({
     mutationFn: () => api.post('/stripe/buy-tokens-10k'),
@@ -61,6 +69,7 @@ export default function Play() {
   const navigate = useNavigate();
   const buyTokensMutation = useBuyTokens(showToast);
   const buyTokens10kMutation = useBuyTokens10k(showToast);
+  const upgradeMutation = useUpgrade(showToast);
 
   // Handle return from token pack purchase
   useEffect(() => {
@@ -206,6 +215,11 @@ export default function Play() {
         <div className="play-logo">NUMBLE</div>
         <div className="play-meta">
           <span className="tier-badge">{user?.subscriptionStatus === 'paid' ? '⭐ SUBSCRIBER' : 'FREE'}</span>
+          {user?.subscriptionStatus !== 'paid' && (
+            <button className="upgrade-pill" onClick={() => upgradeMutation.mutate()} disabled={upgradeMutation.isPending}>
+              {upgradeMutation.isPending ? '...' : '⭐ Upgrade'}
+            </button>
+          )}
           <span className="token-badge">
             🎟️ {ticketBalance} &nbsp;|&nbsp; <TokenIcon size={14} /> {tokenBalance.toLocaleString()}
           </span>
