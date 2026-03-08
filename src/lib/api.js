@@ -7,20 +7,33 @@ async function signInWithGoogle() {
   window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}`;
 }
 
-function getToken() { return localStorage.getItem('numble_token'); }
-function setToken(t) { localStorage.setItem('numble_token', t); }
-function setRefresh(t) { localStorage.setItem('numble_refresh', t); }
-function getRefresh() { return localStorage.getItem('numble_refresh'); }
+// Cookie helpers — more reliable than localStorage on iOS Safari
+const COOKIE_OPTS = 'path=/; max-age=604800; SameSite=Lax'; // 7 days
+function setCookie(name, value) { document.cookie = `${name}=${encodeURIComponent(value)}; ${COOKIE_OPTS}`; }
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+function deleteCookie(name) { document.cookie = `${name}=; path=/; max-age=0`; }
+
+function getToken() { return getCookie('numble_token') || localStorage.getItem('numble_token'); }
+function setToken(t) { setCookie('numble_token', t); localStorage.setItem('numble_token', t); }
+function setRefresh(t) { setCookie('numble_refresh', t); localStorage.setItem('numble_refresh', t); }
+function getRefresh() { return getCookie('numble_refresh') || localStorage.getItem('numble_refresh'); }
 function clearAuth() {
+  deleteCookie('numble_token'); deleteCookie('numble_refresh'); deleteCookie('numble_session_expiry');
   localStorage.removeItem('numble_token');
   localStorage.removeItem('numble_refresh');
   localStorage.removeItem('numble_session_expiry');
 }
-// Session expiry: track when the refresh token itself expires (7 days from last login/refresh)
-function touchSessionExpiry() { localStorage.setItem('numble_session_expiry', Date.now() + 7 * 24 * 60 * 60 * 1000); }
+function touchSessionExpiry() {
+  const exp = String(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  setCookie('numble_session_expiry', exp);
+  localStorage.setItem('numble_session_expiry', exp);
+}
 function isSessionExpired() {
-  const exp = localStorage.getItem('numble_session_expiry');
-  if (!exp) return false; // no expiry set = legacy session, don't force logout
+  const exp = getCookie('numble_session_expiry') || localStorage.getItem('numble_session_expiry');
+  if (!exp) return false;
   return Date.now() > parseInt(exp, 10);
 }
 
