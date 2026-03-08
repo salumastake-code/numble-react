@@ -117,6 +117,19 @@ export default function AuthCallback() {
       const cbData = await cbRes.json();
 
       if (cbData.status === 'needs_nickname') {
+        // Double-check: try once more in case of a race condition
+        const retryRes = await fetch('https://api.numble.io/auth/google-callback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
+          body: JSON.stringify({}),
+        });
+        if (retryRes.ok) {
+          const retryData = await retryRes.json();
+          if (retryData.status !== 'needs_nickname') {
+            navigate('/play');
+            return;
+          }
+        }
         // New Google user — needs to pick a username
         pendingTokenRef.current = accessToken;
         setPendingToken(accessToken);
