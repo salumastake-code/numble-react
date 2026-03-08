@@ -170,7 +170,7 @@ export default function Profile() {
             disabled={buyTokens10kMutation.isPending}
           >
             <div className="pack-tokens"><TokenIcon size={14} /> 10,000</div>
-            <div className="pack-price">$25.99</div>
+            <div className="pack-price">$24.99</div>
           </button>
         </div>
 
