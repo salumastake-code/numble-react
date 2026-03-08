@@ -71,6 +71,12 @@ export default function Profile() {
     onError: (e) => showToast(e.message || 'Failed to open checkout', 'error'),
   });
 
+  const buyTokens10kMutation = useMutation({
+    mutationFn: () => api.post('/stripe/buy-tokens-10k'),
+    onSuccess: (data) => { if (data?.url) window.location.href = data.url; },
+    onError: (e) => showToast(e.message || 'Failed to open checkout', 'error'),
+  });
+
   // Handle return from Stripe
   const params = new URLSearchParams(window.location.search);
   if (params.get('upgraded') === '1') {
@@ -79,6 +85,10 @@ export default function Profile() {
   }
   if (params.get('tokens_purchased') === '1') {
     showToast('✅ 3,500 tokens added to your account!', 'success');
+    window.history.replaceState({}, '', '/profile');
+  }
+  if (params.get('tokens_purchased') === '10k') {
+    showToast('✅ 10,000 tokens added to your account!', 'success');
     window.history.replaceState({}, '', '/profile');
   }
 
@@ -144,11 +154,25 @@ export default function Profile() {
           📋 View Entry History
         </button>
 
-        {cashBalance > 0 && (
-          <button className="btn-payout" onClick={() => navigate('/payout')}>
-            💸 Request Payout — ${cashBalance.toFixed(2)}
+        {/* Token packs — side by side */}
+        <div className="token-packs-row">
+          <button
+            className="btn-token-pack btn-token-pack--silver"
+            onClick={() => buyTokensMutation.mutate()}
+            disabled={buyTokensMutation.isPending}
+          >
+            <div className="pack-tokens"><TokenIcon size={14} /> 3,500</div>
+            <div className="pack-price">$9.99</div>
           </button>
-        )}
+          <button
+            className="btn-token-pack btn-token-pack--gold"
+            onClick={() => buyTokens10kMutation.mutate()}
+            disabled={buyTokens10kMutation.isPending}
+          >
+            <div className="pack-tokens"><TokenIcon size={14} /> 10,000</div>
+            <div className="pack-price">$25.99</div>
+          </button>
+        </div>
 
         {/* Referrals panel */}
         <div className="referrals-panel">
@@ -215,14 +239,12 @@ export default function Profile() {
           )}
         </div>
 
-        {/* Buy token pack */}
-        <button
-          className="btn-buy-tokens-profile"
-          onClick={() => buyTokensMutation.mutate()}
-          disabled={buyTokensMutation.isPending}
-        >
-          {buyTokensMutation.isPending ? 'Loading...' : <><TokenIcon size={16} /> Buy 3,500 Tokens — $9.99</>}
-        </button>
+        {/* Payout button */}
+        {cashBalance > 0 && (
+          <button className="btn-payout" onClick={() => navigate('/payout')}>
+            💸 Request Payout — ${cashBalance.toFixed(2)}
+          </button>
+        )}
 
         {/* Subscribe upsell / VIP badge */}
         {!isPaid ? (

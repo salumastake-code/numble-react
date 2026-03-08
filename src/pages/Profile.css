@@ -137,3 +137,19 @@
   font-weight: 700;
   opacity: 0.9;
 }
+
+/* Token pack row — side by side */
+.token-packs-row { display: flex; gap: 10px; width: 100%; }
+.btn-token-pack { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 14px 10px; border: none; border-radius: var(--radius-sm); cursor: pointer; font-weight: 700; transition: transform 0.1s, box-shadow 0.15s; }
+.btn-token-pack:active { transform: scale(0.97); }
+.btn-token-pack:disabled { opacity: 0.5; cursor: not-allowed; }
+.pack-tokens { font-size: 0.95rem; font-weight: 800; display: flex; align-items: center; gap: 5px; }
+.pack-price { font-size: 0.78rem; font-weight: 600; opacity: 0.85; }
+
+/* Silver pack */
+.btn-token-pack--silver { background: linear-gradient(135deg, #c8d6e0, #e8edf0, #b0bec5, #dde3e7); color: #2c3e50; box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+.btn-token-pack--silver:hover:not(:disabled) { box-shadow: 0 5px 16px rgba(0,0,0,0.2); }
+
+/* Gold pack */
+.btn-token-pack--gold { background: linear-gradient(135deg, #c8960c, #f5c842, #e8a400, #ffd966); color: #3d2800; box-shadow: 0 3px 10px rgba(200,150,12,0.35); }
+.btn-token-pack--gold:hover:not(:disabled) { box-shadow: 0 5px 16px rgba(200,150,12,0.5); }
