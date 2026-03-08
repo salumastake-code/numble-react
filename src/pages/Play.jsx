@@ -182,6 +182,21 @@ export default function Play() {
 
   const canSubmit = input.length === 3 && ticketBalance > 0 && !submitMutation.isPending;
 
+  if (isLoading) return (
+    <div className="play-page">
+      <div className="play-header">
+        <div className="play-logo">NUMBLE</div>
+        <div className="play-meta">
+          <span className="tier-badge">—</span>
+          <span className="token-badge">🎟️ — &nbsp;|&nbsp; <TokenIcon size={14} /> —</span>
+        </div>
+      </div>
+      <div className="play-loading-spinner">
+        <div className="play-spinner" />
+      </div>
+    </div>
+  );
+
   return (
     <div className="play-page">
       {reveal && <BalloonReveal {...reveal} onClose={() => setReveal(null)} />}
