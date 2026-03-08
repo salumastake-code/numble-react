@@ -86,8 +86,8 @@ export default function Rules() {
         <Section title="Referral Program">
           <ul>
             <li>Share your unique referral code with friends.</li>
-            <li>When someone you referred wins a cash prize, you earn a <strong>10% bonus on top</strong> — their prize is paid in full, unaffected.</li>
-            <li>Example: your referral wins $1,000 — they keep $1,000, you earn a $100 bonus on top.</li>
+            <li>When someone you referred wins a prize, you earn a <strong>10% bonus on top</strong> — their prize is paid in full, unaffected.</li>
+            <li>Example: your referral gets all 3 digits correct in the wrong order — they win $2.50 + 200 tokens, you earn $0.25 + 20 tokens on top.</li>
             <li>Referral bonuses accumulate in your balance and are paid via the same methods as prizes.</li>
             <li>There is no limit to how many people you can refer — bonuses last forever.</li>
           </ul>
