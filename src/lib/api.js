@@ -50,8 +50,14 @@ export async function initAuth() {
   const exp = getTokenExp(token);
   if (!exp) return;
   const msLeft = exp - Date.now();
-  if (msLeft < 10 * 60 * 1000) { // < 10 minutes left
-    await tryRefresh();
+  if (msLeft < 10 * 60 * 1000) { // < 10 minutes left (includes already-expired)
+    const refreshed = await tryRefresh();
+    if (!refreshed && msLeft <= 0) {
+      // Token is already expired AND refresh failed — clear auth now
+      // so PrivateRoute doesn't let them through only to get bounced by the first API call
+      clearAuth();
+      return;
+    }
   }
   // Schedule next refresh 5 min before expiry
   scheduleRefresh();
