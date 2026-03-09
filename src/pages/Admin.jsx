@@ -273,6 +273,134 @@ function UserDetail({ userId, adminGet, adminPost, onBack }) {
 const METHOD_LABELS = { paypal: 'PayPal', venmo: 'Venmo', cashapp: 'Cash App', stripe: 'Bank', zelle: 'Zelle' };
 const STATUS_COLORS = { pending: '#f97316', processing: '#3b82f6', paid: '#22c55e', failed: '#ef4444' };
 
+function DrawsTab({ adminGet, drawsData }) {
+  const [expandedId, setExpandedId] = useState(null);
+  const [detailCache, setDetailCache] = useState({});
+  const [loading, setLoading] = useState({});
+
+  async function loadDetail(drawId) {
+    if (detailCache[drawId]) { setExpandedId(expandedId === drawId ? null : drawId); return; }
+    if (loading[drawId]) return;
+    setLoading(l => ({ ...l, [drawId]: true }));
+    try {
+      const data = await adminGet(`/admin/draws/${drawId}`);
+      setDetailCache(c => ({ ...c, [drawId]: data }));
+      setExpandedId(drawId);
+    } finally {
+      setLoading(l => ({ ...l, [drawId]: false }));
+    }
+  }
+
+  function toggle(drawId) {
+    if (expandedId === drawId) { setExpandedId(null); return; }
+    loadDetail(drawId);
+  }
+
+  const PRIZE_LABELS = { exact: '🏆 Exact Match', anagram: '🎯 All Digits', token: '🪙 Token Prize' };
+
+  return (
+    <div className="admin-section">
+      <div className="admin-card-title" style={{ padding: '0 0 12px' }}>Draw History</div>
+      {!drawsData?.draws?.length ? (
+        <div className="admin-empty">No completed draws yet</div>
+      ) : (
+        <div className="admin-list">
+          {drawsData.draws.map(d => {
+            const detail = detailCache[d.draw_id];
+            const isOpen = expandedId === d.draw_id;
+            return (
+              <div key={d.draw_id} className="admin-draw-row">
+                <div className="admin-list-row" style={{ cursor: 'pointer' }} onClick={() => toggle(d.draw_id)}>
+                  <div className="admin-list-main">
+                    <div className="admin-list-name">Week of {d.week_start}</div>
+                    <div className="admin-list-meta">
+                      <span className={`draw-status ${d.status}`}>{d.status}</span>
+                      {d.winning_number && <span className="winning-num">🎯 {d.winning_number}</span>}
+                      <span>{d.total_entries} entries</span>
+                    </div>
+                    {d.drawn_at && <div className="admin-list-date">Drawn {new Date(d.drawn_at).toLocaleString()}</div>}
+                  </div>
+                  <div className="admin-draw-chevron">{loading[d.draw_id] ? '…' : isOpen ? '▲' : '▼'}</div>
+                </div>
+
+                {isOpen && detail && (
+                  <div className="admin-draw-detail">
+                    {/* Totals */}
+                    <div className="admin-draw-totals">
+                      <div className="admin-draw-total-item">
+                        <div className="adt-val" style={{ color: '#22c55e' }}>${(detail.totals.cashUsd + detail.totals.referralUsd).toFixed(2)}</div>
+                        <div className="adt-label">Total $ Out</div>
+                      </div>
+                      <div className="admin-draw-total-item">
+                        <div className="adt-val" style={{ color: '#f97316' }}>${detail.totals.cashUsd.toFixed(2)}</div>
+                        <div className="adt-label">Prize Cash</div>
+                      </div>
+                      <div className="admin-draw-total-item">
+                        <div className="adt-val" style={{ color: '#a78bfa' }}>${detail.totals.referralUsd.toFixed(2)}</div>
+                        <div className="adt-label">Referral $</div>
+                      </div>
+                      <div className="admin-draw-total-item">
+                        <div className="adt-val" style={{ color: '#60a5fa' }}>{detail.totals.tokens.toLocaleString()}</div>
+                        <div className="adt-label">Tokens Won</div>
+                      </div>
+                    </div>
+
+                    {/* Prizes */}
+                    {detail.prizes.length > 0 && (
+                      <>
+                        <div className="admin-draw-section-label">Prizes</div>
+                        {detail.prizes.map(p => (
+                          <div key={p.prize_id} className="admin-draw-prize-row">
+                            <div>
+                              <div className="admin-draw-prize-type">{PRIZE_LABELS[p.prize_type] || p.prize_type}</div>
+                              <div className="admin-draw-prize-user">{p.users?.nickname || '—'} <span style={{ color: '#555', fontSize: '0.75rem' }}>{p.users?.email}</span></div>
+                            </div>
+                            <div style={{ textAlign: 'right' }}>
+                              {p.amount_usd > 0 && <div style={{ color: '#22c55e', fontWeight: 700 }}>${parseFloat(p.amount_usd).toFixed(2)}</div>}
+                              {p.tokens_awarded > 0 && <div style={{ color: '#60a5fa', fontSize: '0.85rem' }}>+{p.tokens_awarded.toLocaleString()} tokens</div>}
+                              <div style={{ fontSize: '0.7rem', color: p.paid_out ? '#22c55e' : '#888' }}>{p.paid_out ? '✅ paid' : '⏳ unpaid'}</div>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+
+                    {/* Referral Bonuses */}
+                    {detail.referralBonuses.length > 0 && (
+                      <>
+                        <div className="admin-draw-section-label" style={{ marginTop: 12 }}>Referral Bonuses</div>
+                        {detail.referralBonuses.map(r => (
+                          <div key={r.bonus_id} className="admin-draw-prize-row">
+                            <div>
+                              <div className="admin-draw-prize-type">🔗 Referral Bonus</div>
+                              <div className="admin-draw-prize-user">
+                                <strong>{r.referrer?.nickname || '—'}</strong>
+                                <span style={{ color: '#555', fontSize: '0.75rem' }}> referred {r.winner?.nickname || '—'}</span>
+                              </div>
+                            </div>
+                            <div style={{ textAlign: 'right' }}>
+                              <div style={{ color: '#a78bfa', fontWeight: 700 }}>${parseFloat(r.amount_usd).toFixed(2)}</div>
+                              <div style={{ fontSize: '0.7rem', color: r.paid_out ? '#22c55e' : '#888' }}>{r.paid_out ? '✅ paid' : '⏳ unpaid'}</div>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+
+                    {detail.prizes.length === 0 && detail.referralBonuses.length === 0 && (
+                      <div className="admin-empty" style={{ padding: '12px 0' }}>No prizes or bonuses for this draw</div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function PayoutsPanel({ adminGet, adminPost, qc }) {
   const [filter, setFilter] = useState('pending');
   const [processing, setProcessing] = useState({});
@@ -545,28 +673,7 @@ function Dashboard({ secret }) {
 
       {/* Draws */}
       {tab === 'draws' && (
-        <div className="admin-section">
-          <div className="admin-card-title" style={{ padding: '0 0 12px' }}>Draw History</div>
-          {!drawsData?.draws?.length ? (
-            <div className="admin-empty">No completed draws yet</div>
-          ) : (
-            <div className="admin-list">
-              {drawsData.draws.map(d => (
-                <div key={d.draw_id} className="admin-list-row">
-                  <div className="admin-list-main">
-                    <div className="admin-list-name">Week of {d.week_start}</div>
-                    <div className="admin-list-meta">
-                      <span className={`draw-status ${d.status}`}>{d.status}</span>
-                      {d.winning_number && <span className="winning-num">🎯 {d.winning_number}</span>}
-                      <span>{d.total_entries} entries</span>
-                    </div>
-                    {d.drawn_at && <div className="admin-list-date">Drawn {new Date(d.drawn_at).toLocaleString()}</div>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <DrawsTab adminGet={adminGet} drawsData={drawsData} />
       )}
     </div>
   );
