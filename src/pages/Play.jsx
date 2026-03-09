@@ -106,6 +106,7 @@ export default function Play() {
   // Check for last draw result — runs on mount AND whenever data refreshes
   // so users with the app open at midnight see balloons automatically
   async function checkResult() {
+    if (reveal) return; // already showing — don't re-trigger
     try {
       const hist = await api.get('/draws/history?limit=1');
       if (!hist?.draws?.length) return;
@@ -113,7 +114,7 @@ export default function Play() {
       if (!last.winning_number) return;
       const seenKey = 'numble_seen_draw_' + last.draw_id;
       if (localStorage.getItem(seenKey)) return;
-      localStorage.setItem(seenKey, '1');
+      // Don't stamp seen yet — wait until the user dismisses the balloons
 
         let entryList = [];
         try {
@@ -140,7 +141,7 @@ export default function Play() {
         } else {
           title = "This week's number"; detail = `The winning number was ${winning}. Enter next week for your chance!`; winType = 'none';
         }
-        setTimeout(() => setReveal({ winning, title, detail, winType }), 800);
+        setTimeout(() => setReveal({ winning, title, detail, winType, seenKey }), 800);
       } catch {}
   }
 
@@ -208,7 +209,7 @@ export default function Play() {
 
   return (
     <div className="play-page">
-      {reveal && <BalloonReveal {...reveal} onClose={() => setReveal(null)} />}
+      {reveal && <BalloonReveal {...reveal} onClose={() => { if (reveal.seenKey) localStorage.setItem(reveal.seenKey, '1'); setReveal(null); }} />}
 
       {/* Header */}
       <div className="play-header">
