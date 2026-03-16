@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
@@ -81,7 +81,7 @@ export default function Play() {
     }
   }, []);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ['current-draw'],
     queryFn: () => api.get('/draws/current'),
     // Poll every 30s around midnight Monday (otherwise every 60s)
@@ -145,13 +145,15 @@ export default function Play() {
       } catch {}
   }
 
-  // On mount
-  useEffect(() => { checkResult(); }, []);
-
-  // Also fire whenever React Query refreshes data — catches the draw going live
-  // while the app is open (e.g. someone sitting on the page at midnight)
+  // Fire checkResult only once data has successfully loaded (not on mount)
+  // This prevents the email-link case where Safari opens the page before auth
+  // is restored from cookies — checkResult would fire too early and silently fail.
+  const hasCheckedRef = useRef(false);
   useEffect(() => {
-    if (data) checkResult();
+    if (!data) return; // wait for real data before checking
+    if (hasCheckedRef.current) return; // only auto-check once per page load
+    hasCheckedRef.current = true;
+    checkResult();
   }, [data]);
 
   const submitMutation = useMutation({
@@ -192,7 +194,7 @@ export default function Play() {
 
   const canSubmit = input.length === 3 && ticketBalance > 0 && !submitMutation.isPending;
 
-  if (isLoading) return (
+  if (isLoading || !data) return (
     <div className="play-page">
       <div className="play-header">
         <div className="play-logo">NUMBLE</div>
