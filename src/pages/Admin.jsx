@@ -69,9 +69,11 @@ function StatCard({ label, value, sub, color }) {
   );
 }
 
-function UsersPanel({ adminGet, onSelect }) {
+function UsersPanel({ adminGet, adminPost, onSelect }) {
   const [search, setSearch] = useState('');
   const [q, setQ] = useState('');
+  const [reminding, setReminding] = useState({});
+  const [reminded, setReminded] = useState({});
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin-users', q],
@@ -80,6 +82,32 @@ function UsersPanel({ adminGet, onSelect }) {
   });
 
   const users = data?.users || [];
+
+  async function sendReminder(e, userId, nickname) {
+    e.stopPropagation();
+    if (reminding[userId] || reminded[userId]) return;
+    setReminding(r => ({ ...r, [userId]: true }));
+    try {
+      await adminPost(`/admin/users/${userId}/remind`);
+      setReminded(r => ({ ...r, [userId]: true }));
+    } catch {
+      alert(`Failed to send reminder to ${nickname}`);
+    } finally {
+      setReminding(r => ({ ...r, [userId]: false }));
+    }
+  }
+
+  function formatLastLogin(ts) {
+    if (!ts) return 'Never';
+    const d = new Date(ts);
+    const now = new Date();
+    const diffDays = Math.floor((now - d) / 86400000);
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays}d ago`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
+    return d.toLocaleDateString();
+  }
 
   return (
     <>
@@ -108,9 +136,21 @@ function UsersPanel({ adminGet, onSelect }) {
                 <div className="admin-list-meta" style={{ marginTop: 4 }}>
                   <span style={{ fontSize: '0.75rem', color: '#aaa' }}>🎟️ {u.ticket_balance} tickets</span>
                   <span style={{ fontSize: '0.75rem', color: '#aaa' }}>🪙 {(u.token_balance || 0).toLocaleString()} tokens</span>
+                  {u.cash_balance > 0 && <span style={{ fontSize: '0.75rem', color: '#16a34a', fontWeight: 700 }}>💵 ${u.cash_balance.toFixed(2)}</span>}
                   {u.preferred_payout_method && <span style={{ fontSize: '0.72rem', color: '#666' }}>{u.preferred_payout_method}: {u.preferred_payout_detail}</span>}
                 </div>
-                <div className="admin-list-date">Joined {new Date(u.created_at).toLocaleDateString()}</div>
+                <div className="admin-list-date" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <span>Joined {new Date(u.created_at).toLocaleDateString()}</span>
+                  <span style={{ color: u.last_login ? '#888' : '#c00' }}>· Last login: {formatLastLogin(u.last_login)}</span>
+                  <button
+                    className="btn-admin-sm"
+                    style={{ fontSize: '0.65rem', padding: '2px 8px', marginLeft: 2, background: reminded[u.user_id] ? '#16a34a' : undefined, color: reminded[u.user_id] ? '#fff' : undefined }}
+                    onClick={e => sendReminder(e, u.user_id, u.nickname)}
+                    disabled={reminding[u.user_id] || reminded[u.user_id]}
+                  >
+                    {reminded[u.user_id] ? '✓ Sent' : reminding[u.user_id] ? '...' : '📧 Remind'}
+                  </button>
+                </div>
               </div>
               <span style={{ color: '#444', fontSize: '1.2rem' }}>›</span>
             </div>
@@ -631,7 +671,7 @@ function Dashboard({ secret }) {
         <div className="admin-section">
           {selectedUser
             ? <UserDetail userId={selectedUser} adminGet={adminGet} adminPost={adminPost} onBack={() => setSelectedUser(null)} />
-            : <UsersPanel adminGet={adminGet} onSelect={setSelectedUser} />
+            : <UsersPanel adminGet={adminGet} adminPost={adminPost} onSelect={setSelectedUser} />
           }
         </div>
       )}
