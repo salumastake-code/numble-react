@@ -145,12 +145,13 @@ export default function Play() {
       } catch {}
   }
 
-  // Fire checkResult only once data has successfully loaded (not on mount)
-  // This prevents the email-link case where Safari opens the page before auth
-  // is restored from cookies — checkResult would fire too early and silently fail.
+  // Fire checkResult only once authenticated data has successfully loaded.
+  // Gate on data.user being present — ensures we have a fresh authenticated
+  // response (not a stale cached anonymous response from before login).
   const hasCheckedRef = useRef(false);
   useEffect(() => {
-    if (!data) return; // wait for real data before checking
+    if (!data) return; // wait for real data
+    if (!data.user) return; // wait for authenticated response (not stale cache)
     if (hasCheckedRef.current) return; // only auto-check once per page load
     hasCheckedRef.current = true;
     checkResult();
