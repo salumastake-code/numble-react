@@ -41,9 +41,9 @@ function useCountdown(draw) {
     const weekStartStr = draw.weekStart || draw.week_start;
     const target = new Date(weekStartStr + 'T00:00:00');
 
-    const firstDraw = new Date('2026-02-23T00:00:00');
-    const weekNum = Math.max(1, Math.round((target - firstDraw) / (7 * 86400000)) + 1);
-    setWeek('#' + weekNum);
+    // Use server-provided week number if available, otherwise fall back to count-based
+    const weekNum = draw.weekNumber || draw.week_number || null;
+    setWeek(weekNum ? '#' + weekNum : '');
 
     const tick = () => {
       const now = new Date();
