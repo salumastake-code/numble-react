@@ -5,7 +5,7 @@ import useStore from '../store/useStore';
 import './Auth.css';
 
 const SUPABASE_URL = 'https://jzbjcjgcvcsitmtnfuhq.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp6YmpjamdjdmNzaXRtdG5mdWhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NDAzNzMsImV4cCI6MjA4NzExNjM3M30.O_1kIEHn5MhO4ERfbYpbHFaBzPDJ0hmzJi3JPSB9kJ4';
+const SUPABASE_ANON_KEY = 'sb_publishable_Glj9chpm3HKf3XLuuGS_eQ_SE6ZVkS0';
 
 export default function AuthCallback() {
   const navigate = useNavigate();
