@@ -65,22 +65,35 @@ export default function AuthCallback() {
         accessToken = queryParams.get('access_token');
         refreshToken = queryParams.get('refresh_token');
 
-        // If there's a code param, exchange it
+        // If there's a code param, exchange it (PKCE flow)
         const code = queryParams.get('code');
         if (!accessToken && code) {
-          // Exchange code via Supabase
+          const codeVerifier = sessionStorage.getItem('numble_pkce_verifier');
+          sessionStorage.removeItem('numble_pkce_verifier');
+          if (!codeVerifier) {
+            showToast('Sign-in session expired — please try again.', 'error');
+            navigate('/auth');
+            return;
+          }
+          // Exchange code + verifier via Supabase PKCE
           const exchRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=pkce`, {
             method: 'POST',
             headers: {
               apikey: SUPABASE_ANON_KEY,
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ auth_code: code }),
+            body: JSON.stringify({ auth_code: code, code_verifier: codeVerifier }),
           });
           if (exchRes.ok) {
             const exchData = await exchRes.json();
             accessToken = exchData.access_token;
             refreshToken = exchData.refresh_token;
+          } else {
+            const errData = await exchRes.json().catch(() => ({}));
+            console.error('[AuthCallback] PKCE exchange failed:', errData);
+            showToast('Google sign-in failed — please try again.', 'error');
+            navigate('/auth');
+            return;
           }
         }
       }

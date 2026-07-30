@@ -2,9 +2,27 @@ const API = 'https://api.numble.io';
 const SUPABASE_URL = 'https://jzbjcjgcvcsitmtnfuhq.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_Glj9chpm3HKf3XLuuGS_eQ_SE6ZVkS0';
 
+// PKCE helpers
+async function generateCodeVerifier() {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  return btoa(String.fromCharCode(...array)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+async function generateCodeChallenge(verifier) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(verifier);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return btoa(String.fromCharCode(...new Uint8Array(digest))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
 async function signInWithGoogle() {
   const redirectTo = `${window.location.origin}/auth/callback`;
-  window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}`;
+  const codeVerifier = await generateCodeVerifier();
+  const codeChallenge = await generateCodeChallenge(codeVerifier);
+  // Store verifier so callback can use it
+  sessionStorage.setItem('numble_pkce_verifier', codeVerifier);
+  window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}&code_challenge=${encodeURIComponent(codeChallenge)}&code_challenge_method=S256`;
 }
 
 // Cookie helpers — more reliable than localStorage on iOS Safari
