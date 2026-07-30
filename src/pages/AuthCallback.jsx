@@ -68,8 +68,8 @@ export default function AuthCallback() {
         // If there's a code param, exchange it (PKCE flow)
         const code = queryParams.get('code');
         if (!accessToken && code) {
-          const codeVerifier = sessionStorage.getItem('numble_pkce_verifier');
-          sessionStorage.removeItem('numble_pkce_verifier');
+          const codeVerifier = localStorage.getItem('numble_pkce_verifier');
+          localStorage.removeItem('numble_pkce_verifier');
           if (!codeVerifier) {
             showToast('Sign-in session expired — please try again.', 'error');
             navigate('/auth');

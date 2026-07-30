@@ -21,7 +21,8 @@ async function signInWithGoogle() {
   const codeVerifier = await generateCodeVerifier();
   const codeChallenge = await generateCodeChallenge(codeVerifier);
   // Store verifier so callback can use it
-  sessionStorage.setItem('numble_pkce_verifier', codeVerifier);
+  // Use localStorage (not sessionStorage) — sessionStorage is cleared on cross-origin redirect in iOS Safari
+  localStorage.setItem('numble_pkce_verifier', codeVerifier);
   window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}&code_challenge=${encodeURIComponent(codeChallenge)}&code_challenge_method=S256`;
 }
 
