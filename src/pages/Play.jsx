@@ -196,7 +196,8 @@ export default function Play() {
 
   const canSubmit = input.length === 3 && ticketBalance > 0 && !submitMutation.isPending;
 
-  if (isLoading || !data) return (
+  // Show spinner until we have authenticated data (user present) — prevents zero-flash
+  if (isLoading || !data || !data.user) return (
     <div className="play-page">
       <div className="play-header">
         <div className="play-logo">NUMBLE</div>
