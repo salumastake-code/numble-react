@@ -39,7 +39,8 @@ function useCountdown(draw) {
   useEffect(() => {
     if (!draw) return;
     const weekStartStr = draw.weekStart || draw.week_start;
-    const target = new Date(weekStartStr + 'T00:00:00');
+    // Draw fires at 4:00 AM UTC on the week_start date (Monday)
+    const target = new Date(weekStartStr + 'T04:00:00Z');
 
     // Use server-provided week number if available, otherwise fall back to count-based
     const weekNum = draw.weekNumber || draw.week_number || null;
