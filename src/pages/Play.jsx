@@ -82,7 +82,7 @@ export default function Play() {
     }
   }, []);
 
-  const { data, isLoading, isFetching } = useQuery({
+  const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ['current-draw'],
     queryFn: () => api.get('/draws/current'),
     // Poll every 30s around midnight Monday (otherwise every 60s)
@@ -96,6 +96,17 @@ export default function Play() {
     },
     retry: false,
   });
+
+  // If we have data but no user after 3s, auto-refetch once (handles stale unauthenticated cache)
+  const authTimeoutRef = useRef(false);
+  useEffect(() => {
+    if (data && !data.user && !authTimeoutRef.current) {
+      authTimeoutRef.current = true;
+      const t = setTimeout(() => { refetch(); }, 3000);
+      return () => clearTimeout(t);
+    }
+    if (data?.user) authTimeoutRef.current = false;
+  }, [data]);
 
   const draw = data?.draw;
   const entries = data?.userEntries || [];
@@ -197,7 +208,15 @@ export default function Play() {
   const canSubmit = input.length === 3 && ticketBalance > 0 && !submitMutation.isPending;
 
   // Show spinner until we have authenticated data (user present) — prevents zero-flash
-  if (isLoading || !data || !data.user) return (
+  // But never hang forever: if data arrived but no user after 4s, render anyway
+  const [authWaitExpired, setAuthWaitExpired] = useState(false);
+  useEffect(() => {
+    if (!data || data.user) { setAuthWaitExpired(false); return; }
+    const t = setTimeout(() => setAuthWaitExpired(true), 4000);
+    return () => clearTimeout(t);
+  }, [data]);
+
+  if ((isLoading || !data || !data.user) && !authWaitExpired) return (
     <div className="play-page">
       <div className="play-header">
         <div className="play-logo">NUMBLE</div>
