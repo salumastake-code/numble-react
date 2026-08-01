@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import TokenIcon from '../components/TokenIcon';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../lib/api';
+import { api, clearAuth } from '../lib/api';
 import useStore from '../store/useStore';
 import './Profile.css';
 
@@ -93,8 +93,16 @@ export default function Profile() {
   }
 
   function signOut() {
+    // Clear both cookies AND localStorage (clearToken only does localStorage)
+    clearAuth();
     clearToken();
-    navigate('/auth');
+    // Also sign out from Supabase so Google session is fully terminated
+    const SUPABASE_URL = 'https://jzbjcjgcvcsitmtnfuhq.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Glj9chpm3HKf3XLuuGS_eQ_SE6ZVkS0';
+    fetch(`${SUPABASE_URL}/auth/v1/logout`, {
+      method: 'POST',
+      headers: { apikey: SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+    }).catch(() => {}).finally(() => navigate('/auth'));
   }
 
   function copyRefCode() {
