@@ -22,7 +22,21 @@ import Toast from './components/Toast';
 const qc = new QueryClient({ defaultOptions: { queries: { retry: 1, staleTime: 30000 } } });
 
 function PrivateRoute({ children, authReady }) {
-  if (!authReady) return null; // wait for token refresh before deciding
+  if (!authReady) return (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      height: '100dvh', flexDirection: 'column', gap: 16,
+      background: '#faf8f5',
+    }}>
+      <div style={{ fontSize: '1.8rem', fontWeight: 800, letterSpacing: 2, color: '#1a1a1a' }}>NUMBLE</div>
+      <div style={{
+        width: 32, height: 32, borderRadius: '50%',
+        border: '3px solid #eee', borderTopColor: '#e8724a',
+        animation: 'spin 0.8s linear infinite',
+      }} />
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
   return getToken() ? children : <Navigate to="/auth" replace />;
 }
 
