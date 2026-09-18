@@ -97,19 +97,29 @@ export async function initAuth() {
   if (!token) return;
 
   // Check if the 7-day device session has expired
+  // But try a refresh first — don't immediately boot the user
   if (isSessionExpired()) {
-    clearAuth();
-    return;
+    const refreshed = await tryRefresh();
+    if (!refreshed) {
+      clearAuth();
+      return;
+    }
+    // Refresh succeeded — extend the session and continue
+    touchSessionExpiry();
   }
 
   const exp = getTokenExp(token);
-  if (!exp) return;
+  if (!exp) {
+    // Can't decode expiry — try a refresh rather than assuming bad state
+    await tryRefresh();
+    scheduleRefresh();
+    return;
+  }
   const msLeft = exp - Date.now();
   if (msLeft < 10 * 60 * 1000) { // < 10 minutes left (includes already-expired)
     const refreshed = await tryRefresh();
     if (!refreshed && msLeft <= 0) {
-      // Token is already expired AND refresh failed — clear auth now
-      // so PrivateRoute doesn't let them through only to get bounced by the first API call
+      // Token is already expired AND refresh definitively failed (401/400) — clear auth now
       clearAuth();
       return;
     }
@@ -149,8 +159,12 @@ async function request(method, path, body, isRetry = false) {
   if (res.status === 401 && !isRetry && path !== '/auth/login' && path !== '/auth/register' && path !== '/auth/refresh') {
     const refreshed = await tryRefresh();
     if (refreshed) return request(method, path, body, true);
-    clearAuth();
-    window.location.href = '/auth';
+    // Only hard-logout if this is a user-facing navigation (not a background prefetch)
+    // Check if we still have a refresh token — if not, session is truly dead
+    if (!getRefresh()) {
+      clearAuth();
+      window.location.href = '/auth';
+    }
     return null;
   }
 

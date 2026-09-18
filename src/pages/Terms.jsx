@@ -1,6 +1,9 @@
+import SEO from '../components/SEO';
+
 export default function Terms() {
   return (
     <div style={{ maxWidth: 680, margin: '0 auto', padding: '2rem 1.5rem 4rem', fontFamily: 'system-ui, sans-serif', color: '#222', lineHeight: 1.7 }}>
+      <SEO title="Terms of Use" description="Numble terms of use — rules and eligibility for the free weekly number sweepstakes." path="/terms" />
       <h1 style={{ fontSize: '1.8rem', marginBottom: '0.25rem' }}>Terms of Use</h1>
       <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '2rem' }}>Last updated: February 2026</p>
 

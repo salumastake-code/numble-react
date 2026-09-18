@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api';
+import SEO from '../components/SEO';
 import './History.css';
 
 function resultLabel(entry) {
@@ -65,6 +66,7 @@ export default function History() {
 
   return (
     <div className="page">
+      <SEO title="My History" path="/history" noIndex />
       <div className="page-header" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <button className="btn-back" onClick={() => navigate('/profile')}>←</button>
         <div>

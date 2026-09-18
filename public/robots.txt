@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Allow: /auth
+Allow: /rules
+Allow: /privacy
+Allow: /terms
+Disallow: /play
+Disallow: /profile
+Disallow: /history
+Disallow: /leaderboard
+Disallow: /payout
+Disallow: /spin
+Disallow: /admin
+Disallow: /auth/callback
+Disallow: /auth/reset-password
+
+Sitemap: https://numble.io/sitemap.xml

@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api, setToken, signInWithGoogle, touchSessionExpiry } from '../lib/api';
 import { getFingerprint } from '../lib/fingerprint';
 import useStore from '../store/useStore';
+import SEO from '../components/SEO';
 import './Auth.css';
 
 function signInWithGoogleAndSaveRef(refCode) {
@@ -221,6 +222,7 @@ export default function Auth() {
   // ── Sign Up ───────────────────────────────────────────────────────────────
   return (
     <div className="auth-page auth-page--form">
+      <SEO path="/auth" />
       <div className="auth-hero auth-hero--compact">
         <div className="auth-logo">
           <img src="/favicon.svg" alt="" className="auth-logo-icon" />

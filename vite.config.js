@@ -1,6 +1,26 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import { copyFileSync, mkdirSync } from 'fs'
+import { resolve } from 'path'
+
+// Custom plugin: copies index.html to each public route folder after build
+// so Vercel serves the right HTML for /auth, /rules, /privacy, /terms
+// (same SPA shell — but Google sees a unique URL per route with correct canonical)
+function spaPrerender(routes) {
+  return {
+    name: 'spa-prerender',
+    closeBundle() {
+      const distDir = resolve(__dirname, 'dist')
+      for (const route of routes) {
+        const dir = resolve(distDir, route.replace(/^\//, ''))
+        mkdirSync(dir, { recursive: true })
+        copyFileSync(resolve(distDir, 'index.html'), resolve(dir, 'index.html'))
+      }
+      console.log(`[spa-prerender] copied index.html → ${routes.join(', ')}`)
+    },
+  }
+}
 
 export default defineConfig({
   plugins: [
@@ -49,5 +69,6 @@ export default defineConfig({
         ],
       },
     }),
+    spaPrerender(['/auth', '/rules', '/privacy', '/terms']),
   ],
 })

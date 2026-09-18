@@ -65,9 +65,11 @@ export default function App() {
     // Wait for token refresh to complete before rendering protected routes
     initAuth().then(() => {
       setAuthReady(true);
-      // Pre-load balance into store
+      // Pre-load balance into store — fire and forget, never redirect on failure
       if (getToken()) {
-        api.get('/profile').then(data => {
+        fetch('https://api.numble.io/profile', {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }).then(r => r.ok ? r.json() : null).then(data => {
           if (data?.tokenBalance !== undefined) setTokenBalance(data.tokenBalance);
           if (data?.ticketBalance !== undefined) setTicketBalance(data.ticketBalance);
         }).catch(() => {});

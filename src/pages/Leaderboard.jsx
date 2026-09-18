@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import SEO from '../components/SEO';
 import './Leaderboard.css';
 
 export default function Leaderboard() {
@@ -19,6 +20,7 @@ export default function Leaderboard() {
 
   return (
     <div className="page">
+      <SEO title="Draw History" path="/leaderboard" noIndex />
       <div className="page-header">
         <div className="page-title">Draw History</div>
         <div className="page-accent" />

@@ -6,6 +6,7 @@ import useStore from '../store/useStore';
 import BalloonReveal from '../components/BalloonReveal';
 import ExchangeWidget from '../components/ExchangeWidget';
 import TokenIcon from '../components/TokenIcon';
+import SEO from '../components/SEO';
 import './Play.css';
 
 function useBuyTokens(showToast) {
@@ -233,6 +234,7 @@ export default function Play() {
 
   return (
     <div className="play-page">
+      <SEO title="Play" path="/play" noIndex />
       {reveal && <BalloonReveal {...reveal} onClose={() => { if (reveal.seenKey) localStorage.setItem(reveal.seenKey, '1'); setReveal(null); }} />}
 
       {/* Header */}

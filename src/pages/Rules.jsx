@@ -1,4 +1,5 @@
 import TokenIcon from '../components/TokenIcon';
+import SEO from '../components/SEO';
 import './Rules.css';
 
 function Section({ title, children }) {
@@ -13,6 +14,7 @@ function Section({ title, children }) {
 export default function Rules() {
   return (
     <div className="page">
+      <SEO title="Rules & How to Play" description="Learn how Numble works — free weekly sweepstakes, pick a 3-digit number, win real cash prizes." path="/rules" />
       <div className="page-header">
         <div className="page-title">Rules & Legal</div>
         <div className="page-accent" />

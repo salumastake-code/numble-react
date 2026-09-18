@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { api, clearAuth } from '../lib/api';
 import useStore from '../store/useStore';
+import SEO from '../components/SEO';
 import './Profile.css';
 
 export default function Profile() {
@@ -18,19 +19,23 @@ export default function Profile() {
     queryFn: async () => {
       try {
         const res = await api.get('/profile');
-        if (!res?.profile?.email) {
+        // Only redirect if the API confirmed auth is gone (returned null after failed refresh)
+        // Don't redirect on network errors or missing fields — just show empty state
+        if (res === null) {
+          // api.get returns null only after a 401 that couldn't be refreshed
           clearToken();
           navigate('/auth');
           return null;
         }
         return res;
       } catch (e) {
-        clearToken();
-        navigate('/auth');
+        // Network/server error — don't kick the user, just show empty state
+        console.warn('[Profile] Failed to load profile:', e.message);
         return null;
       }
     },
-    retry: false,
+    retry: 1,
+    retryDelay: 2000,
   });
 
   const { data: balanceData } = useQuery({
@@ -114,6 +119,7 @@ export default function Profile() {
 
   return (
     <div className="page">
+      <SEO title="Profile" path="/profile" noIndex />
       <div className="page-header">
         <div className="page-title">Profile</div>
         <div className="page-accent" />

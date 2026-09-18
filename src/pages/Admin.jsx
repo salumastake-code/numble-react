@@ -557,7 +557,7 @@ function Dashboard({ secret }) {
 
   const { data: flaggedData } = useQuery({
     queryKey: ['admin-flagged'],
-    queryFn: () => adminGet('/admin/flagged-users'),
+    queryFn: () => adminGet('/admin/flagged'),
     enabled: tab === 'fraud',
   });
 
@@ -574,8 +574,13 @@ function Dashboard({ secret }) {
     enabled: tab === 'draws',
   });
 
-  const unflagMutation = useMutation({
-    mutationFn: (userId) => adminPost(`/admin/unflag/${userId}`),
+  const banMutation = useMutation({
+    mutationFn: ({ userId, reason, banIp }) => adminPost('/admin/ban', { user_id: userId, reason, ban_ip: banIp }),
+    onSuccess: () => qc.invalidateQueries(['admin-flagged']),
+  });
+
+  const unbanMutation = useMutation({
+    mutationFn: (userId) => adminPost('/admin/unban', { user_id: userId }),
     onSuccess: () => qc.invalidateQueries(['admin-flagged']),
   });
 
@@ -679,24 +684,47 @@ function Dashboard({ secret }) {
       {/* Fraud */}
       {tab === 'fraud' && (
         <div className="admin-section">
-          <div className="admin-card-title" style={{ padding: '0 0 12px' }}>Flagged Accounts</div>
-          {!flaggedData?.flaggedUsers?.length ? (
-            <div className="admin-empty">✅ No flagged users</div>
+          <div className="admin-card-title" style={{ padding: '0 0 12px' }}>Flagged & Banned Accounts</div>
+          {!flaggedData?.users?.length ? (
+            <div className="admin-empty">✅ No flagged or banned users</div>
           ) : (
             <div className="admin-list">
-              {flaggedData.flaggedUsers.map(u => (
-                <div key={u.user_id} className="admin-list-row">
+              {flaggedData.users.map(u => (
+                <div key={u.user_id} className="admin-list-row" style={{ borderLeft: u.is_banned ? '3px solid var(--red)' : '3px solid var(--gold)' }}>
                   <div className="admin-list-main">
-                    <div className="admin-list-name">{u.nickname} <span className="admin-list-email">{u.email}</span></div>
-                    <div className="admin-list-meta">
-                      <span className={`tier-chip ${u.subscription_status}`}>{u.subscription_status}</span>
-                      <span className="flag-reason">{u.fraud_flag}</span>
+                    <div className="admin-list-name">
+                      {u.nickname}
+                      {u.is_banned && <span style={{ color: 'var(--red)', fontSize: '0.7rem', marginLeft: 6 }}>🚫 BANNED</span>}
+                      {!u.is_banned && u.fraud_flag && <span style={{ color: 'var(--gold)', fontSize: '0.7rem', marginLeft: 6 }}>⚠️ FLAGGED</span>}
+                    </div>
+                    <div className="admin-list-email">{u.email}</div>
+                    <div className="admin-list-meta" style={{ marginTop: 4 }}>
+                      {u.fraud_flag && <span className="flag-reason">Flag: {u.fraud_flag}</span>}
+                      {u.ban_reason && <span className="flag-reason" style={{ color: 'var(--red)' }}>Ban: {u.ban_reason}</span>}
                     </div>
                     <div className="admin-list-date">Joined {new Date(u.created_at).toLocaleDateString()}</div>
                   </div>
-                  <button className="btn-admin-sm" onClick={() => unflagMutation.mutate(u.user_id)} disabled={unflagMutation.isPending}>
-                    Unflag
-                  </button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {u.is_banned ? (
+                      <button className="btn-admin-sm" onClick={() => unbanMutation.mutate(u.user_id)} disabled={unbanMutation.isPending}>
+                        Unban
+                      </button>
+                    ) : (
+                      <>
+                        <button className="btn-admin-sm btn-danger" onClick={() => {
+                          const reason = prompt(`Ban reason for ${u.nickname}?`);
+                          if (!reason) return;
+                          const banIp = confirm('Also ban their IP address?');
+                          banMutation.mutate({ userId: u.user_id, reason, banIp });
+                        }} disabled={banMutation.isPending}>
+                          Ban
+                        </button>
+                        <button className="btn-admin-sm" onClick={() => unbanMutation.mutate(u.user_id)} disabled={unbanMutation.isPending}>
+                          Clear Flag
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
